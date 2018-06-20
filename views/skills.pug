@@ -1,0 +1,23 @@
+extends layoutBS
+
+block content
+  h1 Add a Skill
+  form(method="post" action="saveSkill")
+    .formGroup
+      label skill name
+      input(type="text" name="name")
+    .formGroup
+      label description
+      textarea(name="description" rows="10" cols="80")
+    input(type="submit")
+  hr
+  h1 List of All Skills
+  form(method="post" action="deleteSkill")
+    ol
+      each skill in skills
+        li
+          input(name="deleteName" value=skill.name type="checkbox")
+          e #{skill.name} --
+          i #{skill.description}      
+    input(type="submit" value="Delete checked items")
+    hr
