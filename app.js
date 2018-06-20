@@ -43,7 +43,7 @@ app.post('/deleteSkill', skillsController.deleteSkill );
 
 app.use('/', function(req, res, next) {
   console.log("in / controller")
-  res.render('index', { title: 'Skills Mastery App' });
+  res.render('index', { title: 'BranVan App' });
 });
 
 // catch 404 and forward to error handler
