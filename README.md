@@ -1,4 +1,4 @@
-Welcome to the Brandvan App! This is a voice-controlled app that interfaces with
+Welcome to the BranVan App! This is a voice-controlled app that interfaces with
 Brandeis shuttles and vans. Our ultimate goal with this app is to make the user experience
 with transportation provided by the school more positive and less frustrating.
 
