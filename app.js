@@ -11,7 +11,7 @@ const
 var app = express();
 
 // here is where we connect to the database!
-mongoose.connect( 'mongodb://localhost/skillmastery' );
+mongoose.connect( 'mongodb://localhost/DeisTransportApp' );
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {

@@ -1,5 +1,5 @@
 {
-  "name": "skillmastery",
+  "name": "DeisTransportApp",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -12,6 +12,7 @@
     "express": "~4.16.0",
     "fs": "0.0.1-security",
     "http-errors": "~1.6.2",
+    "mongo": "^0.1.0",
     "mongodb": "^3.0.10",
     "mongoose": "^5.1.5",
     "morgan": "~1.9.0",
