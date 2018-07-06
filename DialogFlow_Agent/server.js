@@ -12,6 +12,14 @@ var server = service.listen(8000, function() {
   console.log('API server listening...');
 });
 
+//read in JSON file into node.js to save into mongoose
+var fs = require("fs");
+console.log("HOPEFULLY STARTING TO READ JSON FILE");
+var readDayTimeVanSchedule = fs.readFileSync("DaytimeWalthamSchedule.json");
+var dayTimeWalthamVanSchedule = JSON.parse(contents);
+//check if the json file was correctly loaded into server.js 
+//console.log(util.inspect(dayTimeWalthamVanSchedule, false, null));
+
 
 //connect to database
 mongoose.connect('mongodb://localhost/DeisTransportApp');
