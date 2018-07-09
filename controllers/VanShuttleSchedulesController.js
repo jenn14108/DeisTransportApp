@@ -3,9 +3,19 @@ const VanShuttleSchedules = require( '../models/VanShuttleSchedules' );
 console.log("loading the VanShuttleScheduleController");
 
 
-// this displays all of the skills
+exports.respondToDF = (req, res) => {
+  console.dir(req.body);
+  const response =
+  {
+    "fulfillmentText" : "This is my own text response!"
+  }
+  res.json(response);
+}
+
+
+// this returns the right schedule
 exports.getSchedule = ( req, res ) => {
-  console.log('in getAllSkills')
+  console.log('in getSchedule');
   Skill.find( {} )
     .exec()
     .then( ( skills ) => {
@@ -19,27 +29,5 @@ exports.getSchedule = ( req, res ) => {
     } )
     .then( () => {
       console.log( 'skill promise complete' );
-    } );
-};
-
-
-
-
-exports.save = ( req, res ) => {
-  console.log("in saveSkill!")
-  console.dir(req)
-  let newSkill = new Skill( {
-    name: req.body.name,
-    description: req.body.description
-  } )
-
-  console.log("skill = "+newSkill)
-
-  newSkill.save()
-    .then( () => {
-      res.redirect( '/skills' );
-    } )
-    .catch( error => {
-      res.send( error );
     } );
 };
