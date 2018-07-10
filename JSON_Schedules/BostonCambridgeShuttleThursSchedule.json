@@ -1,12 +1,9 @@
-{ "Boston Cambridge Shuttle Thursday Schedule" : {
-    "stop1" : {
-      "name" : "Usdan",
-      "arrival_times" : ["6:00", "7:30", "9:00", "10:30", "12:00", "1:30"]},
-    "stop2" : {
-      "name" : "Harvard Square",
-      "arrival_times" : ["6:30", "8:00" , "9:30", "11:00" , "12:30" , "2:00"]},
-    "stop3" : {
-      "name" : "Marlborough/Mass Ave.",
-      "arrival_times" : ["6:45", "8:15" , "9:45" , "11:15" , "12:45" , "2:15"]}
-  }
-}
+[{ "day" : "Thursday",
+  "stop" : "Usdan",
+  "arrival_times" : ["6:00", "7:30", "9:00", "10:30", "12:00", "1:30"]},
+{ "day" : "Thursday",
+  "stop" : "Harvard Square",
+  "arrival_times" : ["6:30", "8:00" , "9:30", "11:00" , "12:30" , "2:00"]},
+{  "day" : "Thursday",
+   "stop" : "Marlborough/Mass Ave.",
+   "arrival_times" : ["6:45", "8:15" , "9:45" , "11:15" , "12:45" , "2:15"]}]

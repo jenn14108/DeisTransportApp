@@ -40,7 +40,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-app.post('/webhook', VanShuttleSchedulesController.respondToDF)
+app.post('/webhook', VanShuttleSchedulesController.check_parameters,
+                      VanShuttleSchedulesController.respondToDF);
 
 //
 // app.get('/skills', skillsController.getAllSkills );

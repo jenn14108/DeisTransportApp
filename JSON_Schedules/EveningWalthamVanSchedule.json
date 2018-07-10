@@ -1,15 +1,8 @@
-{ "Evening Waltham Van Schedule" : {
-    "stop1" : {
-      "name" : "Rabb Bus Stop",
-      "arrival_times" : [":00" , ":30"]},
-    "stop2" : {
-      "name" : "Main Entrance",
-      "arrival_times" : [":02" , ":32"]},
-    "stop3" : {
-      "name" : "Lower Charles River Road (between 150 - 164)",
-      "arrival_times" : [":05" , ":35"]},
-    "stop4" : {
-      "name" : "Waltham stops",
-      "arrival_times" : [":10-25", ":40-55"]}
-  }
-}
+[{ "stop" : "Rabb Bus Stop",
+  "arrival_times" : [":00" , ":30"]},
+{ "stop" : "Main Entrance",
+  "arrival_times" : [":02" , ":32"]},
+{"stop" : "Lower Charles River Road (between 150 - 164)",
+ "arrival_times" : [":05" , ":35"]},
+{"stop" : "Waltham stops",
+ "arrival_times" : [":10-25", ":40-55"]}]

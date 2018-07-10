@@ -1,21 +1,12 @@
-{ "Daytime Campus Shuttle Schedule" : {
-    "stop1" : {
-      "name" : "Lower Charles River Rd (between 150 and 164)",
-      "arrival_times" : [":00" , ":15", ":30", ":45"]},
-    "stop2" : {
-      "name" : "Charles River Lot",
-      "arrival_times" : [":02" , ":17" , ":32", ":47"]},
-    "stop3" : {
-      "name" : "Rabb",
-      "arrival_times" : [":05" , ":20" , ":35" , ":50"]},
-    "stop4" : {
-      "name" : "Hassenfeld/Massell",
-      "arrival_times" : [":07" , ":22", ":37", ":53"]},
-    "stop5" : {
-      "name" : "Admissions",
-      "arrival_times" : [":08", ":23" , ":38" , ":54"]},
-    "stop6" : {
-      "name" : "Main Entrance",
-      "arrival_times" : [":10" , ":25" , ":40" , ":55"]}
-  }
-}
+[{ "stop" : "Lower Charles River Rd (between 150 and 164)",
+  "arrival_times" : [":00" , ":15", ":30", ":45"]},
+{ "stop" : "Charles River Lot",
+  "arrival_times" : [":02" , ":17" , ":32", ":47"]},
+{ "stop" : "Rabb",
+  "arrival_times" : [":05" , ":20" , ":35" , ":50"]},
+{ "stop" : "Hassenfeld/Massell",
+  "arrival_times" : [":07" , ":22", ":37", ":53"]},
+{"stop" : "Admissions",
+ "arrival_times" : [":08", ":23" , ":38" , ":54"]},
+{ "stop" : "Main Entrance",
+  "arrival_times" : [":10" , ":25" , ":40" , ":55"]}]
