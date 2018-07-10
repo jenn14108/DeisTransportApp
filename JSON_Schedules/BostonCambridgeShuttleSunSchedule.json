@@ -1,9 +1,12 @@
 [{ "day" : "Sunday",
   "stop" : "Usdan",
-  "arrival_times" : ["9:00", "10:30", "12:30", "2:00", "3:30", "5:00", "6:30", "8:00", "9:30"]},
+  "arrival_times" : [{"time" :9.00}, {"time" :10.30}, {"time" :12.30}, {"time" : 2.00},
+                    {"time" : 3.30}, {"time" : 5.00}, {"time" : 6.30}, {"time" : 8.00}, {"time" :9.30}]},
 { "day" : "Sunday",
   "stop" : "Harvard Square",
-  "arrival_times" : ["9:30","11:00" , "1:00", "2:30", "4:00", "5:30", "7:00", "8:30", "10:00"]},
+  "arrival_times" : [{"time" :9.30}, {"time" :11.00}, {"time" :1.00}, {"time" : 2.30},
+                    {"time" : 4.00}, {"time" : 5.30}, {"time" : 7.00}, {"time" : 8.30}, {"time" :10.00}]},
 { "day" : "Sunday",
   "stop" : "Marlborough/Mass Ave.",
-  "arrival_times" : ["9:45", "11:15", "1:15", "2:45", "4:15", "5:45", "7:15", "8:45", "10:15"]}]
+  "arrival_times" : [{"time" :9.45}, {"time" :11.15}, {"time" :1.15}, {"time" : 2.45},
+                    {"time" : 4.15}, {"time" : 5.45}, {"time" : 7.15}, {"time" : 8.45}, {"time" :10.15}]}]

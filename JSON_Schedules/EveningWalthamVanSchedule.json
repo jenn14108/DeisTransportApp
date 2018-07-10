@@ -1,8 +1,8 @@
 [{ "stop" : "Rabb Bus Stop",
-  "arrival_times" : [":00" , ":30"]},
+  "arrival_times" : [{"time" :0 }, {"time" :30}]},
 { "stop" : "Main Entrance",
-  "arrival_times" : [":02" , ":32"]},
+  "arrival_times" : [{"time" :2 }, {"time" :32}]},
 {"stop" : "Lower Charles River Road (between 150 - 164)",
- "arrival_times" : [":05" , ":35"]},
+ "arrival_times" : [{"time" :5 }, {"time" :35}]},
 {"stop" : "Waltham stops",
- "arrival_times" : [":10-25", ":40-55"]}]
+ "arrival_times" : [{"time" :10.25}, {"time" :40.55}]}]

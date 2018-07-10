@@ -4,7 +4,7 @@ const mongoose = require( 'mongoose' );
 var BostonCambridgeShuttleScheduleSchema = mongoose.Schema( {
   day: String,
   stop: String,
-  arrival_times : [{time: Number},
+  arrival_times : [ {time: Number},
                     {time: Number},
                     {time: Number},
                     {time: Number},
