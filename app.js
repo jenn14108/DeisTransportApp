@@ -17,19 +17,6 @@ const
 console.log('API server listening...');
 
 
-unirest.get("https://transloc-api-1-2.p.mashape.com/stops.json?agencies=52&callback=call")
-.header("X-Mashape-Key", transLocAPIKey)
-.header("Accept", "application/json")
-.end(function (result) {
-  //console.log(result.status, result.headers, result.body);
-  //check agency ids
-  for (var i = 0; i < result.body.data.length; i++){
-     console.log(result.body.data[i].agency_ids);
-  }
-  console.log(result.body.data);
-});
-
-
 // here is where we connect to the database!
 const mongoDB = process.env.MONGO_URI || 'mongodb://localhost/DeisTransportApp'
 mongoose.connect( mongoDB );

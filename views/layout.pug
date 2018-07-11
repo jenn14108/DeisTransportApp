@@ -1,7 +1,146 @@
 doctype html
-html
+html(lang="")
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    title Deis Transport App
+    // css and fonts
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous")
+    link(href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css")
+    link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous")
+    link(href="stylesheets/style.css" rel="stylesheet" type="text/css")
   body
+    //section:navbar
+    nav.navbar.navbar-default(role="navigation")
+      .container
+        //toggle
+        .navbar-header
+          button.navbar-toggle(type="button" data-toggle="collapse" data-target=".navbar-ex1-collapse")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="/") Deis Transport App
+        // navbar
+        .collapse.navbar-collapse.navbar-ex1-collapse
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href="/reserve") Reserve
+            //- li.dropdown
+            //-   a.dropdown-toggle(href="#" data-toggle="dropdown")
+            //-     | Services 
+            //-     b.caret
+            //-   ul.dropdown-menu
+            //-     li
+            //-       a(href="#") Reserve
+            //-     li
+            //-       a(href="#") Track
+            //-     li
+            //-       a(href="#") Schedules
+            //-     li
+            //-       a(href="#") Map
+            li
+              a(href="/tracker") Tracker
+            li
+              a(href="/schedules") Schedules
+            li
+              a(href="#about") About
+            li
+              a(href="/signin") Sign In
+    i.fas.fa-chevron-circle-up#myBtn(onclick="topFunction()" title="Back to top")
     block content
+    //section:Footer
+    .section.background-dark.dark-bg#about
+      .container
+        .row
+          .col-md-12.text-center
+            h2.section-title About Us
+            p.section-description We are a team of undergraduate CS students from Brandeis University.
+          .col-md-3
+            .service-block.text-center
+              a(href="https://github.com/chungek" title="EK's git" target="_blank")
+                img.img-responsive.profile(src="images/ekpretty.png" alt="")
+              h3.text-uppercase.font-size-md.letter-spacing-md.font-weight-lg Ek Kheng Chung
+              address 
+                strong Brandeis University
+                br
+                | 						 	415 South St
+                br
+                | 						 	Waltham, MA 02453
+                br
+                abbr(title="Phone") Mobile:
+                |  (123) 456-7890
+                br
+                a(href="mailto:#") chungek@brandeis.edu
+              a.btn.btn-sm.btn-primary(href="https://github.com/chungek" title="EK's git" target="_blank") .git
+          .col-md-4.col-md-offset-1
+            .service-block.text-center
+              a(href="https://github.com/jenn14108" title="Jenn's git" target="_blank")
+                img.img-responsive.profile(src="images/jennpretty.png" alt="")
+              h3.text-uppercase.font-size-md.letter-spacing-md.font-weight-lg Jenn Bear Lee
+              address
+                strong Brandeis University
+                br
+                | 						 	415 South St
+                br
+                | 						 	Waltham, MA 02453
+                br
+                abbr(title="Phone") Mobile:
+                |  (123) 456-7890
+                br
+                a(href="mailto:#") jelee14108@brandeis.edu
+              a.btn.btn-sm.btn-primary(href="https://github.com/jenn14108" title="Jenn's git" target="_blank") .git
+          .col-md-4
+            .service-block.text-center
+              a(href="https://github.com/casperlk" title="Casper's git" target="_blank")
+                img.img-responsive.profile(src="images/casperpretty.png" alt="")
+              h3.text-uppercase.font-size-md.letter-spacing-md.font-weight-lg Casper L'Esperance-Kerckhoff
+              address
+                strong Brandeis University
+                br
+                | 						 	415 South St
+                br
+                | 						 	Waltham, MA 02453
+                br
+                abbr(title="Phone") Mobile:
+                |  (123) 456-7890
+                br
+                a(href="mailto:#") casperlk@brandeis.edu
+              a.btn.btn-sm.btn-primary(href="https://github.com/casperlk" title="Casper's git" target="_blank") .git
+          .col-md-12.margin-top-md.margin-bottom-md(style="opacity: .2;")
+            hr
+          .col-md-12.margin-top-md.text-center.font-size-sm.text-upercase
+            p
+              | Made by: { 
+              a(href="https://github.com/chungek" title="EK" target="_blank")
+                strong  Ek Kheng Chung.git 
+              | x 
+              a(href="https://github.com/jenn14108" title="Jenn" target="_blank")
+                strong  Jenn Bear Lee.git 
+              | x  
+              a(href="https://github.com/casperlk" title="Caspino" target="_blank")
+                strong Casper L'Esperance-Kerckhoff.git }
+              | 
+    // jQuery
+    script(src="//code.jquery.com/jquery.js")
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
+    // Bootstrap js
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous")
+    script(type="text/javascript").
+      /*When the user scrolls down 20px from the top of the document, show the button*/
+      window.onscroll = function() {scrollFunction()};
+
+      function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("myBtn").style.display = "block";
+        } else {
+            document.getElementById("myBtn").style.display = "none";
+        }
+      }
+
+      /*When the user clicks on the button, scroll to the top of the document*/
+      function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      }
