@@ -1,5 +1,5 @@
 'use strict';
-const Skill = require( '../models/skill' );
+const Skill = require( '../models/skills' );
 console.log("loading the skills Controller")
 
 
