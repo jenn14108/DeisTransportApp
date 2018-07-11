@@ -20,6 +20,6 @@
     "pug": "2.0.0-beta11"
   },
   "devDependencies": {
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.18.0"
   }
 }
