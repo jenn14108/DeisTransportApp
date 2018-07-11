@@ -7,6 +7,7 @@ const
  logger = require('morgan');
  bodyParser = require('body-parser');
  util = require("util");
+ unirest  = require("unirest");
  //used to read JSON file into node.js to ultimately save into mongoose
  fs = require("fs");
  assert = require('assert');
@@ -14,6 +15,19 @@ const
  app = express();
 
 console.log('API server listening...');
+
+
+unirest.get("https://transloc-api-1-2.p.mashape.com/stops.json?agencies=52&callback=call")
+.header("X-Mashape-Key", transLocAPIKey)
+.header("Accept", "application/json")
+.end(function (result) {
+  //console.log(result.status, result.headers, result.body);
+  //check agency ids
+  for (var i = 0; i < result.body.data.length; i++){
+     console.log(result.body.data[i].agency_ids);
+  }
+  console.log(result.body.data);
+});
 
 
 // here is where we connect to the database!
