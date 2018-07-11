@@ -39,11 +39,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
 app.post('/webhook', VanShuttleSchedulesController.check_parameters,
                       VanShuttleSchedulesController.respondToDF);
 
-//
 // app.get('/skills', skillsController.getAllSkills );
 // app.post('/saveSkill', skillsController.saveSkill );
 // app.post('/deleteSkill', skillsController.deleteSkill );
