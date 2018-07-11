@@ -11,7 +11,8 @@ const
 var app = express();
 
 // here is where we connect to the database!
-mongoose.connect( 'mongodb://localhost/DeisTransportApp' );
+const mongoDB = process.env.MONGO_URI | 'mongodb://localhost/DeisTransportApp'
+mongoose.connect( mongoDB );
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
