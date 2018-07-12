@@ -9,11 +9,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  console.log(req.body.usernameo)
-  console.log(req.body.passwordo)
-  console.log(req.body.usernamen)
-  console.log(req.body.passwordn)
-  console.log(req.body.passwordn2)
+  console.log(req.body.username)
+  console.log(req.body.password)
   res.render('signin', { title: 'Sign Into My Account' });
 });
 

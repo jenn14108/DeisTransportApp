@@ -56,6 +56,7 @@ app.post('/webhook', VanShuttleSchedulesController.check_parameters,
 app.use('/', mainPageRouter);
 app.get('/reserve', reservationController.renderMain);
 app.get('/tracker', trackerController.renderMain);
+
 // Authentication must have these three middleware in this order!
 app.use(session({ secret: 'zzbbyanana' }));
 app.use(passport.initialize());
@@ -75,6 +76,46 @@ app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/');
     });
+
+//route middleware to make sure a user is logged in to see certain pages
+function isLoggedIn(req,res,next) {
+  console.log("checking to see if user is authenticated!");
+  //if user is authenticated in the session, continue
+  res.locals.loggedIn = false;
+  if (req.isAuthenticated()){
+    console.log("user has been Authenticated");
+    res.locals.user = req.user
+    res.locals.loggedIn = true
+    return next();
+  } else {
+    console.log("user has not been auntheticated...");
+    res.redirect('/login');
+  }
+}
+
+
+// here is where we check on a user's log-in status (middleware)
+app.use((req,res,next) => {
+  res.locals.loggedIn = false
+  if (req.isAuthenticated()){
+    console.log("user has been Authenticated")
+    res.locals.user = req.user
+    res.locals.loggedIn = true
+    if (req.user){
+      if (req.user.googleemail=='jelee14108@brandeis.edu'
+          || req.user.googleemail == 'chungek@brandeis.edu'
+          || req.user.googleemail == 'casperlk@brandeis.edu'){
+        console.log("Owner has logged in")
+        res.locals.status = 'owner'
+      } else {
+        console.log('some user has logged in')
+        res.locals.status = 'user'
+      }
+    }
+  }
+  next();
+})
+
 
 // =====================================
 // GOOGLE ROUTES =======================
