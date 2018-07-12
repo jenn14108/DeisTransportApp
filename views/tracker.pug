@@ -4,3 +4,21 @@ block content
   .jumbotron
     h1 Tracker
     p This page allows you to track various vans and shuttles provided by Brandeis
+
+    script(type='text/javascript').
+      var transloc_bgcolor = 'EEEBE2';
+
+    // TransLoc Real-Time Tracking
+    script(src='//brandeis.transloc.com/embed.js', type='text/javascript')
+    noscript
+      | Track your ride online with the TransL&omacr;c Real-Time Tracking app.  See in real-time where all vehicles are.
+      br
+      | Choose your map mode:
+      a(href='https://brandeis.transloc.com', title='The live location map') TransL&omacr;c Real-Time Tracking
+      |  |
+      a(href='https://brandeis.transloc.com/info/mobile', title='TransLōc Tracking for your mobile phone') Mobile Access
+      |  |
+      a(href='https://brandeis.transloc.com/t/', title='An accessible Tracking app') Text Version
+      |  |
+      a(href='https://brandeis.transloc.com/announcements/', title='Read announcements that are impacting service') Announcements
+    // DO NOT EDIT ABOVE!!! 
