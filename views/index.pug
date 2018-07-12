@@ -1,6 +1,30 @@
 extends layout
 
 block content
+  //section:navbar
+  nav.navbar.navbar-default(role="navigation")
+    .container
+      //toggle
+      .navbar-header
+        button.navbar-toggle(type="button" data-toggle="collapse" data-target=".navbar-ex1-collapse")
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand(href="/") Deis Transport App
+      // navbar
+      .collapse.navbar-collapse.navbar-ex1-collapse
+        ul.nav.navbar-nav.navbar-right
+          li
+            a(href="/reserve") Reserve
+          li
+            a(href="/tracker") Tracker
+          li
+            a(href="/schedules") Schedules
+          li
+            a(href="#about") About
+          li
+            a(href="/signin") Sign In
   //section:Mainpage
   .section.hero.text-center.background-dark.dark-bg
     .background-image(style="background: url(images/buspic.jpg) no-repeat center center; background-size: cover; opacity: .2;")
@@ -33,7 +57,7 @@ block content
             a(href="/reserve" title="TITLE") Reserve
           p
             | Make a reservation on any of the running BranVans.
-          a.btn.read-more.btn-sm.btn-primary(href="#" title="Reserve Now") 
+          a.btn.read-more.btn-sm.btn-primary(href="#" title="Reserve Now")
         // /.entry
       .col-md-4
         .entry
@@ -45,7 +69,7 @@ block content
             a(href="/tracker" title="HIHI") Tracker
           p
             | Track any running BranVan you desire.
-          a.btn.read-more.btn-sm.btn-primary(href="#" title="Track Now") 
+          a.btn.read-more.btn-sm.btn-primary(href="#" title="Track Now")
         // /.entry
       .col-md-4
         .entry
@@ -57,7 +81,7 @@ block content
             a(href="/schedules" title="This is a title") Schedules
           p
             | Take a look at the schedules of all Brandeis shuttles.
-          a.btn.read-more.btn-sm.btn-primary(href="#" title="View The Schedule") 
+          a.btn.read-more.btn-sm.btn-primary(href="#" title="View The Schedule")
   //section:quote
   .section.hero.text-center.background-dark.dark-bg
     .background-image(style="background: url(images/buspic.jpg) no-repeat fixed center center; background-size: cover; opacity: .2;")
@@ -93,7 +117,87 @@ block content
     .container
       .row
         .col-md-12
-          h3.text-uppercase.letter-spacing-md.font-weight-lg.margin-zero "This is the beginning, and the dawn of a new era of transportation." 
+          h3.text-uppercase.letter-spacing-md.font-weight-lg.margin-zero "This is the beginning, and the dawn of a new era of transportation."
           p
             | -Shervin Pishevar
-  
+  i.fas.fa-chevron-circle-up#myBtn(onclick="topFunction()" title="Back to top")
+  //section:Footer
+  .section.background-dark.dark-bg#about
+    .container
+      .row
+        .col-md-12.text-center
+          h2.section-title About Us
+          p.section-description We are a team of undergraduate CS students from Brandeis University.
+        .col-md-3
+          .service-block.text-center
+            a(href="https://github.com/chungek" title="EK's git" target="_blank")
+              img.img-responsive.profile(src="images/ekpretty.png" alt="")
+            h3.text-uppercase.font-size-md.letter-spacing-md.font-weight-lg Ek Kheng Chung
+            address
+              strong Brandeis University
+              br
+              | 						 	415 South St
+              br
+              | 						 	Waltham, MA 02453
+              br
+              abbr(title="Phone") Mobile:
+              |  (123) 456-7890
+              br
+              a(href="mailto:#") chungek@brandeis.edu
+            a.btn.btn-sm.btn-primary(href="https://github.com/chungek" title="EK's git" target="_blank") .git
+        .col-md-4.col-md-offset-1
+          .service-block.text-center
+            a(href="https://github.com/jenn14108" title="Jenn's git" target="_blank")
+              img.img-responsive.profile(src="images/jennpretty.png" alt="")
+            h3.text-uppercase.font-size-md.letter-spacing-md.font-weight-lg Jenn Bear Lee
+            address
+              strong Brandeis University
+              br
+              | 						 	415 South St
+              br
+              | 						 	Waltham, MA 02453
+              br
+              abbr(title="Phone") Mobile:
+              |  (123) 456-7890
+              br
+              a(href="mailto:#") jelee14108@brandeis.edu
+            a.btn.btn-sm.btn-primary(href="https://github.com/jenn14108" title="Jenn's git" target="_blank") .git
+        .col-md-4
+          .service-block.text-center
+            a(href="https://github.com/casperlk" title="Casper's git" target="_blank")
+              img.img-responsive.profile(src="images/casperpretty.png" alt="")
+            h3.text-uppercase.font-size-md.letter-spacing-md.font-weight-lg Casper L'Esperance-Kerckhoff
+            address
+              strong Brandeis University
+              br
+              | 						 	415 South St
+              br
+              | 						 	Waltham, MA 02453
+              br
+              abbr(title="Phone") Mobile:
+              |  (123) 456-7890
+              br
+              a(href="mailto:#") casperlk@brandeis.edu
+            a.btn.btn-sm.btn-primary(href="https://github.com/casperlk" title="Casper's git" target="_blank") .git
+  // jQuery
+  script(src="//code.jquery.com/jquery.js")
+  script(src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
+  // Bootstrap js
+  script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous")
+  script(type="text/javascript").
+    /*When the user scrolls down 20px from the top of the document, show the button*/
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+          document.getElementById("myBtn").style.display = "block";
+      } else {
+          document.getElementById("myBtn").style.display = "none";
+      }
+    }
+
+    /*When the user clicks on the button, scroll to the top of the document*/
+    function topFunction() {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
