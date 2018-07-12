@@ -1,6 +1,99 @@
-extends layoutBS
+extends layout
 
 block content
-  .jumbotron
-    h1 BranVan App
-    p Making your commute on and off campus hassle-free!
+  //section:Mainpage
+  .section.hero.text-center.background-dark.dark-bg
+    .background-image(style="background: url(images/buspic.jpg) no-repeat center center; background-size: cover; opacity: .2;")
+    .container
+      .row
+        .col-md-12
+          h2 Deis Transport App
+          p.lead
+            | Shalom
+          ul.list-inline
+            li
+              a.btn.btn-md.btn-info(href="#" title="VUI") Voice User Interface
+            li
+              a.btn.btn-md.btn-info(href="#" title="Web app") Bookmark Our Web App
+              //-a.btn.btn-md.btn-primary
+  //section:Services
+  .section
+  .container
+    .row
+      .col-md-12.text-center
+        h2.section-title Our Services
+        p.section-description Optimize your branvan user experience with our various stramlined features
+      .col-md-4
+        .entry
+          .entry-media
+            a(href="/reserve" title="")
+              span.absolute-wrapper
+              img.img-responsive(src="images/booking.jpg" alt="")
+          h3.entry-title
+            a(href="/reserve" title="TITLE") Reserve
+          p
+            | Make a reservation on any of the running BranVans.
+          a.btn.read-more.btn-sm.btn-primary(href="#" title="Reserve Now") 
+        // /.entry
+      .col-md-4
+        .entry
+          .entry-media
+            a(href="/tracker" title="")
+              span.absolute-wrapper
+              img.img-responsive(src="images/track.jpg" alt="")
+          h3.entry-title
+            a(href="/tracker" title="HIHI") Tracker
+          p
+            | Track any running BranVan you desire.
+          a.btn.read-more.btn-sm.btn-primary(href="#" title="Track Now") 
+        // /.entry
+      .col-md-4
+        .entry
+          .entry-media
+            a(href="/schedules" title="")
+              span.absolute-wrapper
+              img.img-responsive(src="images/schedule.jpg" alt="")
+          h3.entry-title
+            a(href="/schedules" title="This is a title") Schedules
+          p
+            | Take a look at the schedules of all Brandeis shuttles.
+          a.btn.read-more.btn-sm.btn-primary(href="#" title="View The Schedule") 
+  //section:quote
+  .section.hero.text-center.background-dark.dark-bg
+    .background-image(style="background: url(images/buspic.jpg) no-repeat fixed center center; background-size: cover; opacity: .2;")
+    .container
+      .row
+        .col-md-12
+          h3.text-uppercase.letter-spacing-md.font-weight-lg.margin-zero "When people want transportation, they want it now."
+          p
+            | -Logan Green
+  // /.section
+  // START SECTION
+  .section
+    .container
+      .row
+        .col-md-12.text-center
+          h2.section-title Contact Us
+          p.section-description Please do
+        .col-md-8.col-md-offset-2
+          form#contact.form(method="post" role="form")
+            .row
+              .col-md-6.form-group
+                input#name.form-control(name="name" placeholder="Name" type="text" required="")
+              .col-md-6.form-group
+                input#email.form-control(name="email" placeholder="Email" type="email" required="")
+            textarea#message.form-control(name="message" placeholder="Message" rows="5")
+            br
+            .row
+              .col-md-12.form-group
+                button.btn.btn-primary(type="submit") Submit
+  // section:Quote
+  .section.hero.text-center.background-dark.dark-bg
+    .background-image(style="background: url(images/buspic.jpg) no-repeat fixed center center; background-size: cover; opacity: .2;")
+    .container
+      .row
+        .col-md-12
+          h3.text-uppercase.letter-spacing-md.font-weight-lg.margin-zero "This is the beginning, and the dawn of a new era of transportation." 
+          p
+            | -Shervin Pishevar
+  
