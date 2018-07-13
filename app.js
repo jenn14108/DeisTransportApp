@@ -13,19 +13,43 @@ const
  assert = require('assert');
  VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  app = express();
+ VanDaySchema = require('./models/VanDaySchema')
+ ScheduleSchema = require('./models/ScheduleSchema')
 
 console.log('API server listening...');
 
 
+//mongoose.connect( mongoDB, function(err, db) {
+//{ useNewUrlParser: true }
 // here is where we connect to the database!
 const mongoDB = process.env.MONGO_URI || 'mongodb://localhost/DeisTransportApp'
-mongoose.connect( mongoDB );
+mongoose.connect( mongoDB )
 const db = mongoose.connection;
 mongoose.Promise = global.Promise;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log("we are connected!")
 });
+
+//THIS WORKS:
+var VanDay = require('./models/VanDaySchema')
+// var dayOne = new VanDay({date: new Date(2018, 6, 12), schedule_id: 0000})
+//
+// dayOne.save(function (err, dayOne) {
+//     if (err) return console.error(err);
+// });
+
+var EnterVanDays = require('./EnterVanDays')
+EnterVanDays.EnterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,false,false,false,true,true,true], 9989, "Cambridge")
+
+VanDay.find(function (err, VanDays) {
+  if (err) return console.error(err);
+  console.log(VanDays);
+})
+
+
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
