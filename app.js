@@ -40,20 +40,45 @@ var VanDay = require('./models/VanDaySchema')
 // });
 
 var EnterVanDays = require('./EnterVanDays')
-EnterVanDays.EnterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,false,false,false,true,true,true], 9989, "Cambridge")
+var EnterSchedule = require('./EnterSchedule')
+// EnterVanDays.EnterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,false,false,false,true,true,true], 9989, "Cambridge")
 
 VanDay.find(function (err, VanDays) {
   if (err) return console.error(err);
   console.log(VanDays);
 })
 
+EnterSchedule.EnterSchedule(1242, "[{ \"stop\" : \"Marlborough/Mass Ave.\",\"times\" : [ {new Date(0, 0, 1, 0, 45)},{new Date(0, 0, 1, 2, 15)},
+
+                  {new Date(0, 0, 1, 13, 25)},
+
+                  {new Date(0, 0, 1, 15, 00)},
+                // {"time" : 3.00},
+                  {new Date(0, 0, 1, 16, 30)},
+                // {"time" :4.30},
+                  {new Date(0, 0, 1, 18, 15)},
+                // {"time" :6.15},
+                  {new Date(0, 0, 1, 19, 15)},
+                // {"time" : 7.15},
+                  {new Date(0, 0, 1, 20, 15)},
+                // {"time" : 8.15},
+                  {new Date(0, 0, 1, 21, 00)},
+                // {"time" :9.00},
+                  {new Date(0, 0, 1, 22, 00)},
+                // {"time" :10.00},
+                  {new Date(0, 0, 1, 23, 00)},
+                // {"time" :11.00},
+                  {new Date(0, 0, 1, 24, 00)} ]
+                }
+              ]")
 
 
 
 
-// view engine setup
+
+// viewengine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set('viewengine', 'pug');
 
 //middleware to process the req object and make it more useful!
 app.use(logger('dev'));

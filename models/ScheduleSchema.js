@@ -22,11 +22,11 @@ var ScheduleSchema = mongoose.Schema({
   schedule_id: Number,
   stops: [{
     stop: String,
-    times: [{Date}]
+    times: [Date]
   }]
 });
 
-module.exports  = mongoose.model( 'Schedule', ScheduleSchema );
+module.exports = ScheduleSchema
 
 
 

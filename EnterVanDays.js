@@ -31,8 +31,24 @@
 module.exports = {
  EnterVanDays: function(start_date, end_date, days, sched_id, van_name) {
     var mongoose = require( 'mongoose' );
-    var VanDay = require('./models/VanDaySchema')
+
+    var VanDaySchema = require('./models/VanDaySchema')
+    var VanDay = mongoose.model( van_name + "_van_day", VanDaySchema );
     var Schedule = require('./models/ScheduleSchema')
+
+    var i = start_date;
+
+    function step(i) {
+      if (i <= end_date) {
+        if (days[i.getDay()]) { //if the day of the week is one that we want to set schedule for
+          var vanDay = new VanDay({date: i, van_name: sched_id})
+          console.log(vanDay)
+          vanDay.save(function(err, vanDay) {
+            if (err) return console.error(err)
+          });
+          step(i.setDate(i.getDate() + 1))
+      }
+    }
 
 
     const mongoDB = process.env.MONGO_URI || 'mongodb://localhost/DeisTransportApp'
