@@ -23,7 +23,7 @@ console.log('API server listening...');
 //{ useNewUrlParser: true }
 // here is where we connect to the database!
 const mongoDB = process.env.MONGO_URI || 'mongodb://localhost/DeisTransportApp'
-mongoose.connect( mongoDB )
+mongoose.connect( mongoDB ,{useNewUrlParser: true})
 const db = mongoose.connection;
 mongoose.Promise = global.Promise;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -32,45 +32,26 @@ db.once('open', function() {
 });
 
 //THIS WORKS:
-var VanDay = require('./models/VanDaySchema')
+var VanDaySchema = require('./models/VanDaySchema')
+var VanDay = mongoose.model("vanday", VanDaySchema)
 // var dayOne = new VanDay({date: new Date(2018, 6, 12), schedule_id: 0000})
 //
 // dayOne.save(function (err, dayOne) {
 //     if (err) return console.error(err);
 // });
 
-var EnterVanDays = require('./EnterVanDays')
+var EnterVanDays = require('./EnterVanDays');
 var EnterSchedule = require('./EnterSchedule')
-// EnterVanDays.EnterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,false,false,false,true,true,true], 9989, "Cambridge")
+var first_day = new Date(2018, 7, 25)
 
-VanDay.find(function (err, VanDays) {
-  if (err) return console.error(err);
-  console.log(VanDays);
-})
 
-EnterSchedule.EnterSchedule(1242, "[{ \"stop\" : \"Marlborough/Mass Ave.\",\"times\" : [ {new Date(0, 0, 1, 0, 45)},{new Date(0, 0, 1, 2, 15)},
 
-                  {new Date(0, 0, 1, 13, 25)},
 
-                  {new Date(0, 0, 1, 15, 00)},
-                // {"time" : 3.00},
-                  {new Date(0, 0, 1, 16, 30)},
-                // {"time" :4.30},
-                  {new Date(0, 0, 1, 18, 15)},
-                // {"time" :6.15},
-                  {new Date(0, 0, 1, 19, 15)},
-                // {"time" : 7.15},
-                  {new Date(0, 0, 1, 20, 15)},
-                // {"time" : 8.15},
-                  {new Date(0, 0, 1, 21, 00)},
-                // {"time" :9.00},
-                  {new Date(0, 0, 1, 22, 00)},
-                // {"time" :10.00},
-                  {new Date(0, 0, 1, 23, 00)},
-                // {"time" :11.00},
-                  {new Date(0, 0, 1, 24, 00)} ]
-                }
-              ]")
+// VanDay.find(function (err, VanDays) {
+//   if (err) return console.error(err);
+//   console.log(VanDays);
+// })
+
 
 
 
@@ -102,6 +83,8 @@ app.use('/', function(req, res, next) {
   console.log("in / controller")
   res.render('index', { title: 'BranVan App' });
 });
+
+EnterVanDays.step(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,false,false,false,true,true,true], 1121, "Cambridge")
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

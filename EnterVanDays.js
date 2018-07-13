@@ -1,73 +1,72 @@
-//Month index is 0 based, all others are 1 based
+var mongoose = require( 'mongoose' );
+var VanDaySchema = require('./models/VanDaySchema')
+var VanDay = mongoose.model( "VanDay", VanDaySchema );
+var async = require('async');
 
-//parameters: start_date, end_date, boolean array of length 7 indicating which days the given schedule is in use, schedule_id, van name
-// var mongoose = require( 'mongoose' );
-// var VanDay = require('./models/VanDaySchema')
-// var Schedule = require('./models/ScheduleSchema')
-//
-//
-// const mongoDB = process.env.MONGO_URI || 'mongodb://localhost/DeisTransportApp'
-// mongoose.connect( mongoDB )
-// const db = mongoose.connection;
-// mongoose.Promise = global.Promise;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function() {
-//   console.log("we are connected!")
-// });
+exports.step = function step(i, end_date, days, sched_id, van_name) {
+  //async.parrallel
+  //async.waterfall
+  //async.series
 
-//THIS WORKS:
+  const function_list = [];
 
-// var dayOne = new VanDay({date: new Date(2018, 6, 12), schedule_id: 0000})
-//
-// dayOne.save(function (err, dayOne) {
-//     if (err) return console.error(err);
-// });
-//
-// VanDay.find(function (err, VanDays) {
-//   if (err) return console.error(err);
-//   console.log(VanDays);
-// })
+  for(let date = i; date <= end_date; date = new Date(date.setDate(date.getDate() + 1))){
+    function_list.push(function(callback){
+      if (days[date.getDay()]) {
+        VanDay.findOne({date: date}, function(doc, err){
+          if (err) {
+            callback(err, null);
+            return;
+          }
+          if(doc) {
+            //update
+            VanDay.update(
+              {date: date},
+              { $push: {schedule_by_van: {van: van_name, schedule_id: sched_id}}},
+              function(err, vanDay) {
+                if (err) {
+                  callback(err, null);
+                } else {
+                  callback(null);
+                }
+              }
+            )
+          } else {
+            //create
+            console.log(date);
+            const new_vanday = new VanDay({
+              date: date,//,
+              schedule_by_van: {
+                van: van_name,
+                schedule_id: sched_id
+              }
+            })
 
-module.exports = {
- EnterVanDays: function(start_date, end_date, days, sched_id, van_name) {
-    var mongoose = require( 'mongoose' );
+            new_vanday.save(function(err){
+              if (err){
+                callback(err, null);
+              } else {
+                callback(null);
+              }
 
-    var VanDaySchema = require('./models/VanDaySchema')
-    var VanDay = mongoose.model( van_name + "_van_day", VanDaySchema );
-    var Schedule = require('./models/ScheduleSchema')
 
-    var i = start_date;
-
-    function step(i) {
-      if (i <= end_date) {
-        if (days[i.getDay()]) { //if the day of the week is one that we want to set schedule for
-          var vanDay = new VanDay({date: i, van_name: sched_id})
-          console.log(vanDay)
-          vanDay.save(function(err, vanDay) {
-            if (err) return console.error(err)
-          });
-          step(i.setDate(i.getDate() + 1))
+              //
+            })
+          }
+        })
       }
-    }
 
 
-    const mongoDB = process.env.MONGO_URI || 'mongodb://localhost/DeisTransportApp'
-    mongoose.connect( mongoDB )
-    const db = mongoose.connection;
-    mongoose.Promise = global.Promise;
-    db.on('error', console.error.bind(console, 'connection error:'));
-    db.once('open', function() {
-      console.log("we are connected!")
-    });
 
-    for (var i = start_date; i <= end_date; i.setDate(i.getDate() + 1)) {
-      if (days[i.getDay()]) { //if the day of the week is one that we want to set schedule for
-        var vanDay = new VanDay({date: i, schedule_id: sched_id})
-        console.log(vanDay)
-        vanDay.save(function(err, vanDay) {
-          if (err) return console.error(err)
-        });
-      }
-    }
+
+    })
   }
+
+  async.parallel(function_list, function(err, results){
+    if(err){
+      console.log(err);
+    } else {
+      console.log('done!');
+    }
+  })
 }

@@ -15,7 +15,7 @@ module.exports = {
       console.log("we are connected!")
     });
 
-    var schedule = new Schedule(schedule_id: sched_id, stops: stopsString)
+    var schedule = new Schedule({schedule_id: sched_id, stops: stopsString})
 
     //for stop in stops
 
