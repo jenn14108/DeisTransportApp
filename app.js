@@ -7,6 +7,7 @@ const
  logger = require('morgan');
  bodyParser = require('body-parser');
  util = require("util");
+ unirest = require("unirest");
  //used to read JSON file into node.js to ultimately save into mongoose
  fs = require("fs");
  assert = require('assert');
@@ -24,7 +25,6 @@ const
  app = express();
 
 console.log('API server listening...');
-
 
 // here is where we connect to the database!
 mongoose.connect( 'mongodb://localhost/DeisTransportApp' );
@@ -49,13 +49,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.post('/webhook', VanShuttleSchedulesController.check_parameters,
-                      VanShuttleSchedulesController.respondToDF);
-
-
 app.use('/', mainPageRouter);
 app.get('/reserve', reservationController.renderMain);
 app.get('/tracker', trackerController.renderMain);
+app.get('/schedules', VanShuttleSchedulesController.renderMain);
+
 
 // Authentication must have these three middleware in this order!
 app.use(session({ secret: 'zzbbyanana' }));
@@ -76,6 +74,7 @@ app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/');
     });
+
 
 //route middleware to make sure a user is logged in to see certain pages
 function isLoggedIn(req,res,next) {
@@ -116,7 +115,6 @@ app.use((req,res,next) => {
   next();
 })
 
-
 // =====================================
 // GOOGLE ROUTES =======================
 // =====================================
@@ -127,13 +125,13 @@ app.use((req,res,next) => {
 //Google to get authenticated. Then, it will send the browser back to /login/authorized page
 app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
 
-
 app.get('/login/authorized',
         passport.authenticate('google', {
                 successRedirect : '/',
                 failureRedirect : '/loginerror'
         }));
 
+app.post('/webhook', VanShuttleSchedulesController.respondToDF);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
