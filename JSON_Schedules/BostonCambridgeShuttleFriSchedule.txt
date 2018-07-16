@@ -1,0 +1,48 @@
+var sched_id = 1000
+var stopsVar =
+          [
+            {stop: "Marlborough/Mass Ave.",
+            times: [
+              new Date(2000, 0, 1, 0-5, 45),
+              new Date(2000, 0, 1, 2-5, 15),
+              new Date(2000, 0, 1, 13-5, 25),
+              new Date(2000, 0, 1, 15-5, 00),
+              new Date(2000, 0, 1, 16-5, 30),
+              new Date(2000, 0, 1, 18-5, 15),
+              new Date(2000, 0, 1, 19-5, 15),
+              new Date(2000, 0, 1, 20-5, 15),
+              new Date(2000, 0, 1, 21-5, 00),
+              new Date(2000, 0, 1, 22-5, 00),
+              new Date(2000, 0, 1, 23-5, 00)]},
+
+            {stop: "Usdan",
+            times: [
+              new Date(2000, 0, 1, 0-5, 0),
+              new Date(2000, 0, 1, 1-5, 30),
+              new Date(2000, 0, 1, 12-5, 30),
+              new Date(2000, 0, 1, 14-5, 00),
+              new Date(2000, 0, 1, 15-5, 30),
+              new Date(2000, 0, 1, 16-5, 00),
+              new Date(2000, 0, 1, 17-5, 00),
+              new Date(2000, 0, 1, 18-5, 00),
+              new Date(2000, 0, 1, 19-5, 00),
+              new Date(2000, 0, 1, 20-5, 00),
+              new Date(2000, 0, 1, 21-5, 00),
+              new Date(2000, 0, 1, 22-5, 00),
+              new Date(2000, 0, 1, 23-5, 00)]},
+
+            {stop: "Harvard Square",
+            times: [
+              new Date(2000, 0, 1, 0-5, 30),
+              new Date(2000, 0, 1, 2-5, 00),
+              new Date(2000, 0, 1, 13-5, 05),
+              new Date(2000, 0, 1, 14-5, 35),
+              new Date(2000, 0, 1, 16-5, 05),
+              new Date(2000, 0, 1, 17-5, 40),
+              new Date(2000, 0, 1, 18-5, 40),
+              new Date(2000, 0, 1, 19-5, 40),
+              new Date(2000, 0, 1, 20-5, 35),
+              new Date(2000, 0, 1, 21-5, 35),
+              new Date(2000, 0, 1, 22-5, 35),
+              new Date(2000, 0, 1, 23-5, 35)]}
+            ]
