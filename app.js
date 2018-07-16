@@ -84,7 +84,7 @@ app.use('/', function(req, res, next) {
   res.render('index', { title: 'BranVan App' });
 });
 
-EnterVanDays.step(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,false,false,false,true,true,true], 1121, "Cambridge")
+EnterVanDays.step(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,false,false,false,true,true,true], 0, "Cambridge")
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
