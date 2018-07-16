@@ -1,35 +1,27 @@
-module.exports = {
-  EnterSchedule: function(sched_id, stopsString) {
-    var mongoose = require( 'mongoose' );
-    var VanDay = require('./models/VanDaySchema')
-    var ScheduleSchema = require('./models/ScheduleSchema')
-    var Schedule = mongoose.model( 'Schedule', ScheduleSchema );
+var mongoose = require( 'mongoose' );
+var ScheduleSchema = require('./models/ScheduleSchema')
+var Schedule = mongoose.model( 'Schedule', ScheduleSchema );
+var async = require('async');
 
+//var vanSchedulePair = {van: van_name, schedule_id: sched_id};
 
-    const mongoDB = process.env.MONGO_URI || 'mongodb://localhost/DeisTransportApp'
-    mongoose.connect( mongoDB )
-    const db = mongoose.connection;
-    mongoose.Promise = global.Promise;
-    db.on('error', console.error.bind(console, 'connection error:'));
-    db.once('open', function() {
-      console.log("we are connected!")
-    });
-
-    var schedule = new Schedule({schedule_id: sched_id, stops: stopsString})
-
-    //for stop in stops
-
-
-
-
-  }
+exports.enterSchedule = function enterSchedule(sched_id, stopsVar)
+{
+  const function_list = [];
+  function_list.push(function(callback)
+  {
+    const schedule = new Schedule({schedule_id: sched_id, stops: stopsVar})
+    schedule.save(function(err) { if (err){callback(err, null);} else {callback(null);}})
+  })
+  async.parallel(function_list, function(err, results){if(err){console.log(err);} else {console.log('done!');}})
 }
+
 /**
 var ScheduleSchema = mongoose.Schema({
   schedule_id: Number,
   stops: [{
     stop: String,
-    times: [{Date}]
+    times: [Date]
   }]
 });
 */

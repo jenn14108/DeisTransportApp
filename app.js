@@ -84,7 +84,45 @@ app.use('/', function(req, res, next) {
   res.render('index', { title: 'BranVan App' });
 });
 
-EnterVanDays.step(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,false,false,false,true,true,true], 0, "Cambridge")
+//
+// { "stop" : "Marlborough/Mass Ave.",
+//   "times" : [ {new Date(0, 0, 1, 0, 45)},
+//               {new Date(0, 0, 1, 2, 15)},
+//               {new Date(0, 0, 1, 13, 25)},
+//               {new Date(0, 0, 1, 15, 00)},
+//               {new Date(0, 0, 1, 16, 30)},
+//               {new Date(0, 0, 1, 18, 15)},
+//               {new Date(0, 0, 1, 19, 15)},
+//               {new Date(0, 0, 1, 20, 15)},
+//               {new Date(0, 0, 1, 21, 00)},
+//               {new Date(0, 0, 1, 22, 00)},
+//               {new Date(0, 0, 1, 23, 00)},
+//               {new Date(0, 0, 1, 24, 00)}]
+//             }
+
+console.log(new Date(2000, 0, 1, 0, 45))
+console.log(new Date(2000, 0, 1, 5, 45))
+console.log(new Date(2000, 0, 1, -5, 45))
+
+
+          // [{ "day" : "Friday",
+          //   "stop" : "Usdan",
+          //   "arrival_times" : [{"time" : 12.30},{"time" : 2.00} , {"time": 3.30}, {"time" :4.00},{"time" : 5.00},
+          //                     {"time" : 6.00}, {"time" :7.00}, {"time" : 8.00}, {"time" : 9.00}, {"time" : 10.00},
+          //                     {"time" : 11.00} , {"time" : 12.30}, {"time" : 2.00}]},
+          // { "day" : "Friday",
+          //   "stop" : "Harvard Square",
+          //   "arrival_times" : [{"time" :1.05}, {"time" :2.35}, {"time" :4.05}, {"time" : 5.40}, {"time" : 6.40},
+          //                     {"time" :7.40}, {"time" :8.35}, {"time" :9.35}, {"time" :10.35}, {"time" : 11.35},
+          //                     {"time" : 1.05}, {"time" :2.35}]},
+          // { "day" : "Friday",
+          //   "stop" : "Marlborough/Mass Ave.",
+          //   "arrival_times" : [{"time" :1.25}, {"time" :3.00}, {"time" :4.30}, {"time" :6.15}, {"time" : 7.15},
+          //                     {"time" : 8.15},{"time" :9.00}, {"time" :10.00}, {"time" :11.00}, {"time" :12.00},
+          //                     {"time" : 1.30},{"time" : 3.00}]}]
+
+// EnterSchedule.enterSchedule(sched_id, stopsVar)
+// EnterVanDays.step(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,false,false,false,true,true,true], 0, "Cambridge")
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

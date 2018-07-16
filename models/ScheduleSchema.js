@@ -27,23 +27,3 @@ var ScheduleSchema = mongoose.Schema({
 });
 
 module.exports = ScheduleSchema
-
-
-
-/**
-
-
-
-  van_name : String,            //Name of van: "Waltham" "Campus" "Cambridge"
-  running_periods: [{Date, Date}]             //Denotes the periods of time in which the van is running. is an array of pairs of dates, where the first date is when the van starts running on its regular schedule, and the second is when it stops running on regular schedule
-                  //new Date("<YYYY-mm-dd>") returns the ISODate with the specified date.
-
-  weekdays_running : [Boolean], //days of the week that the van is running. True=running False=Not Running. index 0=Sunday index 6=Saturday
-  [{
-    arrival_times : [{
-      stop: String,
-      hour: Number,
-      minute: Number
-    }]
-  }]
-*/
