@@ -41,21 +41,21 @@ block content
                 select.form-control#route(name="route" placeholder="Choose a van")
                   option Select a van
                   option(value="campus") Campus BranVan
-                  option(value="daycampusshuttle") Daytime Campus shuttle
+                  option(value="daycampusshuttle") Daytime Campus Shuttle
                   option(value="daywaltham") Daytime Waltham Shuttle
                   option(value="eveningwaltham") Evening Waltham Shuttle
                   option(value="boston") Boston/Cambridge Shuttle 
               .col-md-6.form-group
                 select.form-control#stop(name="stop" placeholder="Select a stop")
                   option Select a stop
-                  option(value="rabb") Rabb Bus Stop
-                  option(value="hlot") Hassenfeld Lot
-                  option(value="tlot") Theatre Lot
-                  option(value="mainentrance") Main Entrance
-                  option(value="grad") Lower Charles River Road
-                  option(value="glot") Charles River Lot
-                  option(value="lemberg") Lemberg Children's Center
-                  option(value="mods") Foster Apartments (Mods)
+                  //- option(value="rabb") Rabb Bus Stop
+                  //- option(value="hlot") Hassenfeld Lot
+                  //- option(value="tlot") Theatre Lot
+                  //- option(value="mainentrance") Main Entrance
+                  //- option(value="grad") Lower Charles River Road
+                  //- option(value="glot") Charles River Lot
+                  //- option(value="lemberg") Lemberg Children's Center
+                  //- option(value="mods") Foster Apartments (Mods)
             br
             .row
               .col-md-12.form-group.text-center
@@ -84,7 +84,44 @@ block content
                 td 
                 td 
                 td  
+                
+                
+  script(type="text/javascript" language="javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
+  script(type="text/javascript").
+    $("#route").change(function() {
 
-        
+      var $dropdown = $(this);
+      var key = $dropdown.val();
+      var whichRoute = "";
+      if (key == "campus") {
+        whichRoute = "/JSON_Schedules/campusVanSchedule.json"
+      } else if (key == "daycampusshuttle") {
+        whichRoute = "/JSON_Schedules/DayTimeCampusShuttleSchedule.json"
+      } else if (key == "daywaltham") {
+        whichRoute = "/JSON_Schedules/DaytimeWalthamShuttleSchedule.json"
+      } else if (key == "eveningwaltham") {
+        whichRoute = "/JSON_Schedules/EveningWalthamVanSchedule.json"
+      } else if (key == "boston") {
+        whichRoute = "/JSON_Schedules/BostonCambridgeShuttleFriSchedule.json"
+      }
+      
+      var vals = [];
+      
+      $(document).ready(function(e) {
+        $.getJSON( whichRoute , function( data ){
+          console.log(data)
+          vals = data[0].stop;
+        });
+      }); 
+         
+      var $stop = $("#stop");
+      $stop.empty();
+      $.each(vals, function(index, stop) {
+        console.log(stop)
+        $secondChoice.append("<option>" + stop + "</option>");
+        $secondChoice.val = stop;
+      });
+    });
+
+            
           
-        

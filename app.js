@@ -12,7 +12,7 @@ const
  assert = require('assert');
  loginRouter = require('./routes/loginRouter');
  mainPageRouter = require('./routes/mainPageRouter');
- trackerController = require('./controllers/tracr 3kerController');
+ trackerController = require('./controllers/trackerController');
  reservationController = require('./controllers/reservationController');
  VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  //Set up needed variables in order to do authentication
