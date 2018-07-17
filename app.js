@@ -15,7 +15,8 @@ const
  mainPageRouter = require('./routes/mainPageRouter');
  trackerController = require('./controllers/trackerController');
  reservationController = require('./controllers/reservationController');
- VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
+ PartnersShuttleController = require('./controllers/PartnersShuttleController');
+ //VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  //Set up needed variables in order to do authentication
  //GoogleStrategy = require('passport-google-oauth').OAuth25Strategy; --> in cofig/passport.js
  session = require('express-session');
@@ -26,7 +27,7 @@ const
 
 console.log('API server listening...');
 
-// here is where we connect to the database!
+// connect to database
 mongoose.connect( 'mongodb://localhost/DeisTransportApp' );
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -52,7 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', mainPageRouter);
 app.get('/reserve', reservationController.renderMain);
 app.get('/tracker', trackerController.renderMain);
-app.get('/schedules', VanShuttleSchedulesController.renderMain);
+app.get('/schedules', PartnersShuttleController.renderMain);
 
 
 // Authentication must have these three middleware in this order!
@@ -75,7 +76,6 @@ app.get('/logout', function(req, res) {
         res.redirect('/');
     });
 
-
 //route middleware to make sure a user is logged in to see certain pages
 function isLoggedIn(req,res,next) {
   console.log("checking to see if user is authenticated!");
@@ -87,7 +87,7 @@ function isLoggedIn(req,res,next) {
     res.locals.loggedIn = true
     return next();
   } else {
-    console.log("user has not been auntheticated...");
+    console.log("user has not been authenticated...");
     res.redirect('/login');
   }
 }
@@ -131,7 +131,7 @@ app.get('/login/authorized',
                 failureRedirect : '/loginerror'
         }));
 
-app.post('/webhook', VanShuttleSchedulesController.respondToDF);
+app.post('/webhook', PartnersShuttleController.respondToDF);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

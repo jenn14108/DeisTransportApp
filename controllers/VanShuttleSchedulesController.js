@@ -14,29 +14,6 @@ exports.renderMain = (req,res) => {
   res.render('schedules', {title: 'Schedules'});
 }
 
-//check that all necessary parameters are filled in
-// exports.check_parameters = (req,res, next) => {
-//    if (req.body.queryResult.parameters['van_shuttle_type']){
-//      scheduleQueryParameters['van_type'] = req.body.queryResult.parameters['van_shuttle_type'];
-//    }
-//    if (req.body.queryResult.parameters['van_shuttle_stop']){
-//      scheduleQueryParameters['pickup_stop'] = req.body.queryResult.parameters['van_shuttle_stop'];
-//    }
-//    if (req.body.queryResult.parameters['time']){
-//      scheduleQueryParameters['pickup_time'] = req.body.queryResult.parameters['time'];
-//    }
-//    //find the correct branvan schedule if the pickup stop and time slots are filled in
-//    if (scheduleQueryParameters['pickup_stop'] &&  scheduleQueryParameters['pickup_time']){
-//        next();
-//    }
-// };
-
-
-  // exports.check_parameters = (req, res, next) => {
-  //   //will use schedule query parameters
-  //   }
-  // }
-
 /*USEFUL INFO
     DayTime Campus Shuttle : Weekdays only: 7:30 a.m. to 4:30 p.m.
     Campus Branvan : Weekdays: 7:30 a.m. to 2:30 a.m. Weekends: 12 p.m. to 2:30 a.m.
@@ -48,7 +25,7 @@ exports.renderMain = (req,res) => {
 //this queries to the API!!!! Not mongoose!!
 exports.respondToDF = (req, res) => {
   if (req.body.queryResult.intent.displayName === "temp_get_harvard"){
-    var output_string = "Here is a list of all vehicles offered by Harvard: ";
+    var output_string = "Here is a list of all vehicles offered by Harvard: \n";
     unirest.get("https://transloc-api-1-2.p.mashape.com/routes.json?agencies=52&callback=call")
     .header("X-Mashape-Key", "86AEb09Skcmsho1ePNIfntZuwRjPp1ywZqkjsnH74xl90S0OWI")
     .header("Accept", "application/json")
@@ -63,7 +40,7 @@ exports.respondToDF = (req, res) => {
     });
   }
   if (req.body.queryResult.intent.displayName === "get_currently_active"){
-    var output_string = "Here are the current active vehicles: ";
+    var output_string = "Here are the current active vehicles: \n";
     var vehicles = "";
     unirest.get("https://transloc-api-1-2.p.mashape.com/routes.json?agencies=52&callback=call")
     .header("X-Mashape-Key", "86AEb09Skcmsho1ePNIfntZuwRjPp1ywZqkjsnH74xl90S0OWI")
@@ -86,25 +63,27 @@ exports.respondToDF = (req, res) => {
     });
   }
   //BU:132 BC: 32 Brandeis: 483
-  if (req.body.queryResult.intent.displayName === "get_other_institutions"){
+  if (req.body.queryResult.intent.displayName === "get_other_institutions"
+      || req.body.queryResult.intent.displayName === "get_other_institutions - more"){
     var institution = (req.body.queryResult.parameters.institution).toString();
     var agency_id = "";
+    console.log(institution);
     if (institution === 'brandeis' || institution === 'Brandeis'){
       agency_id = 483;
     } else if (institution == "Boston University" || institution == "boston university"
               || institution == "BU" || institution == "bu"){
       agency_id = 132;
-    } else if (institution == "Boston college" || institution == "boston college"
+    } else if (institution == "Boston College" || institution == "boston college"
               || institution == "BC" || institution == "bc"){
       agency_id = 32;
     }
     var output_string = "Here are the current active vehicles at " + institution + ": \n";
     var vehicles = "";
+    console.log("THIS IS THE ID:  " + agency_id);
     unirest.get("https://transloc-api-1-2.p.mashape.com/routes.json?agencies=" + agency_id + "&callback=call")
     .header("X-Mashape-Key", "86AEb09Skcmsho1ePNIfntZuwRjPp1ywZqkjsnH74xl90S0OWI")
     .header("Accept", "application/json")
     .end(function (result) {
-      console.log(result.body.data[agency_id]);
         for (var i = 0; i < result.body.data[agency_id].length; i++){
            if(result.body.data[agency_id][i].is_active === true){
              vehicles = vehicles + result.body.data[agency_id][i].long_name + "\n";
@@ -122,22 +101,3 @@ exports.respondToDF = (req, res) => {
     });
   }
 }
-
-// this returns the right schedule
-// exports.getSchedule = ( req, res ) => {
-//   console.log('in getSchedule');
-//   Skill.find( {} )
-//     .exec()
-//     .then( ( skills ) => {
-//       res.render( 'skills', {
-//         skills: skills
-//       } );
-//     } )
-//     .catch( ( error ) => {
-//       console.log( error.message );
-//       return [];
-//     } )
-//     .then( () => {
-//       console.log( 'skill promise complete' );
-//     } );
-// };
