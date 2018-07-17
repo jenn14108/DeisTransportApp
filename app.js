@@ -37,9 +37,9 @@ db.once('open', function() {
 });
 
 
-console.log(Query.getSchedule(1010))
-// Query.getSchedule(1010)
-
+// console.log(Query.getSchedule(1010))
+// Query.getSchedule(1010).then(response => console.log(response)).catch(err => console.log("err2: "+err))
+Query.getTimesForStop(1010, "Usdan").then(response => console.log(response)).catch(err => console.log("err2: "+err))
 
 // viewengine setup
 app.set('views', path.join(__dirname, 'views'));

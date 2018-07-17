@@ -1,26 +1,30 @@
 exports.getSchedule = function getSchedule(sched_id)
 {
-  Schedule.findOne({schedule_id: sched_id}, function (err, Schedules)
+  return Schedule.findOne({schedule_id: sched_id})
+  .then(Schedules => Schedules.stops)
+  .catch(err => console.log("error: "+err))
+}
+
+exports.getTimesForStop = function getTimesForStop(sched_id, stopName)
+{
+  var i = 0;
+  return this.getSchedule(sched_id)
+  .then(schedule =>
   {
-    if (err) return console.error("error 1: "+err);
-    if (Schedules)
+    while(true)
     {
-      var end = false;
-      var i = 0;
-      while(!end)
+      if (schedule[i])
       {
-        var time = Schedules.stops[0].times[i]
-        if (time)
+        if (schedule[i].stop === stopName)
         {
-          // console.log(time)
-        }
-        else
-        {
-          end = true
+          return schedule[i].times
         }
         i++
       }
-      return Schedules;
+      else
+      {
+        return "stop not found"
+      }
     }
   })
 }
