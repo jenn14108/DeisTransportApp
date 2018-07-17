@@ -1,0 +1,12 @@
+[{ "stop" : "Lower Charles River Rd (between 150 and 164)",
+  "arrival_times" : [{"time" :0} , {"time" :15} , {"time" :30}, {"time" :45}]},
+{ "stop" : "Charles River Lot",
+  "arrival_times" : [{"time" :2} , {"time" :17} , {"time" :32}, {"time" :47}]},
+{ "stop" : "Rabb",
+  "arrival_times" : [{"time" :5} , {"time" :20} , {"time" :35}, {"time" :50}]},
+{ "stop" : "Hassenfeld/Massell",
+  "arrival_times" : [{"time" :7} , {"time" :22} , {"time" :37}, {"time" :53}]},
+{"stop" : "Admissions",
+ "arrival_times" : [{"time" :8} , {"time" :23} , {"time" :38}, {"time" :54}]},
+{ "stop" : "Main Entrance",
+  "arrival_times" : [{"time" :10} , {"time" :25} , {"time" :40}, {"time" :55}]}]
