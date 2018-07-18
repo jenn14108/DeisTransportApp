@@ -26,13 +26,26 @@ exports.step = function step(i, end_date, days, sched_id, van_name)
           }
           if (doc) //if doc with Date date was found
           {
+            var updated = false
             console.log("Document found with matching date. Editing document.")
-            //add van_name and sched_id to the array
-            if (false) //if there is already a schedule assigned for that van on that day
+            for (var i = 0; i < doc.schedule_by_van.length; i++)
             {
-              console.log("Van already had assigned schedule for given date, updating to new schedule")
+              if (doc.schedule_by_van[i].van === van_name) //if there is already a schedule assigned for that van on that day
+              {
+                console.log("Van already had assigned schedule for given date, updating to new schedule")
+                var array = doc.schedule_by_van
+                doc.schedule_by_van[i] = {van: van_name, schedule_id: sched_id}
+                console.log(array)
+                VanDay.update(
+                  {date: date},
+                  {$set: {schedule_by_van: array}}
+                )
+                updated = true
+              }
             }
-            else //if the van is not assigned a schedule for that day
+            //add van_name and sched_id to the array
+
+            if (!updated) //if the van is not assigned a schedule for that day
             {
               console.log("Van does not yet have schedule for this date, adding schedule")
               var vanSchedulePair = {van: van_name, schedule_id: sched_id};
@@ -48,7 +61,7 @@ exports.step = function step(i, end_date, days, sched_id, van_name)
             const new_vanday = new VanDay
             ({
               date: date,
-              schedule_by_van: {van: van_name, schedule_id: sched_id}
+              schedule_by_van: [{van: van_name, schedule_id: sched_id}]
             })
             new_vanday.save(function(err) { if (err){callback(err, null);} else {callback(null);}})  //save the new entry
           }

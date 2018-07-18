@@ -18,6 +18,7 @@ const
  ScheduleSchema = require('./models/ScheduleSchema')
  Schedule = mongoose.model("schedule", ScheduleSchema)
  EnterVanDays = require('./EnterVanDays');
+ EnterVanDays2 = require('./EnterVanDays2');
  EnterSchedule = require('./EnterSchedule')
  Query = require('./Query')
 
@@ -33,13 +34,16 @@ const db = mongoose.connection;
 mongoose.Promise = global.Promise;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  console.log("we are connected!")
+  // console.log("we are connected!")
 });
 
 
 // console.log(Query.getSchedule(1010))
 // Query.getSchedule(1010).then(response => console.log(response)).catch(err => console.log("err2: "+err))
-Query.getTimesForStop(1010, "Usdan").then(response => console.log(response)).catch(err => console.log("err2: "+err))
+// Query.getTimesForStop(2010, "Rabb").then(response => console.log(response)).catch(err => console.log("err2: "+err))
+// Query.getNextTime(2010, "Rabb").then(response => console.log(response.toLocaleTimeString())).catch(err => console.log("err2: "+err))
+Query.getVanScheduleID("campusVan")
+
 
 // viewengine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -70,7 +74,8 @@ app.use('/', function(req, res, next) {
 
 
 
-// EnterVanDays.step(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,false,false,false,true,true,true], 0, "Cambridge")
+EnterVanDays2.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,false,false,false,true,true,true], 2021, "Boston")
+console.log("van day entry complete")
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

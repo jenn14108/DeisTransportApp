@@ -7,7 +7,7 @@ const eveningWalthamVanSchedule = require("../models/EveningWalthamVanSchedule")
 const scheduleQueryParameters = require("../models/scheduleQueryParameters.js");
 const mongoose = require( 'mongoose' );
 const db = mongoose.connection;
-console.log("loading the VanShuttleScheduleController");
+
 
 
 //check that all necessary parameters are filled in
