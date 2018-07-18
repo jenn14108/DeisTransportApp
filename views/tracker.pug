@@ -109,19 +109,19 @@ block content
       
       $(document).ready(function(e) {
         $.getJSON( whichRoute , function( data ){
-          console.log(data)
-          vals = data[0].stop;
+          for (var i = 0; i < data.length; i++) {
+            vals[i] = data[i].stop
+            }
+            
+            var $stop = $("#stop");
+            $("#stop option").remove();
+            $('<option>Select a stop</option>').appendTo("#stop")
+            for (var j = 0; j < vals.length; j++) {
+              console.log(vals[j])
+              $('<option value="' + vals[j] + '">' + vals[j] + '</option>').appendTo("#stop")
+              }  
         });
       }); 
-         
-      var $stop = $("#stop");
-      $stop.empty();
-      $.each(vals, function(index, stop) {
-        console.log(stop)
-        $secondChoice.append("<option>" + stop + "</option>");
-        $secondChoice.val = stop;
-      });
-    });
-
-            
-          
+    
+               
+    }); 
