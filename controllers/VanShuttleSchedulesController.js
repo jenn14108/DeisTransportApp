@@ -4,7 +4,6 @@
 // const dayTimeCampusShuttleSchedule = require("../models/DayTimeCampusShuttleSchedule");
 // const daytimeWalthamShuttleSchedule = require("../models/DaytimeWalthamShuttleSchedule");
 // const eveningWalthamVanSchedule = require("../models/EveningWalthamVanSchedule");
-// const scheduleQueryParameters = require("../models/scheduleQueryParameters.js");
 // const mongoose = require( 'mongoose' );
 // const db = mongoose.connection;
 console.log("loading the VanShuttleScheduleController");
