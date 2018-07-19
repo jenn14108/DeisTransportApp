@@ -38,7 +38,8 @@ console.log('API server listening...');
 //mongoose.connect( mongoDB, function(err, db) {
 //{ useNewUrlParser: true }
 // here is where we connect to the database!
-const mongoDB = process.env.MONGO_URI || 'mongodb://localhost/DeisTransportApp'
+const mongoDB = process.env.MONGO_URI //|| 'mongodb://localhost/DeisTransportApp'
+console.log(mongoDB)
 mongoose.connect( mongoDB ,{useNewUrlParser: true})
 const db = mongoose.connection;
 mongoose.Promise = global.Promise;
