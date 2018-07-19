@@ -1,3 +1,4 @@
+//given schedule ID, return full schedule
 exports.getSchedule = function getSchedule(sched_id)
 {
   return Schedule.findOne({schedule_id: sched_id})

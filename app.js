@@ -157,7 +157,7 @@ app.post('/webhook', PartnersShuttleController.respondToDF);
 // console.log(new Date(Date.UTC(2019, 7, 18)+86400000))
 
 EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 7, 18, 12)), new Date(Date.UTC(2019, 7, 19, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
-
+//The above line creates one VanDay on August 18th 2019 at 8:00AM EDT
 // EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusVan")
 // EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusShuttle")
 // EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "walthamVan")
