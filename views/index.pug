@@ -1,6 +1,16 @@
 extends layout
 
 block content
+  //section:navbar
+  nav.navbar.navbar-default(role="navigation")
+    .container
+      //toggle
+      .navbar-header
+        button.navbar-toggle(type="button" data-toggle="collapse" data-target=".navbar-ex1-collapse")
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
   //section:Mainpage
   .section.hero.text-center.background-dark.dark-bg
     .background-image(style="background: url(images/buspic.jpg) no-repeat center center; background-size: cover; opacity: .2;")

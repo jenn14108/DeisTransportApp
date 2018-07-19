@@ -7,6 +7,7 @@ const
  logger = require('morgan');
  bodyParser = require('body-parser');
  util = require("util");
+ unirest = require("unirest");
  //used to read JSON file into node.js to ultimately save into mongoose
  fs = require("fs");
  assert = require('assert');
@@ -16,6 +17,8 @@ const
  reservationController = require('./controllers/reservationController');
  schedulesController = require('./controllers/schedulesController');
  VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
+ PartnersShuttleController = require('./controllers/PartnersShuttleController');
+ //VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  //Set up needed variables in order to do authentication
  //GoogleStrategy = require('passport-google-oauth').OAuth25Strategy; --> in cofig/passport.js
  session = require('express-session');
@@ -23,10 +26,19 @@ const
  configPassport = require('./config/passport');
  configPassport(passport);
  app = express();
+ VanDaySchema = require('./models/VanDaySchema')
+ VanDay = mongoose.model("vanday", VanDaySchema)
+ ScheduleSchema = require('./models/ScheduleSchema')
+ Schedule = mongoose.model("schedule", ScheduleSchema)
+ EnterVanDays = require('./EnterVanDays');
+ EnterSchedule = require('./EnterSchedule')
+ Query = require('./Query')
 
 console.log('API server listening...');
 
 
+//mongoose.connect( mongoDB, function(err, db) {
+//{ useNewUrlParser: true }
 // here is where we connect to the database!
 const mongoDB = process.env.MONGO_URI || 'mongodb://localhost/DeisTransportApp'
 mongoose.connect( mongoDB ,{useNewUrlParser: true})
@@ -36,7 +48,15 @@ db.once('open', function() {
   // console.log("we are connected!")
 });
 
-// view engine setup
+
+// console.log(Query.getSchedule(1010))
+// Query.getSchedule(1010).then(response => console.log(response)).catch(err => console.log("err2: "+err))
+// Query.getTimesForStop(2010, "Rabb").then(response => console.log(response)).catch(err => console.log("err2: "+err))
+// Query.getNextTime(2010, "Rabb").then(response => console.log(response.toLocaleTimeString())).catch(err => console.log("err2: "+err))
+// Query.getVanScheduleID("campusVan")
+
+
+// viewengine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -50,17 +70,15 @@ app.use(cookieParser());
 // so don't name your routes so they conflict with the public folders
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-app.post('/webhook', VanShuttleSchedulesController.check_parameters,
-                      VanShuttleSchedulesController.respondToDF);
-
-
+//app.use(checkLoggedIn);
 app.use('/', mainPageRouter);
 app.get('/reserve', reservationController.renderMain);
 app.get('/tracker', trackerController.renderMain);
 app.post('/getEstimate', trackerController.getEstimate);
-app.get('/schedules', schedulesController.renderMain);
+app.get('/schedules', PartnersShuttleController.renderMain);
 
+// if(req.isAuthenticated()) res.locals.isLoggedIn = true;
+// next();
 // Authentication must have these three middleware in this order!
 app.use(session({ secret: 'zzbbyanana' }));
 app.use(passport.initialize());
@@ -92,7 +110,7 @@ function isLoggedIn(req,res,next) {
     res.locals.loggedIn = true
     return next();
   } else {
-    console.log("user has not been auntheticated...");
+    console.log("user has not been authenticated...");
     res.redirect('/login');
   }
 }
@@ -120,7 +138,6 @@ app.use((req,res,next) => {
   next();
 })
 
-
 // =====================================
 // GOOGLE ROUTES =======================
 // =====================================
@@ -131,13 +148,41 @@ app.use((req,res,next) => {
 //Google to get authenticated. Then, it will send the browser back to /login/authorized page
 app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
 
-
 app.get('/login/authorized',
         passport.authenticate('google', {
                 successRedirect : '/',
                 failureRedirect : '/loginerror'
         }));
 
+app.post('/webhook', PartnersShuttleController.respondToDF);
+
+// console.log(new Date(Date.UTC(2019, 7, 18)+86400000))
+
+EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 7, 18, 12)), new Date(Date.UTC(2019, 7, 19, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
+//The above line creates one VanDay on August 18th 2019 at 8:00AM EDT
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusVan")
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusShuttle")
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "walthamVan")
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "walthamShuttle")
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "cambridgeShuttle")
+
+// Query.getStopNames(2010)
+// .then(stops => console.log(stops))
+
+// nowExact = new Date()
+// console.log("nowExact.getYear(): "+nowExact.getYear())
+// console.log("nowExact.getMonth(): "+nowExact.getMonth())
+// console.log("nowExact.getDay(): "+nowExact.getDay())
+// console.log("nowExact.getDate(): "+nowExact.getDate())
+// now = new Date(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), 4)
+// console.log("now: "+now)
+//
+// today = new Date()
+// console.log(new Date(Date.UTC(2000, 0, 1, 0, 45)))
+// console.log(today)
+
+// EnterVanDays.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,true,true,true,true,true,false], 2010, "campusVan")
+// EnterVanDays.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [true,false,false,false,false,false,true], 2011, "campusVan")
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
