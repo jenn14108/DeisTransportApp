@@ -15,7 +15,7 @@
     "http-errors": "~1.6.2",
     "mongo": "^0.1.0",
     "mongodb": "^3.0.10",
-    "mongoose": "^5.2.3",
+    "mongoose": "^5.2.4",
     "morgan": "~1.9.0",
     "ngrok": "^3.0.1",
     "passport": "^0.4.0",
