@@ -28,11 +28,12 @@ console.log('API server listening...');
 
 
 // here is where we connect to the database!
-mongoose.connect( 'mongodb://localhost/DeisTransportApp' );
+const mongoDB = process.env.MONGO_URI || 'mongodb://localhost/DeisTransportApp'
+mongoose.connect( mongoDB ,{useNewUrlParser: true})
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  console.log("we are connected!")
+  // console.log("we are connected!")
 });
 
 // view engine setup
