@@ -6,7 +6,7 @@ block content
     .container
       .row.text-center
         h2.section-title Tracker
-        p.section-description This page allows you to track various vans and shuttles provided by Brandeis
+        p.section-description This page allows you to track various vans and shuttles provided by Brandeis.
 
         script(type='text/javascript').
           var transloc_bgcolor = 'EEEBE2';
@@ -35,7 +35,7 @@ block content
           h2.section-title Get an ETA
           p.sectiond-description Enter some stop info to get when the next shuttle will arrive
         .col-md-8.col-md-offset-2
-          form#eta.form(method="post" role="form")
+          form#eta.form(method="post" role="form" action="getEstimate")
             .row
               .col-md-6.form-group
                 select.form-control#route(name="route" placeholder="Choose a van")
@@ -48,20 +48,12 @@ block content
               .col-md-6.form-group
                 select.form-control#stop(name="stop" placeholder="Select a stop")
                   option Select a stop
-                  //- option(value="rabb") Rabb Bus Stop
-                  //- option(value="hlot") Hassenfeld Lot
-                  //- option(value="tlot") Theatre Lot
-                  //- option(value="mainentrance") Main Entrance
-                  //- option(value="grad") Lower Charles River Road
-                  //- option(value="glot") Charles River Lot
-                  //- option(value="lemberg") Lemberg Children's Center
-                  //- option(value="mods") Foster Apartments (Mods)
             br
             .row
               .col-md-12.form-group.text-center
-                button.btn.btn-primary(type="submit") Get ETA
+                button.btn.btn-primary(type="submit" value="submit") Get ETA
         .row
-          table.table.table-dark
+          table#disp.table.table-dark
             thead
               tr
                 th(scope="col") #

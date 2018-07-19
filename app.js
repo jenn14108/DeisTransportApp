@@ -14,6 +14,7 @@ const
  mainPageRouter = require('./routes/mainPageRouter');
  trackerController = require('./controllers/trackerController');
  reservationController = require('./controllers/reservationController');
+ schedulesController = require('./controllers/schedulesController');
  VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  //Set up needed variables in order to do authentication
  //GoogleStrategy = require('passport-google-oauth').OAuth25Strategy; --> in cofig/passport.js
@@ -56,6 +57,8 @@ app.post('/webhook', VanShuttleSchedulesController.check_parameters,
 app.use('/', mainPageRouter);
 app.get('/reserve', reservationController.renderMain);
 app.get('/tracker', trackerController.renderMain);
+app.post('/getEstimate', trackerController.getEstimate);
+app.get('/schedules', schedulesController.renderMain);
 
 // Authentication must have these three middleware in this order!
 app.use(session({ secret: 'zzbbyanana' }));
