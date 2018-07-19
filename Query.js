@@ -33,7 +33,7 @@ exports.getTimesForStop = function getTimesForStop(sched_id, stopName)
 exports.getNextTime = function getNextTime(sched_id, stopName)
 {
   nowExact = new Date()
-  now = new Date(2000, 0, 1, nowExact.getHours(), nowExact.getMinutes())
+  now = new Date(Date.UTC(2000, 0, 1, nowExact.getHours(), nowExact.getMinutes()))
   return this.getTimesForStop(sched_id, stopName)
   .then(times =>
   {
@@ -61,7 +61,7 @@ exports.getNextTime = function getNextTime(sched_id, stopName)
 exports.getVanScheduleID = function getVanScheduleID(vanName) //campusVan, walthamVan, walthamShuttle, campusShuttle, cambridgeShuttle
 {
   nowExact = new Date()
-  now = new Date(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), 4)
+  now = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate()))
 
   return VanDay.findOne({date: now})
   .then(vanday => console.log(vanday))

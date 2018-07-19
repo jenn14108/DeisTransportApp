@@ -71,7 +71,9 @@ app.use('/', function(req, res, next) {
   res.render('index', { title: 'BranVan App' });
 });
 
+// console.log(new Date(Date.UTC(2019, 7, 18)+86400000))
 
+EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 7, 18)), new Date(Date.UTC(2019, 7, 19)), [true,true,true,true,true,true,true], 0, "campusVan")
 
 // EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusVan")
 // EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusShuttle")
@@ -93,8 +95,7 @@ app.use('/', function(req, res, next) {
 // today = new Date()
 // console.log(new Date(Date.UTC(2000, 0, 1, 0, 45)))
 // console.log(today)
-nowUTC = new Date(Date.UTC())
-console.log(nowUTC)
+
 
 // EnterVanDays.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,true,true,true,true,true,false], 2010, "campusVan")
 // EnterVanDays.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [true,false,false,false,false,false,true], 2011, "campusVan")

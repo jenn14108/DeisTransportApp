@@ -1,6 +1,6 @@
 exports.enterVanDays = function enterVanDays(start_date, end_date, days, sched_id, van_name)
 {
-  for(let date = start_date; date <= end_date; date = new Date(date.setDate(date.getDate() + 1)))
+  for(let date = start_date; date <= end_date; date = new Date(Date.UTC(date + 86400000)))
   {
     if (days[date.getDay()])
     {
@@ -25,7 +25,7 @@ exports.enterVanDays = function enterVanDays(start_date, end_date, days, sched_i
               array[i] = {van : van_name, schedule_id: sched_id}
             }
 
-            vanday.save().then().catch(err => console.log("err"+err))  //save the new entry
+            vanday.save().then().catch(err => console.log("err1"+err))  //save the new entry
           }
           else //if there is not a day already
           {
@@ -35,7 +35,7 @@ exports.enterVanDays = function enterVanDays(start_date, end_date, days, sched_i
               date: date,
               schedule_by_van: [{van: van_name, schedule_id: sched_id}]
             })
-            new_vanday.save().then().catch(err => console.log("err"+err))  //save the new entry
+            new_vanday.save().then().catch(err => console.log("err2"+err))  //save the new entry
           }
         }
       )
