@@ -120,7 +120,7 @@ exports.respondToDF = (req, res) => {
                 if (arrival_times[0] == undefined ){
                   response.fulfillmentText = "Sorry, the " + route + " shuttle does not currently stop at " + stop
                 } else {
-                  response.fulfillmentText = "The next " + route + " shuttle to " + stop + " will arrive at " + result[0];
+                  response.fulfillmentText = "The next " + route + " shuttle to " + stop + " will arrive at " + result[0].substring(11,16);
                 }
                 res.json(response);
               }
