@@ -4,11 +4,9 @@ const campusVanSchedule = require("../models/CampusVanSchedule");
 const dayTimeCampusShuttleSchedule = require("../models/DayTimeCampusShuttleSchedule");
 const daytimeWalthamShuttleSchedule = require("../models/DaytimeWalthamShuttleSchedule");
 const eveningWalthamVanSchedule = require("../models/EveningWalthamVanSchedule");
-const scheduleQueryParameters = require("../models/scheduleQueryParameters.js");
 const mongoose = require( 'mongoose' );
 const db = mongoose.connection;
 
-=======
 // const bostonCambridgeShuttleSchedule = require("../models/bostonCambridgeShuttleSchedule");
 // const campusVanSchedule = require("../models/CampusVanSchedule");
 // const dayTimeCampusShuttleSchedule = require("../models/DayTimeCampusShuttleSchedule");
