@@ -33,6 +33,7 @@ const
  EnterVanDays = require('./EnterVanDays');
  EnterSchedule = require('./EnterSchedule')
  Query = require('./Query')
+ transloc_key = process.env.TRANSLOC_KEY;
 
 console.log('API server listening...');
 

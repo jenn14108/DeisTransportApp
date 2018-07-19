@@ -1,12 +1,11 @@
 'use strict';
 var Session = require('../models/session');
+var async = require('async');
 console.log("loading the PartnersShuttleController..");
 
 exports.renderMain = (req,res) => {
   res.render('schedules', {title: 'Schedules'});
 };
-
-var async = require('async');
 
 exports.respondToDF = (req, res) => {
   const intent = req.body.queryResult.intent.displayName;
@@ -127,8 +126,8 @@ exports.respondToDF = (req, res) => {
             })
           }
         });
-
         break;
+
     case "get_closest_stop":
         Session.findOne({session : session_id} , function (err, session_obj) {
           if (err || !session_obj){
