@@ -15,6 +15,8 @@ const
  mainPageRouter = require('./routes/mainPageRouter');
  trackerController = require('./controllers/trackerController');
  reservationController = require('./controllers/reservationController');
+ schedulesController = require('./controllers/schedulesController');
+ VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  PartnersShuttleController = require('./controllers/PartnersShuttleController');
  //VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  //Set up needed variables in order to do authentication
@@ -31,6 +33,7 @@ const
  EnterVanDays = require('./EnterVanDays');
  EnterSchedule = require('./EnterSchedule')
  Query = require('./Query')
+ transloc_key = process.env.TRANSLOC_KEY;
 
 console.log('API server listening...');
 
@@ -42,7 +45,6 @@ const mongoDB = process.env.MONGO_URI //|| 'mongodb://localhost/DeisTransportApp
 console.log(mongoDB)
 mongoose.connect( mongoDB ,{useNewUrlParser: true})
 const db = mongoose.connection;
-mongoose.Promise = global.Promise;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // console.log("we are connected!")
@@ -74,6 +76,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', mainPageRouter);
 app.get('/reserve', reservationController.renderMain);
 app.get('/tracker', trackerController.renderMain);
+app.post('/getEstimate', trackerController.getEstimate);
 app.get('/schedules', PartnersShuttleController.renderMain);
 
 // if(req.isAuthenticated()) res.locals.isLoggedIn = true;

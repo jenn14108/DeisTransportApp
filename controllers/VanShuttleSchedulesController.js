@@ -1,25 +1,13 @@
 'use strict';
-<<<<<<< HEAD
 const bostonCambridgeShuttleSchedule = require("../models/bostonCambridgeShuttleSchedule");
 const campusVanSchedule = require("../models/CampusVanSchedule");
 const dayTimeCampusShuttleSchedule = require("../models/DayTimeCampusShuttleSchedule");
-const daytimeWalthamShuttleSchedule = require("../models/DayTimeWalthamShuttleSchedule");
+const daytimeWalthamShuttleSchedule = require("../models/DaytimeWalthamShuttleSchedule");
 const eveningWalthamVanSchedule = require("../models/EveningWalthamVanSchedule");
-const scheduleQueryParameters = require("../models/scheduleQueryParameters.js");
 const mongoose = require( 'mongoose' );
 const db = mongoose.connection;
 
-=======
-// const bostonCambridgeShuttleSchedule = require("../models/bostonCambridgeShuttleSchedule");
-// const campusVanSchedule = require("../models/CampusVanSchedule");
-// const dayTimeCampusShuttleSchedule = require("../models/DayTimeCampusShuttleSchedule");
-// const daytimeWalthamShuttleSchedule = require("../models/DaytimeWalthamShuttleSchedule");
-// const eveningWalthamVanSchedule = require("../models/EveningWalthamVanSchedule");
-// const scheduleQueryParameters = require("../models/scheduleQueryParameters.js");
-// const mongoose = require( 'mongoose' );
-// const db = mongoose.connection;
 console.log("loading the VanShuttleScheduleController");
->>>>>>> 5a0a12463799bd9e9c014b3c22eadc581ab58b27
 
 
 exports.renderMain = (req,res) => {
@@ -39,7 +27,7 @@ exports.respondToDF = (req, res) => {
   if (req.body.queryResult.intent.displayName === "temp_get_harvard"){
     var output_string = "Here is a list of all vehicles offered by Harvard: \n";
     unirest.get("https://transloc-api-1-2.p.mashape.com/routes.json?agencies=52&callback=call")
-    .header("X-Mashape-Key", "86AEb09Skcmsho1ePNIfntZuwRjPp1ywZqkjsnH74xl90S0OWI")
+    .header("X-Mashape-Key", transloc_key)
     .header("Accept", "application/json")
     .end(function (result) {
       for (var i = 0; i < result.body.data['52'].length; i++){
@@ -55,7 +43,7 @@ exports.respondToDF = (req, res) => {
     var output_string = "Here are the current active vehicles: \n";
     var vehicles = "";
     unirest.get("https://transloc-api-1-2.p.mashape.com/routes.json?agencies=52&callback=call")
-    .header("X-Mashape-Key", "86AEb09Skcmsho1ePNIfntZuwRjPp1ywZqkjsnH74xl90S0OWI")
+    .header("X-Mashape-Key", transloc_key)
     .header("Accept", "application/json")
     .end(function (result) {
         for (var i = 0; i < result.body.data['52'].length; i++){
@@ -93,7 +81,7 @@ exports.respondToDF = (req, res) => {
     var vehicles = "";
     console.log("THIS IS THE ID:  " + agency_id);
     unirest.get("https://transloc-api-1-2.p.mashape.com/routes.json?agencies=" + agency_id + "&callback=call")
-    .header("X-Mashape-Key", "86AEb09Skcmsho1ePNIfntZuwRjPp1ywZqkjsnH74xl90S0OWI")
+    .header("X-Mashape-Key", transloc_key)
     .header("Accept", "application/json")
     .end(function (result) {
         for (var i = 0; i < result.body.data[agency_id].length; i++){
