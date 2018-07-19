@@ -7,9 +7,13 @@ var SessionSchema = new Schema(
             type: String,
             required: true,
         },
-        keyword: {
+        stop: {
             type: String,
-            required: true,
+            required: false,
+        },
+        route: {
+            type: String,
+            required: false,
         },
     }
 );

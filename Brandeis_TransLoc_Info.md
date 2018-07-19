@@ -348,7 +348,7 @@ Routes
 
 	2.
 		short_name: Yellow
-		long_name: Campus Branvan (active at 10am each day in the sumemr)
+		long_name: Campus Branvan
 		route_id: 4004826
 		stops (stop ids) :
 		  4144918,

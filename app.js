@@ -49,13 +49,14 @@ app.use(cookieParser());
 // so don't name your routes so they conflict with the public folders
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+//app.use(checkLoggedIn);
 app.use('/', mainPageRouter);
 app.get('/reserve', reservationController.renderMain);
 app.get('/tracker', trackerController.renderMain);
 app.get('/schedules', PartnersShuttleController.renderMain);
 
-
+// if(req.isAuthenticated()) res.locals.isLoggedIn = true;
+// next();
 // Authentication must have these three middleware in this order!
 app.use(session({ secret: 'zzbbyanana' }));
 app.use(passport.initialize());

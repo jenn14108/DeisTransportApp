@@ -94,11 +94,11 @@ Routes
       route_id: 4009474
       long_name: MGH – Revere Health Ctr
       stops: [
-        4199210
+        4199210 : MGH (Blossom St.) Gray Doors
         4199430 : 300 Broadway
-        4199484
-        4199452
-        4199428
+        4199484 : Revere Health Ctr (385 Broadway)
+        4199452 : Revere Health Ctr (300 Ocean Ave.)
+        4199428 : Chelsea Health Ctr (151 Everett Ave.)
         4199426 : Bellingham Sq.
       ]
 
@@ -106,20 +106,20 @@ Routes
       route_id: 4009476
       long_name: MGH – Parking Lots
       stops: [
-        4199236
+        4199236 : MGH (125 Nashua St. - Rear)
         4199240 : Museum of Science
-        4199246
-        4199210
+        4199246 : MEEI (Charles St.)
+        4199210 : MGH (Blossom St.) Gray Doors
         4199242 : Haymarket
-        4199266
-        4199264
+        4199266 : TD Garden - Garage
+        4199264 : MGH (Nashua St. - Lot)
       ]
 
 11.   short_name: 19
       route_id: 4009478
       long_name: MGH – Nashua St.
       stops: [
-        4199264 : MGH (Nashua St. - Lot)
+        4199264 : MGH (Nashua St. - Lot)    
         4199236 : MGH (125 Nashua St. - Rear)
         4199210 : MGH (Blossom St.) Gray Doors
       ]
@@ -277,10 +277,10 @@ Routes
 27.   short_name: 16
       route_id: 4009724
       long_name: MGH – Chelsea Imaging
-      stops: [
-        4199504
-        4199494
-        4199428
+      stops: [       
+        4199504 : MGH - Wang Building
+        4199494 : Chelsea Imaging (80 Everett Ave.)
+        4199428 : Chelsea Health Ctr (151 Everett Ave.)
       ]
 
 28.   short_name: 5
