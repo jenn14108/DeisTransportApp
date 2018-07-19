@@ -1,12 +1,11 @@
 'use strict';
 var Session = require('../models/session');
+var async = require('async');
 console.log("loading the PartnersShuttleController..");
 
 exports.renderMain = (req,res) => {
   res.render('schedules', {title: 'Schedules'});
 };
-
-var async = require('async');
 
 exports.respondToDF = (req, res) => {
   const intent = req.body.queryResult.intent.displayName;
@@ -63,7 +62,7 @@ exports.respondToDF = (req, res) => {
               function(callback){
                 //get all the Partners routes
                 unirest.get("https://transloc-api-1-2.p.mashape.com/routes.json?agencies=707&callback=call")
-                .header("X-Mashape-Key", "86AEb09Skcmsho1ePNIfntZuwRjPp1ywZqkjsnH74xl90S0OWI")
+                .header("X-Mashape-Key", transloc_key)
                 .header("Accept", "application/json")
                 .end(function (result) {
                   for (var i = 0; i < result.body.data['707'].length; i++){
@@ -81,7 +80,7 @@ exports.respondToDF = (req, res) => {
               function(route_id, callback){
                 //get all the Partners stops since cannot query by route_id
                 unirest.get("https://transloc-api-1-2.p.mashape.com/stops.json?agencies=707&callback=call")
-                .header("X-Mashape-Key", "86AEb09Skcmsho1ePNIfntZuwRjPp1ywZqkjsnH74xl90S0OWI")
+                .header("X-Mashape-Key", transloc_key)
                 .header("Accept", "application/json")
                 .end(function (result) {
                   for (var i = 0; i < result.body.data.length; i++){
@@ -97,7 +96,7 @@ exports.respondToDF = (req, res) => {
               function(route_id, stop_id, callback){
                 //finally, get arrival estimate
                 unirest.get("https://transloc-api-1-2.p.mashape.com/arrival-estimates.json?agencies=707&callback=call&routes=" + route_id + "&stops=" + stop_id)
-                .header("X-Mashape-Key", "86AEb09Skcmsho1ePNIfntZuwRjPp1ywZqkjsnH74xl90S0OWI")
+                .header("X-Mashape-Key", transloc_key)
                 .header("Accept", "application/json")
                 .end(function (result) {
                   if(result.body.data[0] !== undefined){
@@ -127,8 +126,8 @@ exports.respondToDF = (req, res) => {
             })
           }
         });
-
         break;
+
     case "get_closest_stop":
         Session.findOne({session : session_id} , function (err, session_obj) {
           if (err || !session_obj){

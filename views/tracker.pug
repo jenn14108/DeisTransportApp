@@ -1,24 +1,119 @@
 extends layout
 
 block content
-  .jumbotron
-    h1 Tracker
-    p This page allows you to track various vans and shuttles provided by Brandeis
+  //-section:Services
+  .section
+    .container
+      .row.text-center
+        h2.section-title Tracker
+        p.section-description This page allows you to track various vans and shuttles provided by Brandeis.
 
-    script(type='text/javascript').
-      var transloc_bgcolor = 'EEEBE2';
+        script(type='text/javascript').
+          var transloc_bgcolor = 'EEEBE2';
 
-    // TransLoc Real-Time Tracking
-    script(src='//brandeis.transloc.com/embed.js', type='text/javascript')
-    noscript
-      | Track your ride online with the TransL&omacr;c Real-Time Tracking app.  See in real-time where all vehicles are.
-      br
-      | Choose your map mode:
-      a(href='https://brandeis.transloc.com', title='The live location map') TransL&omacr;c Real-Time Tracking
-      |  |
-      a(href='https://brandeis.transloc.com/info/mobile', title='TransLōc Tracking for your mobile phone') Mobile Access
-      |  |
-      a(href='https://brandeis.transloc.com/t/', title='An accessible Tracking app') Text Version
-      |  |
-      a(href='https://brandeis.transloc.com/announcements/', title='Read announcements that are impacting service') Announcements
-    // DO NOT EDIT ABOVE!!! 
+        //- TransLoc Real-Time Tracking
+        script(src='//brandeis.transloc.com/embed.js', type='text/javascript')
+        noscript
+          | Track your ride online with the TransL&omacr;c Real-Time Tracking app.  See in real-time where all vehicles are.
+          br
+          | Choose your map mode:
+          a(href='https://brandeis.transloc.com', title='The live location map') TransL&omacr;c Real-Time Tracking
+          |  |
+          a(href='https://brandeis.transloc.com/info/mobile', title='TransLōc Tracking for your mobile phone') Mobile Access
+          |  |
+          a(href='https://brandeis.transloc.com/t/', title='An accessible Tracking app') Text Version
+          |  |
+          a(href='https://brandeis.transloc.com/announcements/', title='Read announcements that are impacting service') Announcements
+        //- DO NOT EDIT ABOVE!!! 
+  //-form *WILL ADD DYNAMIC DROPDOWNS
+  // /.section
+  // START SECTION
+  .section
+    .container
+      .row
+        .col-md-12.text-center 
+          h2.section-title Get an ETA
+          p.sectiond-description Enter some stop info to get when the next shuttle will arrive
+        .col-md-8.col-md-offset-2
+          form#eta.form(method="post" role="form" action="getEstimate")
+            .row
+              .col-md-6.form-group
+                select.form-control#route(name="route" placeholder="Choose a van")
+                  option Select a van
+                  option(value="campus") Campus BranVan
+                  option(value="daycampusshuttle") Daytime Campus Shuttle
+                  option(value="daywaltham") Daytime Waltham Shuttle
+                  option(value="eveningwaltham") Evening Waltham Shuttle
+                  option(value="boston") Boston/Cambridge Shuttle 
+              .col-md-6.form-group
+                select.form-control#stop(name="stop" placeholder="Select a stop")
+                  option Select a stop
+            br
+            .row
+              .col-md-12.form-group.text-center
+                button.btn.btn-primary(type="submit" value="submit") Get ETA
+        .row
+          table#disp.table.table-dark
+            thead
+              tr
+                th(scope="col") #
+                th(scope="col") Shuttle
+                th(scope="col") ETA (next)
+                th(scope="col") ETA (subsequent)
+            tbody
+              tr
+                th(scope="row") 1
+                td 
+                td 
+                td 
+              tr
+                th(scope="row") 2
+                td 
+                td 
+                td 
+              tr
+                th(scope="row") 3
+                td 
+                td 
+                td  
+                
+                
+  script(type="text/javascript" language="javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
+  script(type="text/javascript").
+    $("#route").change(function() {
+
+      var $dropdown = $(this);
+      var key = $dropdown.val();
+      var whichRoute = "";
+      if (key == "campus") {
+        whichRoute = "/JSON_Schedules/campusVanSchedule.json"
+      } else if (key == "daycampusshuttle") {
+        whichRoute = "/JSON_Schedules/DayTimeCampusShuttleSchedule.json"
+      } else if (key == "daywaltham") {
+        whichRoute = "/JSON_Schedules/DaytimeWalthamShuttleSchedule.json"
+      } else if (key == "eveningwaltham") {
+        whichRoute = "/JSON_Schedules/EveningWalthamVanSchedule.json"
+      } else if (key == "boston") {
+        whichRoute = "/JSON_Schedules/BostonCambridgeShuttleFriSchedule.json"
+      }
+      
+      var vals = [];
+      
+      $(document).ready(function(e) {
+        $.getJSON( whichRoute , function( data ){
+          for (var i = 0; i < data.length; i++) {
+            vals[i] = data[i].stop
+            }
+            
+            var $stop = $("#stop");
+            $("#stop option").remove();
+            $('<option>Select a stop</option>').appendTo("#stop")
+            for (var j = 0; j < vals.length; j++) {
+              console.log(vals[j])
+              $('<option value="' + vals[j] + '">' + vals[j] + '</option>').appendTo("#stop")
+              }  
+        });
+      }); 
+    
+               
+    }); 

@@ -15,6 +15,8 @@ const
  mainPageRouter = require('./routes/mainPageRouter');
  trackerController = require('./controllers/trackerController');
  reservationController = require('./controllers/reservationController');
+ schedulesController = require('./controllers/schedulesController');
+ VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  PartnersShuttleController = require('./controllers/PartnersShuttleController');
  //VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  //Set up needed variables in order to do authentication
@@ -24,18 +26,39 @@ const
  configPassport = require('./config/passport');
  configPassport(passport);
  app = express();
+ VanDaySchema = require('./models/VanDaySchema')
+ VanDay = mongoose.model("vanday", VanDaySchema)
+ ScheduleSchema = require('./models/ScheduleSchema')
+ Schedule = mongoose.model("schedule", ScheduleSchema)
+ EnterVanDays = require('./EnterVanDays');
+ EnterSchedule = require('./EnterSchedule')
+ Query = require('./Query')
+ transloc_key = process.env.TRANSLOC_KEY;
 
 console.log('API server listening...');
 
-// connect to database
-mongoose.connect( 'mongodb://localhost/DeisTransportApp' );
+
+//mongoose.connect( mongoDB, function(err, db) {
+//{ useNewUrlParser: true }
+// here is where we connect to the database!
+const mongoDB = process.env.MONGO_URI //|| 'mongodb://localhost/DeisTransportApp'
+console.log(mongoDB)
+mongoose.connect( mongoDB ,{useNewUrlParser: true})
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  console.log("we are connected!")
+  // console.log("we are connected!")
 });
 
-// view engine setup
+
+// console.log(Query.getSchedule(1010))
+// Query.getSchedule(1010).then(response => console.log(response)).catch(err => console.log("err2: "+err))
+Query.getTimesForStop(1010, "Rabb").then(response => console.log(response)).catch(err => console.log("err2: "+err))
+// Query.getNextTime(2010, "Rabb").then(response => console.log(response.toLocaleTimeString())).catch(err => console.log("err2: "+err))
+// Query.getVanScheduleID("campusVan")
+
+
+// viewengine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -53,6 +76,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', mainPageRouter);
 app.get('/reserve', reservationController.renderMain);
 app.get('/tracker', trackerController.renderMain);
+app.post('/getEstimate', trackerController.getEstimate);
 app.get('/schedules', PartnersShuttleController.renderMain);
 
 // if(req.isAuthenticated()) res.locals.isLoggedIn = true;
@@ -133,6 +157,46 @@ app.get('/login/authorized',
         }));
 
 app.post('/webhook', PartnersShuttleController.respondToDF);
+
+// console.log(new Date(Date.UTC(2019, 7, 18)+86400000))
+var start = new Date(Date.UTC(2018, 6, 19, 12))
+var end = new Date(Date.UTC(2018, 6, 19, 12))
+console.log("start:   "+start)
+console.log("end:     "+end)
+
+// EnterVanDays.enterVanDays(start, end, [true,true,true,true,true,true,true], 2010, "campusVan")
+
+//The above line creates one VanDay on August 18th 2019 at 8:00AM EDT
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusVan")
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusShuttle")
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "walthamVan")
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "walthamShuttle")
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "cambridgeShuttle")
+
+// Query.getStopNames(2010)
+// .then(stops => console.log(stops))
+
+// nowExact = new Date()
+// console.log("nowExact.getYear(): "+nowExact.getYear())
+// console.log("nowExact.getMonth(): "+nowExact.getMonth())
+// console.log("nowExact.getDay(): "+nowExact.getDay())
+// console.log("nowExact.getDate(): "+nowExact.getDate())
+// now = new Date(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), 4)
+// console.log("now: "+now)
+//
+// today = new Date()
+// console.log(new Date(Date.UTC(2000, 0, 1, 0, 45)))
+// console.log(today)
+// Query.getNextTime(1010, "Usdan").then(response => console.log(response)).catch(err => console.log("err2: "+err))
+// Query.getVanScheduleID("campusVan").then(response => console.log("route ID: "+response)).catch(err => console.log("err2: "+err))
+Query.getNextTimeForVan("campusVan", "Rabb").then(response => console.log("next van is at: "+response)).catch(err => console.log("err2: "+err))
+
+// EnterVanDays.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,true,true,true,true,true,false], 2010, "campusVan")
+// EnterVanDays.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [true,false,false,false,false,false,true], 2011, "campusVan")
+
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
