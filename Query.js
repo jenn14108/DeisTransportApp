@@ -61,12 +61,33 @@ exports.getNextTime = function getNextTime(sched_id, stopName)
 exports.getVanScheduleID = function getVanScheduleID(vanName) //campusVan, walthamVan, walthamShuttle, campusShuttle, cambridgeShuttle
 {
   nowExact = new Date()
-  console.log("nowExact.getYear(): "+nowExact.getYear())
-  console.log("nowExact.getMonth(): "+nowExact.getMonth())
-  console.log("nowExact.getDay(): "+nowExact.getDay())
-  now = new Date(nowExact.getYear(), nowExact.getMonth(), nowExact.getDay(), 4)
-  console.log("now: "+now)
+  now = new Date(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), 4)
+
   return VanDay.findOne({date: now})
   .then(vanday => console.log(vanday))
   .catch(err => console.log("error: "+err))
 }
+
+exports.getStopNames = function getStopNames(sched_id)
+{
+  return Schedule.findOne({schedule_id: sched_id})
+  .then(Schedule =>
+  {
+    var array = []
+    for (var i = 0; i < Schedule.stops.length; i++)
+    {
+      array.push(Schedule.stops[i].stop)
+    }
+    return array
+  })
+}
+
+
+/**
+
+parameter: id
+return: times and stops
+
+
+
+*/

@@ -18,7 +18,6 @@ const
  ScheduleSchema = require('./models/ScheduleSchema')
  Schedule = mongoose.model("schedule", ScheduleSchema)
  EnterVanDays = require('./EnterVanDays');
- EnterVanDays2 = require('./EnterVanDays2');
  EnterSchedule = require('./EnterSchedule')
  Query = require('./Query')
 
@@ -42,7 +41,7 @@ db.once('open', function() {
 // Query.getSchedule(1010).then(response => console.log(response)).catch(err => console.log("err2: "+err))
 // Query.getTimesForStop(2010, "Rabb").then(response => console.log(response)).catch(err => console.log("err2: "+err))
 // Query.getNextTime(2010, "Rabb").then(response => console.log(response.toLocaleTimeString())).catch(err => console.log("err2: "+err))
-Query.getVanScheduleID("campusVan")
+// Query.getVanScheduleID("campusVan")
 
 
 // viewengine setup
@@ -74,8 +73,36 @@ app.use('/', function(req, res, next) {
 
 
 
-EnterVanDays2.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,false,false,false,true,true,true], 2021, "Boston")
-console.log("van day entry complete")
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusVan")
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusShuttle")
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "walthamVan")
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "walthamShuttle")
+// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "cambridgeShuttle")
+
+// Query.getStopNames(2010)
+// .then(stops => console.log(stops))
+
+// nowExact = new Date()
+// console.log("nowExact.getYear(): "+nowExact.getYear())
+// console.log("nowExact.getMonth(): "+nowExact.getMonth())
+// console.log("nowExact.getDay(): "+nowExact.getDay())
+// console.log("nowExact.getDate(): "+nowExact.getDate())
+// now = new Date(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), 4)
+// console.log("now: "+now)
+//
+// today = new Date()
+// console.log(new Date(Date.UTC(2000, 0, 1, 0, 45)))
+// console.log(today)
+nowUTC = new Date(Date.UTC())
+console.log(nowUTC)
+
+// EnterVanDays.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,true,true,true,true,true,false], 2010, "campusVan")
+// EnterVanDays.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [true,false,false,false,false,false,true], 2011, "campusVan")
+
+
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

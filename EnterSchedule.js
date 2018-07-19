@@ -15,13 +15,3 @@ exports.enterSchedule = function enterSchedule(sched_id, stopsVar)
   })
   async.parallel(function_list, function(err, results){if(err){console.log(err);} else {console.log('done!');}})
 }
-
-/**
-var ScheduleSchema = mongoose.Schema({
-  schedule_id: Number,
-  stops: [{
-    stop: String,
-    times: [Date]
-  }]
-});
-*/

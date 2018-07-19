@@ -1,3 +1,5 @@
+//EnterSchedule.enterSchedule(sched_id, stopsVar)
+
 var sched_id = 1020
 var stopsVar =
 [

@@ -1,4 +1,5 @@
-
+//EnterSchedule.enterSchedule(sched_id, stopsVar)
+//WEEKDAYS
 
 var sched_id = 2010
 var stopsVar =
@@ -523,7 +524,35 @@ var stopsVar =
       new Date(Date.UTC(2000, 0, 1, 16, 12)),
       new Date(Date.UTC(2000, 0, 1, 16, 27)),
       new Date(Date.UTC(2000, 0, 1, 16, 42)),
-      new Date(Date.UTC(2000, 0, 1, 16, 57))
+      new Date(Date.UTC(2000, 0, 1, 16, 57)),
+      new Date(Date.UTC(2000, 0, 1, 17, 12)),
+      new Date(Date.UTC(2000, 0, 1, 17, 27)),
+      new Date(Date.UTC(2000, 0, 1, 17, 42)),
+      new Date(Date.UTC(2000, 0, 1, 17, 57)),
+      new Date(Date.UTC(2000, 0, 1, 18, 12)),
+      new Date(Date.UTC(2000, 0, 1, 18, 27)),
+      new Date(Date.UTC(2000, 0, 1, 18, 42)),
+      new Date(Date.UTC(2000, 0, 1, 18, 57)),
+      new Date(Date.UTC(2000, 0, 1, 19, 12)),
+      new Date(Date.UTC(2000, 0, 1, 19, 27)),
+      new Date(Date.UTC(2000, 0, 1, 19, 42)),
+      new Date(Date.UTC(2000, 0, 1, 19, 57)),
+      new Date(Date.UTC(2000, 0, 1, 20, 12)),
+      new Date(Date.UTC(2000, 0, 1, 20, 27)),
+      new Date(Date.UTC(2000, 0, 1, 20, 42)),
+      new Date(Date.UTC(2000, 0, 1, 20, 57)),
+      new Date(Date.UTC(2000, 0, 1, 21, 12)),
+      new Date(Date.UTC(2000, 0, 1, 21, 27)),
+      new Date(Date.UTC(2000, 0, 1, 21, 42)),
+      new Date(Date.UTC(2000, 0, 1, 21, 57)),
+      new Date(Date.UTC(2000, 0, 1, 22, 12)),
+      new Date(Date.UTC(2000, 0, 1, 22, 27)),
+      new Date(Date.UTC(2000, 0, 1, 22, 42)),
+      new Date(Date.UTC(2000, 0, 1, 22, 57)),
+      new Date(Date.UTC(2000, 0, 1, 23, 12)),
+      new Date(Date.UTC(2000, 0, 1, 23, 27)),
+      new Date(Date.UTC(2000, 0, 1, 23, 42)),
+      new Date(Date.UTC(2000, 0, 1, 23, 57))
     ]
   }
 ]
