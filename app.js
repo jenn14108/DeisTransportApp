@@ -73,7 +73,7 @@ app.use('/', function(req, res, next) {
 
 // console.log(new Date(Date.UTC(2019, 7, 18)+86400000))
 
-EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 7, 18)), new Date(Date.UTC(2019, 7, 19)), [true,true,true,true,true,true,true], 0, "campusVan")
+EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 7, 18, 12)), new Date(Date.UTC(2019, 7, 19, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
 
 // EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusVan")
 // EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusShuttle")
