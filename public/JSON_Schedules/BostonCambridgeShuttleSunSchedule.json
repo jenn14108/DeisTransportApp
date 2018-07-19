@@ -1,0 +1,12 @@
+[{ "day" : "Sunday",
+  "stop" : "Usdan",
+  "arrival_times" : [{"time" :9.00}, {"time" :10.30}, {"time" :12.30}, {"time" : 2.00},
+                    {"time" : 3.30}, {"time" : 5.00}, {"time" : 6.30}, {"time" : 8.00}, {"time" :9.30}]},
+{ "day" : "Sunday",
+  "stop" : "Harvard Square",
+  "arrival_times" : [{"time" :9.30}, {"time" :11.00}, {"time" :1.00}, {"time" : 2.30},
+                    {"time" : 4.00}, {"time" : 5.30}, {"time" : 7.00}, {"time" : 8.30}, {"time" :10.00}]},
+{ "day" : "Sunday",
+  "stop" : "Marlborough/Mass Ave.",
+  "arrival_times" : [{"time" :9.45}, {"time" :11.15}, {"time" :1.15}, {"time" : 2.45},
+                    {"time" : 4.15}, {"time" : 5.45}, {"time" : 7.15}, {"time" : 8.45}, {"time" :10.15}]}]

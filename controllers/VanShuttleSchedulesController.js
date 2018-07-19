@@ -1,9 +1,8 @@
 'use strict';
-<<<<<<< HEAD
 const bostonCambridgeShuttleSchedule = require("../models/bostonCambridgeShuttleSchedule");
 const campusVanSchedule = require("../models/CampusVanSchedule");
 const dayTimeCampusShuttleSchedule = require("../models/DayTimeCampusShuttleSchedule");
-const daytimeWalthamShuttleSchedule = require("../models/DayTimeWalthamShuttleSchedule");
+const daytimeWalthamShuttleSchedule = require("../models/DaytimeWalthamShuttleSchedule");
 const eveningWalthamVanSchedule = require("../models/EveningWalthamVanSchedule");
 const scheduleQueryParameters = require("../models/scheduleQueryParameters.js");
 const mongoose = require( 'mongoose' );
@@ -19,7 +18,6 @@ const db = mongoose.connection;
 // const mongoose = require( 'mongoose' );
 // const db = mongoose.connection;
 console.log("loading the VanShuttleScheduleController");
->>>>>>> 5a0a12463799bd9e9c014b3c22eadc581ab58b27
 
 
 exports.renderMain = (req,res) => {

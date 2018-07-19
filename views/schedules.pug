@@ -1,6 +1,49 @@
 extends layout
 
 block content
-  .jumbotron
-    h1 Schedules
-    p This page allows you to look up schedules for various vans and shuttles
+  //-section:schedules
+  .section
+    .container
+      .row.text-center
+        h2.section-title Schedules
+        p.section-description This page allows you view schedules of the various shuttles provided by Brandeis.
+      .col-md-12
+        form#schdl.form(method="post" role="form" action="getSchedule")
+          .row
+            .col-md-12.form-group
+              select.form-control#van(name="schedule" placeholder="Select a van")
+                option Select a van
+                option(value="campus") Campus BranVan
+                option(value="daycampusshuttle") Daytime Campus Shuttle
+                option(value="daywaltham") Daytime Waltham Shuttle
+                option(value="eveningwaltham") Evening Waltham Shuttle
+                option(value="boston") Boston/Cambridge Shuttle
+          br
+          .row
+            .col-md-12.form-group.text-center
+              button.btn.btn-primary(type="submit" value="submit") Get Schedules
+      .row
+        table#disp.table.table-dark
+          thead
+            tr
+              th(scope="col") Stop
+              th(scope="col") PM
+              th(scope="col") PM
+              th(scope="col") AM
+          tbody
+            tr
+              th(scope="row") 
+              td 
+              td 
+              td 
+            tr
+              th(scope="row") 
+              td 
+              td 
+              td 
+            tr
+              th(scope="row") 
+              td 
+              td 
+              td          
+              

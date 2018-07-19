@@ -15,6 +15,8 @@ const
  mainPageRouter = require('./routes/mainPageRouter');
  trackerController = require('./controllers/trackerController');
  reservationController = require('./controllers/reservationController');
+ schedulesController = require('./controllers/schedulesController');
+ VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  PartnersShuttleController = require('./controllers/PartnersShuttleController');
  //VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  //Set up needed variables in order to do authentication
@@ -41,7 +43,6 @@ console.log('API server listening...');
 const mongoDB = process.env.MONGO_URI || 'mongodb://localhost/DeisTransportApp'
 mongoose.connect( mongoDB ,{useNewUrlParser: true})
 const db = mongoose.connection;
-mongoose.Promise = global.Promise;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // console.log("we are connected!")
@@ -73,6 +74,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', mainPageRouter);
 app.get('/reserve', reservationController.renderMain);
 app.get('/tracker', trackerController.renderMain);
+app.post('/getEstimate', trackerController.getEstimate);
 app.get('/schedules', PartnersShuttleController.renderMain);
 
 // if(req.isAuthenticated()) res.locals.isLoggedIn = true;
@@ -179,14 +181,8 @@ EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 7, 18, 12)), new Date(Date.UTC
 // console.log(new Date(Date.UTC(2000, 0, 1, 0, 45)))
 // console.log(today)
 
-
 // EnterVanDays.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,true,true,true,true,true,false], 2010, "campusVan")
 // EnterVanDays.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [true,false,false,false,false,false,true], 2011, "campusVan")
-
-
-
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
