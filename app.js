@@ -33,6 +33,7 @@ const
  EnterVanDays = require('./EnterVanDays');
  EnterSchedule = require('./EnterSchedule')
  Query = require('./Query')
+ transloc_key = process.env.TRANSLOC_KEY;
 
 console.log('API server listening...');
 
@@ -40,7 +41,8 @@ console.log('API server listening...');
 //mongoose.connect( mongoDB, function(err, db) {
 //{ useNewUrlParser: true }
 // here is where we connect to the database!
-const mongoDB = process.env.MONGO_URI || 'mongodb://localhost/DeisTransportApp'
+const mongoDB = process.env.MONGO_URI //|| 'mongodb://localhost/DeisTransportApp'
+console.log(mongoDB)
 mongoose.connect( mongoDB ,{useNewUrlParser: true})
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -51,7 +53,7 @@ db.once('open', function() {
 
 // console.log(Query.getSchedule(1010))
 // Query.getSchedule(1010).then(response => console.log(response)).catch(err => console.log("err2: "+err))
-// Query.getTimesForStop(2010, "Rabb").then(response => console.log(response)).catch(err => console.log("err2: "+err))
+Query.getTimesForStop(1010, "Rabb").then(response => console.log(response)).catch(err => console.log("err2: "+err))
 // Query.getNextTime(2010, "Rabb").then(response => console.log(response.toLocaleTimeString())).catch(err => console.log("err2: "+err))
 // Query.getVanScheduleID("campusVan")
 
@@ -157,8 +159,13 @@ app.get('/login/authorized',
 app.post('/webhook', PartnersShuttleController.respondToDF);
 
 // console.log(new Date(Date.UTC(2019, 7, 18)+86400000))
+var start = new Date(Date.UTC(2018, 6, 19, 12))
+var end = new Date(Date.UTC(2018, 6, 19, 12))
+console.log("start:   "+start)
+console.log("end:     "+end)
 
-EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 7, 18, 12)), new Date(Date.UTC(2019, 7, 19, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
+// EnterVanDays.enterVanDays(start, end, [true,true,true,true,true,true,true], 2010, "campusVan")
+
 //The above line creates one VanDay on August 18th 2019 at 8:00AM EDT
 // EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusVan")
 // EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusShuttle")
@@ -180,9 +187,16 @@ EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 7, 18, 12)), new Date(Date.UTC
 // today = new Date()
 // console.log(new Date(Date.UTC(2000, 0, 1, 0, 45)))
 // console.log(today)
+// Query.getNextTime(1010, "Usdan").then(response => console.log(response)).catch(err => console.log("err2: "+err))
+// Query.getVanScheduleID("campusVan").then(response => console.log("route ID: "+response)).catch(err => console.log("err2: "+err))
+Query.getNextTimeForVan("campusVan", "Rabb").then(response => console.log("next van is at: "+response)).catch(err => console.log("err2: "+err))
 
 // EnterVanDays.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,true,true,true,true,true,false], 2010, "campusVan")
 // EnterVanDays.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [true,false,false,false,false,false,true], 2011, "campusVan")
+
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
