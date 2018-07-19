@@ -57,7 +57,7 @@ db.once('open', function() {
 
 // viewengine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('viewengine', 'pug');
+app.set('view engine', 'pug');
 
 //middleware to process the req object and make it more useful!
 app.use(logger('dev'));
