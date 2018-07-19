@@ -7,11 +7,7 @@ const
  logger = require('morgan');
  bodyParser = require('body-parser');
  util = require("util");
-<<<<<<< HEAD
- unirest  = require("unirest");
-=======
  unirest = require("unirest");
->>>>>>> Jen
  //used to read JSON file into node.js to ultimately save into mongoose
  fs = require("fs");
  assert = require('assert');
@@ -31,15 +27,10 @@ const
 
 console.log('API server listening...');
 
-<<<<<<< HEAD
-
-// here is where we connect to the database!
+// here is where we connect to the database
 const mongoDB = process.env.MONGO_URI || 'mongodb://localhost/DeisTransportApp'
 mongoose.connect( mongoDB );
-=======
-// connect to database
-mongoose.connect( 'mongodb://localhost/DeisTransportApp' );
->>>>>>> Jen
+//mongoose.connect( 'mongodb://localhost/DeisTransportApp' );
 const db = mongoose.connection;
 mongoose.Promise = global.Promise;
 db.on('error', console.error.bind(console, 'connection error:'));
