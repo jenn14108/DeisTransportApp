@@ -2,6 +2,7 @@ exports.enterVanDays = function enterVanDays(start_date, end_date, days, sched_i
 {
   for(let date = start_date; date <= end_date; date = new Date(Date.UTC(date + 86400000)))
   {
+    console.log("date:    "+date)
     if (days[date.getDay()])
     {
       VanDay.findOne({date: date})
