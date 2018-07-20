@@ -1,9 +1,4 @@
 'use strict';
-const bostonCambridgeShuttleSchedule = require("../models/bostonCambridgeShuttleSchedule");
-const campusVanSchedule = require("../models/CampusVanSchedule");
-const dayTimeCampusShuttleSchedule = require("../models/DayTimeCampusShuttleSchedule");
-const daytimeWalthamShuttleSchedule = require("../models/DaytimeWalthamShuttleSchedule");
-const eveningWalthamVanSchedule = require("../models/EveningWalthamVanSchedule");
 const mongoose = require( 'mongoose' );
 const db = mongoose.connection;
 

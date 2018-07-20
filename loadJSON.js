@@ -1,3 +1,5 @@
+//this is used to load all JSON files into local mongoDB
+
 //create datasets for all shuttles
 var dayTimeWalthamVan = readJSONFile("./JSON_Schedules/DaytimeWalthamShuttleSchedule.json");
 var campusVan = readJSONFile("./JSON_Schedules/CampusVanSchedule.json");

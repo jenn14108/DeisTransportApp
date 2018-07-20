@@ -295,11 +295,7 @@ Stops
     60.
         code: 165
         stop_id: 4212054
-<<<<<<< HEAD
         name: Moody St at Crescent St
-=======
-        name: Moody St at Crescant St
->>>>>>> Ek
     61.
         code: 166
         stop_id: 4212056
@@ -352,11 +348,7 @@ Routes
 
 	2.
 		short_name: Yellow
-<<<<<<< HEAD
 		long_name: Campus Branvan
-=======
-		long_name: Campus Branvan (active at 10am each day in the sumemr)
->>>>>>> Ek
 		route_id: 4004826
 		stops (stop ids) :
 		  4144918,
