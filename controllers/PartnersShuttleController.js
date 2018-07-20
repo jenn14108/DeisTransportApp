@@ -111,8 +111,13 @@ exports.respondToDF = (req, res) => {
                     }
                   }
                   console.log(arrival_times);
-
-                  callback(null, arrival_times);
+                  Session.update({session: session_id}, {$set:{arrival_times: arrival_times}}, function(err){
+                    if(err){
+                      callback(err, null);
+                    } else {
+                      callback(null, arrival_times);
+                    }
+                  })
                 })
               }
             ],
@@ -139,9 +144,8 @@ exports.respondToDF = (req, res) => {
           if (err || !session_obj){
             response.fulfillmentText = "Sorry, I could not find the arrival time of the next shuttle.";
           } else {
-            console.log((typeof arrival_times[1] === 'undefined'));
-            if (!(typeof arrival_times[1] === 'undefined')){
-              response.fulfillmentText = "The shuttle after the first to " + stop + " will arrive at " + arrival_times[1].substring(11,16);
+            if (!(typeof session_obj.arrival_times[1] === 'undefined')){
+              response.fulfillmentText = "The shuttle after the first to " + session_obj.stop + " will arrive at " + session_obj.arrival_times[1].substring(11,16);
             }
           }
           res.json(response);
