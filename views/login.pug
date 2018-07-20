@@ -1,9 +1,12 @@
 extends layout
 
 block content
-  .jumbotron
-    h1 Login to DeisTransportApp
-    p You must have a gmail account to log in
+  .section
+    .container
+      .row.text-center
+        h2.section-title Log In
+          p.section-description You must have a Brandeis account to log in
+        .col-md-12
 
-    a.btn.btn-danger(href="/auth/google")
-      span.fa.fa-google-plus  Sign In
+          a.btn.btn-danger(href="/auth/google")
+            span.fa.fa-google-plus  Sign In
