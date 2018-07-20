@@ -16,8 +16,5 @@ exports.getSchedule = (req,res) => {
     times[i] = Query.getTimesForStop(route, stops[i]).then(response => console.log(response)).catch(err => console.log("err2: "+err))
   }
   console.log(times)
-<<<<<<< HEAD
 
-=======
->>>>>>> Jen
 }
