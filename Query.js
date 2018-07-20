@@ -1,9 +1,17 @@
 //given schedule ID, return full schedule
-exports.getSchedule = function getSchedule(sched_id)
+exports.getSchedule = function getSchedule(sched_id, callback)
 {
-  return Schedule.findOne({schedule_id: sched_id})
-  .then(Schedules => Schedules.stops)
-  .catch(err => console.log("error: "+err))
+  // return Schedule.findOne({schedule_id: sched_id})
+  // .then(Schedules => Schedules.stops)
+  // .catch(err => console.log("error: "+err))
+
+  Schedule.findOne({schedule_id: sched_id}, function(err, schedule){
+    if(err){
+      callback(err, null);
+    } else {
+      callback(null, schedule.stops);
+    }
+  })
 }
 
 //given schedule ID and stop name, get all times for that stop

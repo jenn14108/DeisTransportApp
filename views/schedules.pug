@@ -28,7 +28,13 @@ block content
               .col-md-12.form-group.text-center
                 button.btn.btn-primary(type="submit" value="submit") Get Schedules
         .row
-          ol
+          if data
+            ol
+              each stop in data
+                li
+                  - function format_times(times){return times};
+                    e #{stop.stop}
+                    i #{format_times(stop.times)}
           
             
         //- .row
