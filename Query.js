@@ -33,12 +33,16 @@ exports.getTimesForStop = function getTimesForStop(sched_id, stopName)
 }
 
 //given schedule ID and stop name, get next time of a van at that stop
-exports.getNextTime = function getNextTime(sched_id, stopName)
+exports.getNextTime = function getNextTime(sched_id, stopName, nowExact)
 {
-  var nowExact = new Date()
+  if (!nowExact)
+  {
+    var nowExact = new Date()
+  }
   var offset = nowExact.getTimezoneOffset()
-  console.log("offset: "+offset)
-  var now = new Date(Date.UTC(2000, 0, 1, nowExact.getHours(), nowExact.getMinutes()))
+  // console.log("offset: "+offset)
+  var now = new Date(Date.UTC(2000, 0, 1, nowExact.getHours(), nowExact.getMinutes()+300))
+  console.log("now"+now)
   return this.getTimesForStop(sched_id, stopName)
   .then(times =>
   {
@@ -48,14 +52,14 @@ exports.getNextTime = function getNextTime(sched_id, stopName)
     }
     else
     {
-      console.log("now: "+now)
+      // console.log("now: "+now)
 
       for (var i = 0; i < times.length; i++)
       {
         console.log("times[i]: "+times[i])
         if (times[i] > (now))
         {
-          return new Date(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDay(), times[i].getUTCHours(), times[i].getUTCMinutes())
+          return new Date(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), times[i].getHours(), times[i].getMinutes())
         }
       }
     }
