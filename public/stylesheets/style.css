@@ -392,3 +392,8 @@ h2.section-title + p {
 	margin-left: auto;
 	margin-right: auto;
 }
+
+span.fa.fa-google-plus {
+	font-family: 'Ubuntu', sans-serif;
+	color: white;
+}
