@@ -15,6 +15,10 @@ var SessionSchema = new Schema(
             type: String,
             required: false,
         },
+        arrival_times: {
+            type: Array,
+            required: false,
+        }
     }
 );
 
