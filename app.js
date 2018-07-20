@@ -51,16 +51,27 @@ db.once('open', function() {
   // console.log("we are connected!")
 });
 
+//Casper's Testing Ground>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 // console.log(Query.getSchedule(1010))
 // Query.getSchedule(1010).then(response => console.log(response)).catch(err => console.log("err2: "+err))
 // Query.getTimesForStop(1010, "Rabb").then(response => console.log(response)).catch(err => console.log("err2: "+err))
 // Query.getNextTime(2010, "Rabb").then(response => console.log(response.toLocaleTimeString())).catch(err => console.log("err2: "+err))
-nowExact = new Date(2018, 7, 30)
-date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate()))
+// nowExact = new Date(2018, 7, 30)
+// date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate()))
+//
+// Query.getVanScheduleID("campusVan", date).then(response => console.log(response)).catch(err => console.log("err2: "+err))
 
-Query.getVanScheduleID("campusVan", date).then(response => console.log(response)).catch(err => console.log("err2: "+err))
+var function_list = []
 
+function_list.push(function(callback)
+{
+  EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 19, 12)), new Date(Date.UTC(2019, 6, 19, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
+})
+
+EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 20, 12)), new Date(Date.UTC(2019, 6, 20, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
+
+//Casper's Testing Ground<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // viewengine setup
 app.set('views', path.join(__dirname, 'views'));
