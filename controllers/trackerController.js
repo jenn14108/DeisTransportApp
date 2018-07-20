@@ -10,4 +10,5 @@ exports.getEstimate = ( req, res) => {
   var route = req.body.route
   var stop = req.body.stop
   console.log("fetching ETA of next van at " + stop + " on the " + route + " route.")
+  // JENN USE vars stop & route TO QUERY API, THEY ARE THE EXACT STOP AND ROUTE NAMES!
 };

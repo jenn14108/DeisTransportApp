@@ -38,13 +38,13 @@ block content
           form#eta.form(method="post" role="form" action="getEstimate")
             .row
               .col-md-6.form-group
-                select.form-control#route(name="route" placeholder="Choose a van")
-                  option Select a van
-                  option(value="campus") Campus BranVan
-                  option(value="daycampusshuttle") Daytime Campus Shuttle
-                  option(value="daywaltham") Daytime Waltham Shuttle
-                  option(value="eveningwaltham") Evening Waltham Shuttle
-                  option(value="boston") Boston/Cambridge Shuttle 
+                select.form-control#route(name="route" placeholder="Select a route")
+                  option Select a route
+                  option(value="MGH – BWH") MGH – BWH
+                  option(value="MGH – Chelsea Imaging") MGH – Chelsea Imaging
+                  option(value="MGH – Parking Lots") MGH – Parking Lots
+                  option(value="MGH – Revere Health Ctr") MGH – Revere Health Ctr
+                  option(value="MGH – Charlestown Navy Yard (Weekday)") MGH – Charlestown Navy Yard (Weekday)
               .col-md-6.form-group
                 select.form-control#stop(name="stop" placeholder="Select a stop")
                   option Select a stop
@@ -85,7 +85,9 @@ block content
       var $dropdown = $(this);
       var key = $dropdown.val();
       var whichRoute = "";
-      if (key == "campus") {
+      
+      //for brandeis
+      /* if (key == "campus") {
         whichRoute = "/JSON_Schedules/campusVanSchedule.json"
       } else if (key == "daycampusshuttle") {
         whichRoute = "/JSON_Schedules/DayTimeCampusShuttleSchedule.json"
@@ -95,7 +97,10 @@ block content
         whichRoute = "/JSON_Schedules/EveningWalthamVanSchedule.json"
       } else if (key == "boston") {
         whichRoute = "/JSON_Schedules/BostonCambridgeShuttleFriSchedule.json"
-      }
+      } */
+      
+      //for Partners testing 
+      whichRoute = "/JSON_Schedules/" + key + ".json"
       
       var vals = [];
       
