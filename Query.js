@@ -15,12 +15,15 @@ exports.getSchedule = function getSchedule(sched_id, callback)
 }
 
 //given schedule ID and stop name, get all times for that stop
-exports.getTimesForStop = function getTimesForStop(sched_id, stopName)
+exports.getTimesForStop = function getTimesForStop(sched_id, stopName, callback)
 {
   var i = 0;
-  return this.getSchedule(sched_id)
-  .then(schedule =>
-  {
+  this.getSchedule(sched_id, function(err, schedule){
+    if(err){
+      next(err);
+      return;
+    }
+
     while(true)
     {
       if (schedule[i])
@@ -33,11 +36,11 @@ exports.getTimesForStop = function getTimesForStop(sched_id, stopName)
       }
       else
       {
-        return "stop not found"
+        //return "stop not found"
+        callback(null, "stop not found.")
       }
     }
   })
-  .catch(err => console.log("error: "+err))
 }
 
 //given schedule ID and stop name, get next time of a van at that stop

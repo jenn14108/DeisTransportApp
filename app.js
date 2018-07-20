@@ -62,7 +62,7 @@ console.log("date:      "+date)
 // Query.getVanScheduleID("campusVan", date).then(response => console.log("Van Schedule ID: "+response)).catch(err => console.log("err2: "+err))
 // Query.getSchedule(1010).then(response => console.log("Schedule: "+response)).catch(err => console.log("err2: "+err))
 // Query.getTimesForStop(1010, "Usdan").then(response => console.log("Times for stop: "+response)).catch(err => console.log("err2: "+err))
-Query.getNextTime(2010, "Rabb").then(response => console.log("Next time: "+response)).catch(err => console.log("err2: "+err))
+// Query.getNextTime(2010, "Rabb").then(response => console.log("Next time: "+response)).catch(err => console.log("err2: "+err))
 
 
 

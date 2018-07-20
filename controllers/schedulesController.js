@@ -10,6 +10,11 @@ exports.getSchedule = (req,res, next) => {
   console.log("in getSchedules")
   var route = req.body.schedule
   console.log("fetching schedule of route: " + route)
+  // Query.getSchedule(route).then(response => {
+  //   console.log(response)
+  //   res.render("schedules")
+  //
+  // })
   Query.getSchedule(route, function(err, data){
     if(err){
       next(err);
