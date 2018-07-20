@@ -11,9 +11,15 @@ exports.respondToDF = (req, res) => {
   const intent = req.body.queryResult.intent.displayName;
   const response = {};
   const session_id = req.body.session;
+  var stop = req.body.queryResult.parameters.stop_name;
+  var route = req.body.queryResult.parameters.route_name;
   //construct the two needed query parameters for API calls
-  const stop = req.body.queryResult.parameters.stop_name.replace("–","-");;
-  const route = (req.body.queryResult.parameters.route_name).replace("-","–");
+  if (!(typeof stop === 'undefined')){
+    stop = stop.replace("–","-");
+  }
+  if (!(typeof route === 'undefined')){
+    route = route.replace("-","–");
+  }
   //construct two variables needed later
   var route_id = "";
   var stop_id = "";
@@ -105,8 +111,13 @@ exports.respondToDF = (req, res) => {
                     }
                   }
                   console.log(arrival_times);
-
-                  callback(null, arrival_times);
+                  Session.update({session: session_id}, {$set:{arrival_times: arrival_times}}, function(err){
+                    if(err){
+                      callback(err, null);
+                    } else {
+                      callback(null, arrival_times);
+                    }
+                  })
                 })
               }
             ],
@@ -128,15 +139,26 @@ exports.respondToDF = (req, res) => {
         });
         break;
 
+    case "get_second_shuttle_time":
+        Session.findOne({session : session_id} , function (err, session_obj) {
+          if (err || !session_obj){
+            response.fulfillmentText = "Sorry, I could not find the arrival time of the next shuttle.";
+          } else {
+            if (!(typeof session_obj.arrival_times[1] === 'undefined')){
+              response.fulfillmentText = "The shuttle after the first to " + session_obj.stop + " will arrive at " + session_obj.arrival_times[1].substring(11,16);
+            }
+          }
+          res.json(response);
+        });
+        break;
     case "get_closest_stop":
         Session.findOne({session : session_id} , function (err, session_obj) {
           if (err || !session_obj){
             response.fulfillmentText = "Sorry, I could not locate your location.";
-            res.json(response);
           } else {
             response.fulfillmentText = "yessss";
-            res.json(response);
           }
+          res.json(response);
         });
 
         break;
