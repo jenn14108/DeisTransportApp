@@ -10,25 +10,13 @@ exports.getSchedule = (req,res, next) => {
   console.log("in getSchedules")
   var route = req.body.schedule
   console.log("fetching schedule of route: " + route)
-  // Query.getSchedule(route).then(response => {
-  //   console.log(response)
-  //   res.render("schedules")
-  //
-  // })
-  Query.getSchedule(route, function(err, data){
-    if(err){
-      next(err);
-    } else {
-      console.log(data)
-      res.render("schedules", {data:data})
-    }
-  })
-
-  // Query.getSchedule(route).then(response => res.render("schedules", {response}))
+  var stops = Query.getSchedule(route).then(data =>
+    {
+      res.render('schedules', {data:data})
+    })
+  // var times = []
   // for (var i = 0; i < stops.length; i++) {
   //   times[i] = Query.getTimesForStop(route, stops[i]).then(response => console.log(response)).catch(err => console.log("err2: "+err))
   // }
-  //console.log(times)
-  // console.log(stops)
-  //res.render("schedules", {stops:stops});
+  // console.log(times)
 }
