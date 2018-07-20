@@ -34,6 +34,7 @@ const
  EnterSchedule = require('./EnterSchedule')
  Query = require('./Query')
  transloc_key = process.env.TRANSLOC_KEY;
+ var async = require('async')
 
 console.log('API server listening...');
 
@@ -54,7 +55,10 @@ db.once('open', function() {
 // Query.getSchedule(1010).then(response => console.log(response)).catch(err => console.log("err2: "+err))
 //Query.getTimesForStop(1010, "Rabb").then(response => console.log(response)).catch(err => console.log("err2: "+err))
 // Query.getNextTime(2010, "Rabb").then(response => console.log(response.toLocaleTimeString())).catch(err => console.log("err2: "+err))
-// Query.getVanScheduleID("campusVan")
+nowExact = new Date(2018, 7, 30)
+date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate()))
+
+Query.getVanScheduleID("campusVan", date).then(response => console.log(response)).catch(err => console.log("err2: "+err))
 
 
 // viewengine setup
