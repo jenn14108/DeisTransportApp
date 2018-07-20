@@ -10,8 +10,9 @@ exports.getEstimate = ( req, res) => {
   console.log("in getEstimate")
   const response = {};
   //construct the two needed query parameters for API calls
-  const stop = req.body.route.replace("–","-");;
-  const route = (req.body.stop).replace("-","–");
+  const route = req.body.route.replace("–","-");;
+  const stop = (req.body.stop).replace("-","–");
+  console.log(route);
   console.log("fetching ETA of next van at " + stop + " on the " + route + " route.")
   //construct two variables needed later
   var route_id = "";
@@ -64,8 +65,6 @@ exports.getEstimate = ( req, res) => {
             arrival_times.push(result.body.data[0].arrivals[i].arrival_at);
           }
         }
-        console.log(arrival_times);
-
         callback(null, arrival_times);
       })
     }
@@ -75,11 +74,17 @@ exports.getEstimate = ( req, res) => {
       console.log("Sorry, I could not retrieve any information");
     } else {
       if (arrival_times[0] == undefined ){
-        console.log('tracker', "Sorry, the " + route + " shuttle does not currently stop at " + stop);
+        res.render('tracker', {route:route, arrival_time1: "No arrivals"});
       } else {
-        console.log('tracker', "The next " + route + " shuttle to " + stop + " will arrive at " + result[0].substring(11,16));
+        if (result[1] === 'undefined'){
+          res.render('tracker', {route:route,
+                                arrival_time1:result[0].substring(11,16)});
+        } else {
+          res.render('tracker', {route:route,
+                                arrival_time1:result[0].substring(11,16),
+                                arrival_time2:result[1].substring(11,16)});
+        }
       }
     }
   });
 };
-  // JENN USE vars stop & route TO QUERY API, THEY ARE THE EXACT STOP AND ROUTE NAMES!
