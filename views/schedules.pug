@@ -30,27 +30,48 @@ block content
               .col-md-12.form-group.text-center
                 button.btn.btn-primary(type="submit" value="submit") Get Schedules
         .row
-          table#disp.table.table-dark
-            thead
-              tr
-                th(scope="col") Stop
-                th(scope="col") PM
-                th(scope="col") PM
-                th(scope="col") AM
-            tbody
-              tr
-                th(scope="row") 1 
-                td 
-                td 
-                td 
-              tr
-                th(scope="row") 2
-                td 
-                td 
-                td 
-              tr
-                th(scope="row") 3
-                td 
-                td 
-                td 
+          if data
+            ol
+              each stop in data
+                li
+                  - function format_times(times){return times};
+                    e #{stop.stop}
+                    i #{format_times(stop.times)}
+            
+            
+        //- .row
+        //-   table#disp.table.table-dark
+        //-     thead
+        //-       tr
+        //-         th(scope="col") Stops
+        //-         th(scope="col") Times
+        //-     tbody
+        //-       tr
+        //-         th(scope="row") #{stops}
+        //-         td(scope) #{times}
+          
+        //- .row
+        //-   table#disp.table.table-dark
+        //-     thead
+        //-       tr
+        //-         th(scope="col") Stop
+        //-         th(scope="col") PM
+        //-         th(scope="col") PM
+        //-         th(scope="col") AM
+        //-     tbody
+        //-       tr
+        //-         th(scope="row") 1 
+        //-         td 
+        //-         td 
+        //-         td 
+        //-       tr
+        //-         th(scope="row") 2
+        //-         td 
+        //-         td 
+        //-         td 
+        //-       tr
+        //-         th(scope="row") 3
+        //-         td 
+        //-         td 
+        //-         td 
           
