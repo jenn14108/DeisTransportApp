@@ -77,7 +77,9 @@ app.use('/', mainPageRouter);
 app.get('/reserve', reservationController.renderMain);
 app.get('/tracker', trackerController.renderMain);
 app.post('/getEstimate', trackerController.getEstimate);
-app.get('/schedules', PartnersShuttleController.renderMain);
+//app.get('/schedules', PartnersShuttleController.renderMain);
+app.get('/schedules', schedulesController.renderMain);
+app.post('/getSchedule', schedulesController.getSchedule);
 
 // if(req.isAuthenticated()) res.locals.isLoggedIn = true;
 // next();

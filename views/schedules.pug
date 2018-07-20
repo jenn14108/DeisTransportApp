@@ -4,46 +4,51 @@ block content
   //-section:schedules
   .section
     .container
-      .row.text-center
-        h2.section-title Schedules
-        p.section-description This page allows you view schedules of the various shuttles provided by Brandeis.
-      .col-md-12
-        form#schdl.form(method="post" role="form" action="getSchedule")
-          .row
-            .col-md-12.form-group
-              select.form-control#van(name="schedule" placeholder="Select a van")
-                option Select a van
-                option(value="campus") Campus BranVan
-                option(value="daycampusshuttle") Daytime Campus Shuttle
-                option(value="daywaltham") Daytime Waltham Shuttle
-                option(value="eveningwaltham") Evening Waltham Shuttle
-                option(value="boston") Boston/Cambridge Shuttle
-          br
-          .row
-            .col-md-12.form-group.text-center
-              button.btn.btn-primary(type="submit" value="submit") Get Schedules
       .row
-        table#disp.table.table-dark
-          thead
-            tr
-              th(scope="col") Stop
-              th(scope="col") PM
-              th(scope="col") PM
-              th(scope="col") AM
-          tbody
-            tr
-              th(scope="row") 
-              td 
-              td 
-              td 
-            tr
-              th(scope="row") 
-              td 
-              td 
-              td 
-            tr
-              th(scope="row") 
-              td 
-              td 
-              td          
-              
+        .col-md-12.text-center 
+          h2.section-title Schedules
+          p.section-description This page allows you view schedules of the various shuttles provided by Brandeis.
+        .col-md-12
+          form#schdl.form(method="post" role="form" action="getSchedule")
+            .row
+              .col-md-12.form-group
+                select.form-control#van(name="schedule" placeholder="Select a van")
+                  option Select a van
+                  option(value="2010") Campus BranVan (Weekdays)
+                  option(value="2011") Campus BranVan (Weekends)
+                  option(value="2020") Daytime Campus Shuttle
+                  option(value="3020") Daytime Waltham Shuttle
+                  option(value="3010") Evening Waltham Shuttle
+                  option(value="1010") Boston/Cambridge Shuttle (Thurs)
+                  option(value="1020") Boston/Cambridge Shuttle (Fri)
+                  option(value="1030") Boston/Cambridge Shuttle (Sat)
+                  option(value="1040") Boston/Cambridge Shuttle (Sun)
+            br
+            .row
+              .col-md-12.form-group.text-center
+                button.btn.btn-primary(type="submit" value="submit") Get Schedules
+        .row
+          table#disp.table.table-dark
+            thead
+              tr
+                th(scope="col") Stop
+                th(scope="col") PM
+                th(scope="col") PM
+                th(scope="col") AM
+            tbody
+              tr
+                th(scope="row") 1 
+                td 
+                td 
+                td 
+              tr
+                th(scope="row") 2
+                td 
+                td 
+                td 
+              tr
+                th(scope="row") 3
+                td 
+                td 
+                td 
+          
