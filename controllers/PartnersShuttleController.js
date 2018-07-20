@@ -123,7 +123,7 @@ exports.respondToDF = (req, res) => {
                 }
                 res.json(response);
               }
-            })
+            });
           }
         });
         break;
