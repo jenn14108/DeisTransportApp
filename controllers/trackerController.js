@@ -73,10 +73,10 @@ exports.getEstimate = ( req, res) => {
     if(err){
       console.log("Sorry, I could not retrieve any information");
     } else {
-      if (arrival_times[0] == undefined ){
+      if (typeof arrival_times[0] == undefined ){
         res.render('tracker', {route:route, stop:stop, arrival_time1: "No arrivals"});
       } else {
-        if (result[1] === 'undefined'){
+        if (typeof arrival_times[1] === 'undefined'){
           res.render('tracker', {route:route, stop:stop,
                                 arrival_time1:result[0].substring(11,16)});
         } else {
