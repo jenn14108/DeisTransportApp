@@ -2,7 +2,11 @@
 exports.getSchedule = function getSchedule(sched_id)
 {
   return Schedule.findOne({schedule_id: sched_id})
-  .then(Schedules => Schedules.stops)
+  .then(Schedules =>
+    {
+      console.log(Schedules.stops)
+      Schedules.stops
+    })
   .catch(err => console.log("error: "+err))
 }
 

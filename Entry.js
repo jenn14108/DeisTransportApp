@@ -53,3 +53,25 @@ EnterVanDays.enterVanDays(new Date(Date.UTC(2018, 7, 25, 12)), new Date(Date.UTC
 EnterVanDays.enterVanDays(new Date(Date.UTC(2018, 7, 25, 12)), new Date(Date.UTC(2018, 11, 15, 12)), [false,false,false,false,false,true,false], 1030, "cambridgeShuttle")
 
 EnterVanDays.enterVanDays(new Date(Date.UTC(2018, 7, 25, 12)), new Date(Date.UTC(2018, 11, 15, 12)), [false,false,false,false,false,false,true], 1040, "cambridgeShuttle")
+
+
+
+
+
+
+var function_list = []
+
+function_list.push(function(callback)
+{
+  EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 19, 12)), new Date(Date.UTC(2019, 6, 19, 12)), [true,true,true,true,true,true,true], 0, "campusVan", callback)
+})
+
+async.series(function_list, function(err, result){
+  if(err){
+
+  } else {
+
+  }
+})
+
+EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 20, 12)), new Date(Date.UTC(2019, 6, 20, 12)), [true,true,true,true,true,true,true], 0, "campusVan")

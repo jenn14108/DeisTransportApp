@@ -1,4 +1,4 @@
-exports.enterVanDays = function enterVanDays(start_date, end_date, days, sched_id, van_name)
+exports.enterVanDays = function enterVanDays(start_date, end_date, days, sched_id, van_name, callback)
 {
   return function(callback) {
     for (let date = start_date; date <= end_date; date = new Date(date.setDate(date.getDate() + 1)))
@@ -34,7 +34,7 @@ exports.enterVanDays = function enterVanDays(start_date, end_date, days, sched_i
                 schedule_by_van: [{van: van_name, schedule_id: sched_id}]
               })
             }
-            vanday.save().catch(err => console.log("err2"+err))  //save the new entry
+            vanday.save().then(function(doc){callback(null, doc)}).catch(err => console.log("err2"+err))  //save the new entry
           }
         )
         .catch(err => console.log("err: "+err))
@@ -44,3 +44,13 @@ exports.enterVanDays = function enterVanDays(start_date, end_date, days, sched_i
   }
 
 }
+
+
+/*
+const a = [];//array of documents - new Vanday();
+Vanday.insertMany(a, function(err, list){
+
+
+})
+
+*/

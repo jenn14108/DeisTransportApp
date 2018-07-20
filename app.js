@@ -55,25 +55,19 @@ db.once('open', function() {
 
 
 
-nowExact = new Date(2018, 7, 30, 11)
-date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), nowExact.getUTCHours()))
+// nowExact = new Date(2018, 7, 30, 11)
+// date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), nowExact.getUTCHours()))
 
-console.log("date:      "+date)
+// console.log("date:      "+date)
 // Query.getVanScheduleID("campusVan", date).then(response => console.log("Van Schedule ID: "+response)).catch(err => console.log("err2: "+err))
 // Query.getSchedule(1010).then(response => console.log("Schedule: "+response)).catch(err => console.log("err2: "+err))
 // Query.getTimesForStop(1010, "Usdan").then(response => console.log("Times for stop: "+response)).catch(err => console.log("err2: "+err))
-Query.getNextTime(2010, "Rabb").then(response => console.log("Next time: "+response)).catch(err => console.log("err2: "+err))
+// Query.getSchedule(2010)//.then(response => console.log("Next time: "+response)).catch(err => console.log("err2: "+err))
 
 
 
-var function_list = []
 
-function_list.push(function(callback)
-{
-  EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 19, 12)), new Date(Date.UTC(2019, 6, 19, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
-})
 
-EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 20, 12)), new Date(Date.UTC(2019, 6, 20, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
 
 //Casper's Testing Ground<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
