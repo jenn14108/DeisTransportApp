@@ -22,6 +22,7 @@
     "passport": "^0.4.0",
     "passport-google-oauth": "^1.0.0",
     "pug": "2.0.0-beta11",
+    "save": "^2.3.2",
     "unirest": "^0.5.1"
   },
   "devDependencies": {
