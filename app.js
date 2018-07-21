@@ -5,9 +5,9 @@ const
  path = require('path');
  cookieParser = require('cookie-parser');
  logger = require('morgan');
- bodyParser = require('body-parser');
  util = require("util");
  unirest = require("unirest");
+ bodyParser = require('body-parser');
  //used to read JSON file into node.js to ultimately save into mongoose
  fs = require("fs");
  assert = require('assert');
@@ -66,11 +66,12 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
 
 // this handles all static routes ...
 // so don't name your routes so they conflict with the public folders
 app.use(express.static(path.join(__dirname, 'public')));
-
 //app.use(checkLoggedIn);
 app.use('/', mainPageRouter);
 app.get('/reserve', reservationController.renderMain);
