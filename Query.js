@@ -1,18 +1,29 @@
 //given schedule ID, return full schedule
-exports.getSchedule = function getSchedule(sched_id)
+exports.getSchedule = function getSchedule(sched_id, callback)
 {
-  return Schedule.findOne({schedule_id: sched_id})
-  .then(Schedules => Schedules.stops)
-  .catch(err => console.log("error: "+err))
+  // return Schedule.findOne({schedule_id: sched_id})
+  // .then(Schedules => Schedules.stops)
+  // .catch(err => console.log("error: "+err))
+
+  Schedule.findOne({schedule_id: sched_id}, function(err, schedule){
+    if(err){
+      callback(err, null);
+    } else {
+      callback(null, schedule.stops);
+    }
+  })
 }
 
 //given schedule ID and stop name, get all times for that stop
-exports.getTimesForStop = function getTimesForStop(sched_id, stopName)
+exports.getTimesForStop = function getTimesForStop(sched_id, stopName, callback)
 {
   var i = 0;
-  return this.getSchedule(sched_id)
-  .then(schedule =>
-  {
+  this.getSchedule(sched_id, function(err, schedule){
+    if(err){
+      next(err);
+      return;
+    }
+
     while(true)
     {
       if (schedule[i])
@@ -25,20 +36,24 @@ exports.getTimesForStop = function getTimesForStop(sched_id, stopName)
       }
       else
       {
-        return "stop not found"
+        //return "stop not found"
+        callback(null, "stop not found.")
       }
     }
   })
-  .catch(err => console.log("error: "+err))
 }
 
 //given schedule ID and stop name, get next time of a van at that stop
-exports.getNextTime = function getNextTime(sched_id, stopName)
+exports.getNextTime = function getNextTime(sched_id, stopName, nowExact)
 {
-  var nowExact = new Date()
+  if (!nowExact)
+  {
+    var nowExact = new Date()
+  }
   var offset = nowExact.getTimezoneOffset()
-  console.log("offset: "+offset)
-  var now = new Date(Date.UTC(2000, 0, 1, nowExact.getHours(), nowExact.getMinutes()))
+  // console.log("offset: "+offset)
+  var now = new Date(Date.UTC(2000, 0, 1, nowExact.getHours(), nowExact.getMinutes()+300))
+  console.log("now"+now)
   return this.getTimesForStop(sched_id, stopName)
   .then(times =>
   {
@@ -48,14 +63,14 @@ exports.getNextTime = function getNextTime(sched_id, stopName)
     }
     else
     {
-      console.log("now: "+now)
+      // console.log("now: "+now)
 
       for (var i = 0; i < times.length; i++)
       {
         console.log("times[i]: "+times[i])
         if (times[i] > (now))
         {
-          return new Date(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDay(), times[i].getUTCHours(), times[i].getUTCMinutes())
+          return new Date(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), times[i].getHours(), times[i].getMinutes())
         }
       }
     }
@@ -69,27 +84,38 @@ exports.getNextTimeForVan = function getNextTimeForVan(vanName, stopName)
   .then(sched_id => this.getNextTime(sched_id, stopName))
 }
 
-exports.getVanDay = function getVanDay()
+
+//note that you can call this without date and it will assume today
+exports.getVanDay = function getVanDay(nowExact)
 {
-  nowExact = new Date()
-  now = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), 12))
-  return VanDay.findOne({date: now})
-  .catch(err => console.log("error: "+err))
+  // console.log("nowExact: "+nowExact)
+  if (!date)
+  {
+    nowExact = new Date()
+  }
+  var offset = nowExact.getTimezoneOffset()
+  // console.log("offset: "+offset)
+  date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), offset/60+8))
+  // console.log("date: "+date)
+  return VanDay.findOne({date: date})
+  // .then(vanDay => console.log("vanDay: "+vanDay))
+  .catch(err => console.log("error4: "+err))
 }
 ///"Make a method that will, given a day and a van, return schedule ID"
 
-exports.getVanScheduleID = function getVanScheduleID(vanName) //campusVan, walthamVan, walthamShuttle, campusShuttle, cambridgeShuttle
+//note that you can call this without date and it will assume today
+exports.getVanScheduleID = function getVanScheduleID(vanName, date) //campusVan, walthamVan, walthamShuttle, campusShuttle, cambridgeShuttle
 {
-  return this.getVanDay()
+  return this.getVanDay(date)
   .then(vanday =>
   {
-    // console.log("length: "+vanday.schedule_by_van.length)
+    // console.log("length: "+vanday)
     for (var i = 0; i < vanday.schedule_by_van.length; i++)
     {
       if (vanday.schedule_by_van[i].van === vanName)
       {
-        console.log("aaa"+vanday.schedule_by_van[i])
-        console.log("sched id: "+vanday.schedule_by_van[i].schedule_id)
+        // console.log("aaa"+vanday.schedule_by_van[i])
+        // console.log("sched id: "+vanday.schedule_by_van[i].schedule_id)
         return vanday.schedule_by_van[i].schedule_id
       }
     }

@@ -296,7 +296,6 @@ Stops
         code: 165
         stop_id: 4212054
         name: Moody St at Crescent St
-
     61.
         code: 166
         stop_id: 4212056

@@ -34,6 +34,7 @@ const
  EnterSchedule = require('./EnterSchedule')
  Query = require('./Query')
  transloc_key = process.env.TRANSLOC_KEY;
+ var async = require('async')
 
 console.log('API server listening...');
 
@@ -48,6 +49,33 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 console.log("we are connected!")
 });
+
+//Casper's Testing Ground>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+nowExact = new Date(2018, 7, 30, 11)
+date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), nowExact.getUTCHours()))
+
+console.log("date:      "+date)
+// Query.getVanScheduleID("campusVan", date).then(response => console.log("Van Schedule ID: "+response)).catch(err => console.log("err2: "+err))
+// Query.getSchedule(1010).then(response => console.log("Schedule: "+response)).catch(err => console.log("err2: "+err))
+// Query.getTimesForStop(1010, "Usdan").then(response => console.log("Times for stop: "+response)).catch(err => console.log("err2: "+err))
+// Query.getNextTime(2010, "Rabb").then(response => console.log("Next time: "+response)).catch(err => console.log("err2: "+err))
+
+
+
+var function_list = []
+
+function_list.push(function(callback)
+{
+  EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 19, 12)), new Date(Date.UTC(2019, 6, 19, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
+})
+
+EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 20, 12)), new Date(Date.UTC(2019, 6, 20, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
+
+//Casper's Testing Ground<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // viewengine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -69,7 +97,9 @@ app.use('/', mainPageRouter);
 app.get('/reserve', reservationController.renderMain);
 app.get('/tracker', trackerController.renderMain);
 app.post('/getEstimate', trackerController.getEstimate);
-app.get('/schedules', PartnersShuttleController.renderMain);
+//app.get('/schedules', PartnersShuttleController.renderMain);
+app.get('/schedules', schedulesController.renderMain);
+app.post('/getSchedule', schedulesController.getSchedule);
 
 // if(req.isAuthenticated()) res.locals.isLoggedIn = true;
 // next();
