@@ -16,8 +16,7 @@ const
  trackerController = require('./controllers/trackerController');
  reservationController = require('./controllers/reservationController');
  schedulesController = require('./controllers/schedulesController');
- VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
- PartnersShuttleController = require('./controllers/PartnersShuttleController');
+ DFShuttleController = require('./controllers/DFShuttleController');
  //VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  //Set up needed variables in order to do authentication
  GoogleStrategy = require('passport-google-oauth').OAuth25Strategy; //in cofig/passport.j
@@ -34,7 +33,9 @@ const
  EnterSchedule = require('./EnterSchedule')
  Query = require('./Query')
  transloc_key = process.env.TRANSLOC_KEY;
- var async = require('async')
+ async = require('async');
+ transLocAPI = require('./models/transLocAPI');
+
 
 console.log('API server listening...');
 
@@ -163,8 +164,7 @@ app.get('/login/authorized',
         }));
 
 //webhook to use dialogflow and alexa
-app.post('/webhook', PartnersShuttleController.respondToDF);
-
+app.post('/webhook', DFShuttleController.respondToDF);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
