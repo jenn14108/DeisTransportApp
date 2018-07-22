@@ -20,7 +20,7 @@ const
  PartnersShuttleController = require('./controllers/PartnersShuttleController');
  //VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  //Set up needed variables in order to do authentication
- //GoogleStrategy = require('passport-google-oauth').OAuth25Strategy; --> in cofig/passport.js
+ GoogleStrategy = require('passport-google-oauth').OAuth25Strategy; //in cofig/passport.j
  session = require('express-session');
  passport = require('passport');
  configPassport = require('./config/passport');
@@ -47,29 +47,8 @@ mongoose.connect( mongoDB ,{useNewUrlParser: true})
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  // console.log("we are connected!")
+console.log("we are connected!")
 });
-
-//Casper's Testing Ground>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-
-
-// nowExact = new Date(2018, 7, 30, 11)
-// date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), nowExact.getUTCHours()))
-
-// console.log("date:      "+date)
-// Query.getVanScheduleID("campusVan", date).then(response => console.log("Van Schedule ID: "+response)).catch(err => console.log("err2: "+err))
-// Query.getSchedule(1010).then(response => console.log("Schedule: "+response)).catch(err => console.log("err2: "+err))
-// Query.getTimesForStop(1010, "Usdan").then(response => console.log("Times for stop: "+response)).catch(err => console.log("err2: "+err))
-// Query.getSchedule(2010)//.then(response => console.log("Next time: "+response)).catch(err => console.log("err2: "+err))
-
-
-
-
-
-
-//Casper's Testing Ground<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // viewengine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -156,13 +135,7 @@ app.use((req,res,next) => {
   next();
 })
 
-// =====================================
-// GOOGLE ROUTES =======================
-// =====================================
-// send to google to do the authentication
-// profile gets us their basic information including their name
-// email gets their emails
-//This rout is visited to start the google authentication. Passport will send you to
+//This rout is visited to start google authentication. Passport will send you to
 //Google to get authenticated. Then, it will send the browser back to /login/authorized page
 app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
 
@@ -172,46 +145,8 @@ app.get('/login/authorized',
                 failureRedirect : '/loginerror'
         }));
 
+//webhook to use dialogflow and alexa
 app.post('/webhook', PartnersShuttleController.respondToDF);
-
-// console.log(new Date(Date.UTC(2019, 7, 18)+86400000))
-// var start = new Date(Date.UTC(2018, 6, 19, 12))
-// var end = new Date(Date.UTC(2018, 6, 19, 12))
-// console.log("start:   "+start)
-// console.log("end:     "+end)
-
-// EnterVanDays.enterVanDays(start, end, [true,true,true,true,true,true,true], 2010, "campusVan")
-
-//The above line creates one VanDay on August 18th 2019 at 8:00AM EDT
-// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusVan")
-// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "campusShuttle")
-// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "walthamVan")
-// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "walthamShuttle")
-// EnterVanDays.enterVanDays(new Date(2018, 6, 18), new Date(2019, 6, 18), [true,true,true,true,true,true,true], 0, "cambridgeShuttle")
-
-// Query.getStopNames(2010)
-// .then(stops => console.log(stops))
-
-// nowExact = new Date()
-// console.log("nowExact.getYear(): "+nowExact.getYear())
-// console.log("nowExact.getMonth(): "+nowExact.getMonth())
-// console.log("nowExact.getDay(): "+nowExact.getDay())
-// console.log("nowExact.getDate(): "+nowExact.getDate())
-// now = new Date(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), 4)
-// console.log("now: "+now)
-//
-// today = new Date()
-// console.log(new Date(Date.UTC(2000, 0, 1, 0, 45)))
-// console.log(today)
-// Query.getNextTime(1010, "Usdan").then(response => console.log(response)).catch(err => console.log("err2: "+err))
-// Query.getVanScheduleID("campusVan").then(response => console.log("route ID: "+response)).catch(err => console.log("err2: "+err))
-//Query.getNextTimeForVan("campusVan", "Rabb").then(response => console.log("next van is at: "+response)).catch(err => console.log("err2: "+err))
-
-// EnterVanDays.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [false,true,true,true,true,true,false], 2010, "campusVan")
-// EnterVanDays.enterVanDays(new Date(2018, 7, 25), new Date(2018, 11, 15), [true,false,false,false,false,false,true], 2011, "campusVan")
-
-
-
 
 
 // catch 404 and forward to error handler
