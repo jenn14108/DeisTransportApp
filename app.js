@@ -50,6 +50,23 @@ db.once('open', function() {
 console.log("we are connected!")
 });
 
+//Casper's Testing Ground>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+nowExact = new Date(2018, 7, 30, 11)
+date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), nowExact.getUTCHours()))
+console.log("date:      "+date)
+
+var function_list = []
+
+function_list.push(function(callback)
+{
+  EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 19, 12)), new Date(Date.UTC(2019, 6, 19, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
+})
+
+EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 20, 12)), new Date(Date.UTC(2019, 6, 20, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
+
+//Casper's Testing Ground<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 // viewengine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
