@@ -10,9 +10,8 @@ exports.getEstimate = ( req, res) => {
   console.log("in getEstimate")
   const response = {};
   //construct the two needed query parameters for API calls
-  const route = req.body.route.replace("–","-");;
-  const stop = (req.body.stop).replace("-","–");
-  console.log(route);
+  const route = req.body.route.replace("-","–");;
+  const stop = (req.body.stop).replace("–","-");
   console.log("fetching ETA of next van at " + stop + " on the " + route + " route.")
   //construct two variables needed later
   var route_id = "";
@@ -28,7 +27,7 @@ exports.getEstimate = ( req, res) => {
       .end(function (result) {
         for (var i = 0; i < result.body.data['707'].length; i++){
           if (result.body.data['707'][i].long_name === route){
-            //save the route_id for stop querying
+            //save the route_id for arrival estimate querying
             route_id = result.body.data['707'][i].route_id;
             console.log(route_id);
             break;
@@ -73,14 +72,14 @@ exports.getEstimate = ( req, res) => {
     if(err){
       console.log("Sorry, I could not retrieve any information");
     } else {
-      if (typeof arrival_times[0] == undefined ){
-        res.render('tracker', {route:route, arrival_time1: "No arrivals"});
+      if (typeof result[0] === 'undefined' ){
+        res.render('tracker', {route:route, stop:stop, arrival_time1: "No arrivals"});
       } else {
-        if (typeof arrival_times[1] === 'undefined'){
-          res.render('tracker', {route:route,
+        if (typeof result[1] === 'undefined'){
+          res.render('tracker', {route:route, stop:stop,
                                 arrival_time1:result[0].substring(11,16)});
         } else {
-          res.render('tracker', {route:route,
+          res.render('tracker', {route:route, stop:stop,
                                 arrival_time1:result[0].substring(11,16),
                                 arrival_time2:result[1].substring(11,16)});
         }

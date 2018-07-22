@@ -58,12 +58,14 @@ block content
               tr
                 th(scope="col") #
                 th(scope="col") Shuttle
+                th(scope="col") Stop
                 th(scope="col") ETA (next)
                 th(scope="col") ETA (subsequent)
             tbody
               tr
                 th(scope="row") 1
                 td #{route}
+                td #{stop}
                 td #{arrival_time1}
                 td #{arrival_time2}
               tr
@@ -71,8 +73,10 @@ block content
                 td
                 td
                 td
+                td
               tr
                 th(scope="row") 3
+                td
                 td
                 td
                 td
@@ -119,6 +123,4 @@ block content
               }
         });
       });
-
-
     });
