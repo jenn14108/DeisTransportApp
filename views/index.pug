@@ -75,7 +75,10 @@ block content
           h2.section-title Contact Us
           p.section-description Please do
         .col-md-8.col-md-offset-2
-          form#contact.form(method="post" role="form" action="https://script.google.com/macros/s/AKfycbwtbR47dZxsgcnyZH8AiwzEWTEpWRU7RLp0-rK6kQ/exec")
+          .alert.alert-success(style="display:none")
+            strong 
+            | Email successfully sent.
+          form#gform.form(method='POST' action='https://script.google.com/macros/s/AKfycbwxHNVG7fV6mt8kyPAFaMtLvXSElLEHuLQAANafq-nw8p5EPl43/exec')
             .row
               .col-md-6.form-group
                 input#name.form-control(name="name" placeholder="Name" type="text" required="")
@@ -85,7 +88,7 @@ block content
             br
             .row
               .col-md-12.form-group
-                button.btn.btn-primary(type="submit") Submit
+                button.btn.btn-primary.form-submit Submit
   // section:Quote
   .section.hero.text-center.background-dark.dark-bg
     .background-image(style="background: url(images/buspic.jpg) no-repeat fixed center center; background-size: cover; opacity: .2;")
@@ -155,15 +158,11 @@ block content
               a(href="mailto:#") casperlk@brandeis.edu
             a.btn.btn-sm.btn-primary(href="https://github.com/casperlk" title="Casper's git" target="_blank") .git
 
-  //- jQuery
-  script(src="//code.jquery.com/jquery.js")
-  script(src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
   //- Bootstrap js
-  script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous")
+  script(src="/javascripts/formHandler.js")
   script(type="text/javascript").
     /*When the user scrolls down 20px from the top of the document, show the button*/
     window.onscroll = function() {scrollFunction()};
-
     function scrollFunction() {
       if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
           document.getElementById("myBtn").style.display = "block";
