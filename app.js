@@ -153,6 +153,12 @@ app.use((req,res,next) => {
   next();
 })
 
+//* JEN TESTING
+const apiquery = new transLocAPI(707);
+var stop = 'Prudential';
+var route = 'MGH – BWH';
+var route_id = apiquery.findRouteId(route);
+
 //This rout is visited to start google authentication. Passport will send you to
 //Google to get authenticated. Then, it will send the browser back to /login/authorized page
 app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
