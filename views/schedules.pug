@@ -16,7 +16,7 @@ block content
               .col-md-12.form-group
                 select.form-control#van(name="schedule" placeholder="Select a van")
                   option Select a van
-                  option(value="2010") Campus BranVan (Weekdays)
+                  option(value="2010" name="Campus BranVan (Weekdays)") Campus BranVan (Weekdays)
                   option(value="2011") Campus BranVan (Weekends)
                   option(value="2020") Daytime Campus Shuttle
                   option(value="3020") Daytime Waltham Shuttle
@@ -31,6 +31,21 @@ block content
                 button.btn.btn-primary(type="submit" value="submit") Get Schedules
         .row
           if data
+            table#disp.table.table-dark 
+              thead
+                tr
+                  th(scope="col") #
+                  th(scope="col") Shuttle
+                  th(scope="col") Stop
+                  th(scope="col") ETA (next)
+                  th(scope="col") ETA (subsequent)
+              tbody
+                tr
+                  th(scope="row") #{route}
+                  td #{stop}
+                  td #{arrival_time1}
+                  td #{arrival_time2}
+            
             ol
               each stop in data
                 li
@@ -74,4 +89,6 @@ block content
         //-         td 
         //-         td 
         //-         td 
+  script(type="text/javascript" language="javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
+  script(type="text/javascript").
           
