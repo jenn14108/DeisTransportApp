@@ -6,7 +6,6 @@ block content
   .section
     .container
       .row
-        
         .col-md-12.text-center 
           h2.section-title Schedules
           p.section-description This page allows you view schedules of the various shuttles provided by Brandeis.
@@ -16,7 +15,7 @@ block content
               .col-md-12.form-group
                 select.form-control#van(name="schedule" placeholder="Select a van")
                   option Select a van
-                  option(value="2010" name="Campus BranVan (Weekdays)") Campus BranVan (Weekdays)
+                  option(value="2010") Campus BranVan (Weekdays)
                   option(value="2011") Campus BranVan (Weekends)
                   option(value="2020") Daytime Campus Shuttle
                   option(value="3020") Daytime Waltham Shuttle
@@ -29,66 +28,31 @@ block content
             .row
               .col-md-12.form-group.text-center
                 button.btn.btn-primary(type="submit" value="submit") Get Schedules
-        .row
-          if data
-            table#disp.table.table-dark 
-              thead
-                tr
-                  th(scope="col") #
-                  th(scope="col") Shuttle
-                  th(scope="col") Stop
-                  th(scope="col") ETA (next)
-                  th(scope="col") ETA (subsequent)
-              tbody
-                tr
-                  th(scope="row") #{route}
-                  td #{stop}
-                  td #{arrival_time1}
-                  td #{arrival_time2}
-            
-            ol
-              each stop in data
-                li
-                  - function format_times(times){return times};
-                    e #{stop.stop}
-                    i #{format_times(stop.times)}
-            
-            
-        //- .row
-        //-   table#disp.table.table-dark
-        //-     thead
-        //-       tr
-        //-         th(scope="col") Stops
-        //-         th(scope="col") Times
-        //-     tbody
-        //-       tr
-        //-         th(scope="row") #{stops}
-        //-         td(scope) #{times}
+        .co-md-12.text-center        
+          .row
+            if name == "Campus BranVan (Weekdays)" || name == "Daytime Campus Shuttle" || name == "Evening Waltham Shuttle" || name == "Campus BranVan (Weekends)"
+              h2 #{name}
+              table#disp.table.table-dark
+                thead
+                  tr
+                    th(scope="col") Stops
+                    th(scope="col") Times
+                tbody
+                  each stop in data
+                    tr
+                      td(scope="row") #{stop.stop}
+                      //- each time in stop
+                      //-   - function format_times(times){return times};
+                      td(scope="row") #{stop.times}
+                        
+                        //- td(scope="row") #{stop.times}
+              //- ol
+              //-   each stop in data
+              //-     li
+              //-       - function format_times(times){return "times"};
+              //- 
+              //-         e #{stop.stop}
+              //-         i #{format_times(stop.times)}
           
-        //- .row
-        //-   table#disp.table.table-dark
-        //-     thead
-        //-       tr
-        //-         th(scope="col") Stop
-        //-         th(scope="col") PM
-        //-         th(scope="col") PM
-        //-         th(scope="col") AM
-        //-     tbody
-        //-       tr
-        //-         th(scope="row") 1 
-        //-         td 
-        //-         td 
-        //-         td 
-        //-       tr
-        //-         th(scope="row") 2
-        //-         td 
-        //-         td 
-        //-         td 
-        //-       tr
-        //-         th(scope="row") 3
-        //-         td 
-        //-         td 
-        //-         td 
-  script(type="text/javascript" language="javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
+  script(type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
   script(type="text/javascript").
-          

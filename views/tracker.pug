@@ -26,6 +26,8 @@ block content
           a(href='https://brandeis.transloc.com/announcements/', title='Read announcements that are impacting service') Announcements
         //- DO NOT EDIT ABOVE!!!
   //-form *WILL ADD DYNAMIC DROPDOWNS
+  // back to top btn
+  i.fas.fa-chevron-circle-up#myBtn(onclick="topFunction()" title="Back to top")
   // /.section
   // START SECTION
   .section
@@ -51,24 +53,24 @@ block content
             br
             .row
               .col-md-12.form-group.text-center
-                button.btn.btn-primary(type="submit" value="submit") Get ETA
+                button#getETA.btn.btn-primary(type="submit" value="submit") Get ETA
         .row
-          table#disp.table.table-dark
-            thead
-              tr
-                th(scope="col") #
-                th(scope="col") Shuttle
-                th(scope="col") Stop
-                th(scope="col") ETA (next)
-                th(scope="col") ETA (subsequent)
-            tbody
-              tr
-                th(scope="row") #{route}
-                td #{stop}
-                td #{arrival_time1}
-                td #{arrival_time2}
+          if route
+            table#disp.table.table-dark
+              thead
+                tr
+                  th(scope="col") Shuttle
+                  th(scope="col") Stop
+                  th(scope="col") ETA (next)
+                  th(scope="col") ETA (subsequent)
+              tbody
+                tr
+                  th(scope="row") #{route}
+                  td #{stop}
+                  td #{arrival_time1}
+                  td #{arrival_time2}
 
-  script(type="text/javascript" language="javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
+  script(type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
   script(type="text/javascript").
     $("#route").change(function() {
 
@@ -110,3 +112,35 @@ block content
         });
       });
     });
+
+    /*auto scroll to table*/
+    $( document ).ready(function() {
+      $('html, body').animate({
+          scrollTop: ($('#disp').offset().top)
+      },500);
+    });
+    
+    /*back to top btn*/
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+          document.getElementById("myBtn").style.display = "block";
+      } else {
+          document.getElementById("myBtn").style.display = "none";
+      }
+    }
+
+    /*When the user clicks on the button, scroll to the top of the document*/
+    function topFunction() {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+
+
+        
+        
+        
+        
+        
+        
