@@ -8,13 +8,12 @@ block content
       .row
         .col-md-12
           h2 Deis Transport App
-          p.lead
-            | Shalom
+          p.lead.center
+            | Your one-stop destination for all things Brandeis transportation related
           ul.list-inline
-            li
-              a.btn.btn-md.btn-primary(href="#" title="VUI") Voice User Interface
-            li
-              a.btn.btn-md.btn-primary(href="#" title="Web app") Bookmark Our Web App
+            .btn-group(role='group', aria-label='...')
+              button.btn.btn-default(href="#" title="VUI") Voice User Interface
+              button.btn.btn-default(href="#" title="Web app") Bookmark Our Web App
   //section:Services
   .section
   .container
@@ -76,7 +75,7 @@ block content
           p.section-description Please do
         .col-md-8.col-md-offset-2
           .alert.alert-success(style="display:none")
-            strong 
+            strong
             | Email successfully sent.
           form#gform.form(method='POST' action='https://script.google.com/macros/s/AKfycbwxHNVG7fV6mt8kyPAFaMtLvXSElLEHuLQAANafq-nw8p5EPl43/exec')
             .row

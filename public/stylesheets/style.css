@@ -154,11 +154,15 @@ a {
 	color: #FFF;
 }
 
-.btn-primary {
+.btn-primary ,  button.btn.btn-default {
 	background-color: #1abc9c
 }
-.btn-primary:hover {
+.btn-primary:hover ,   button.btn.btn-default:hover {
 	background-color: #16a085
+}
+
+button.btn.btn-default {
+	margin: 0 20px 10px 0px;
 }
 
 .btn-success {
