@@ -153,23 +153,6 @@ app.use((req,res,next) => {
   next();
 })
 
-//* JEN TESTING
-// const partnersQuery = new transLocAPI(707);
-// var stop = 'Prudential';
-// var route = 'MGH – BWH';
-// var route_id;
-// var stop_id;
-// var arrivals = [];
-//for one querying only
-// transLocAPI.findRouteId(route, function(err, res){
-//   if (err){
-//     fssdf
-//   } else {
-//     route_id = res;
-//     res.fulfillmentTex
-//   }
-// })
-
 
 //This rout is visited to start google authentication. Passport will send you to
 //Google to get authenticated. Then, it will send the browser back to /login/authorized page

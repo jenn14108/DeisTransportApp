@@ -41,7 +41,7 @@ module.exports = class transLocAPI {
   }
 
   //This method finds the arrival estimate to a particular stop given the stop ID
-  //and the route ID 
+  //and the route ID
   findArrivalEstimate(route_id, stop_id, callback){
     var agencyId = this.agency_id;
     var res = [];
@@ -58,3 +58,20 @@ module.exports = class transLocAPI {
     });
   }
 };
+
+
+// for more than one queries:
+// async.waterfall - do all querying in order because need result from last query
+// async.parallel - just do all the querying doesn't matter in which order
+// async.series = do all querying in order
+// example: for one query only
+// var route_id;
+// transLocAPIObject.findRouteId(route, function(err, res){
+//   if (err){
+//     console.log("There was an error");
+//   } else {
+//     route_id = res;
+    //if want to send to dialogflow has to be in here
+//     res.fulfillmentText = "blah"
+//   }
+// })
