@@ -14,7 +14,7 @@ block content
            li
              a.btn.btn-md.btn-primary(href="#" title="VUI") Voice User Interface
            li
-             a.btn.btn-md.btn-primary(href="#" title="Web app") Bookmark Our Web App
+             a#bookmark-this.btn.btn-md.btn-primary(href="#" title="Web app") Bookmark Our Web App
   //section:Services
   .section
   .container
@@ -158,7 +158,6 @@ block content
               a(href="mailto:#") casperlk@brandeis.edu
             a.btn.btn-sm.btn-primary(href="https://github.com/casperlk" title="Casper's git" target="_blank") .git
 
-  //- Bootstrap js
   script(src="/javascripts/formHandler.js")
   script(type="text/javascript").
     /*When the user scrolls down 20px from the top of the document, show the button*/
@@ -170,7 +169,35 @@ block content
           document.getElementById("myBtn").style.display = "none";
       }
     }
+    jQuery(function($) {
+      $('#bookmark-this').click(function(e) {
+        var bookmarkURL = window.location.href;
+        var bookmarkTitle = document.title;
 
+        if ('addToHomescreen' in window && addToHomescreen.isCompatible) {
+          // Mobile browsers
+          addToHomescreen({ autostart: false, startDelay: 0 }).show(true);
+        } else if (window.sidebar && window.sidebar.addPanel) {
+          // Firefox <=22
+          window.sidebar.addPanel(bookmarkTitle, bookmarkURL, '');
+        } else if ((window.sidebar && /Firefox/i.test(navigator.userAgent)) || (window.opera && window.print)) {
+          // Firefox 23+ and Opera <=14
+          $(this).attr({
+            href: bookmarkURL,
+            title: bookmarkTitle,
+            rel: 'sidebar'
+          }).off(e);
+          return true;
+        } else if (window.external && ('AddFavorite' in window.external)) {
+          // IE Favorites
+          window.external.AddFavorite(bookmarkURL, bookmarkTitle);
+        } else {
+          // Other browsers (mainly WebKit & Blink - Safari, Chrome, Opera 15+)
+          alert('Press ' + (/Mac/i.test(navigator.userAgent) ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
+        }
+        return false;
+      });
+    });
     /*When the user clicks on the button, scroll to the top of the document*/
     function topFunction() {
       document.body.scrollTop = 0; // For Safari
