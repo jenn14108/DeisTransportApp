@@ -2,7 +2,6 @@ extends layout
 
 block content
   //-section:schedules
-  
   .section
     .container
       .row
@@ -28,11 +27,11 @@ block content
             .row
               .col-md-12.form-group.text-center
                 button.btn.btn-primary(type="submit" value="submit") Get Schedules
-        .co-md-12.text-center        
+        .col-md-12.text-center        
           .row
             if name == "Campus BranVan (Weekdays)" || name == "Daytime Campus Shuttle" || name == "Evening Waltham Shuttle" || name == "Campus BranVan (Weekends)"
-              h2 #{name}
-              table#disp.table.table-dark
+              h2#disp.section-title #{name}
+              table.table.table-dark
                 thead
                   tr
                     th(scope="col") Stops
@@ -40,12 +39,25 @@ block content
                 tbody
                   each stop in data
                     tr
-                      td(scope="row") #{stop.stop}
+                      th(scope="row") #{stop.stop}
                       //- each time in stop
-                      //-   - function format_times(times){return times};
-                      td(scope="row") #{stop.times}
+                      //- - function format_times(times){return times};
+                      td
+                        select.form-control#route(name="times" size="5" placeholder="Select a route")
+                          each time in stop.times
+                            - var raw_time = time
+                            //- - var nice_time = raw_time.toString().substring(16, 24) 
+                            - var hours = raw_time.getUTCHours()
+                            - var mins = raw_time.getUTCMinutes()
+                            - var ampm = "AM"
+                            - var h = hours
+                            - if (h >= 12) {h = hours - 12, ampm = "PM"} 
+                            - if (h == 0) {h = 12}
+                            - if (mins - 9 <= 0) {mins = "0" + mins}
+                            - var nice_time = h + ":" + mins + " " + ampm
+                            option #{nice_time}
                         
-                        //- td(scope="row") #{stop.times}
+                        //- td(scope="row") #{stop.times
               //- ol
               //-   each stop in data
               //-     li
@@ -53,6 +65,30 @@ block content
               //- 
               //-         e #{stop.stop}
               //-         i #{format_times(stop.times)}
-          
+  // back to top btn
+  i.fas.fa-chevron-circle-up#myBtn(onclick="topFunction()" title="Back to top")
   script(type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
   script(type="text/javascript").
+    /*auto scroll to table*/
+    $( document ).ready(function() {
+      $('html, body').animate({
+          scrollTop: ($('#disp').offset().top)
+      },500);
+    });
+    
+    /*back to top btn*/
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+          document.getElementById("myBtn").style.display = "block";
+      } else {
+          document.getElementById("myBtn").style.display = "none";
+      }
+    }
+    
+    /*When the user clicks on the button, scroll to the top of the document*/
+    function topFunction() {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }

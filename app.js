@@ -34,7 +34,9 @@ const
  EnterSchedule = require('./EnterSchedule')
  Query = require('./Query')
  transloc_key = process.env.TRANSLOC_KEY;
- var async = require('async')
+var
+  async = require('async');
+  moment = require('moment');
 
 console.log('API server listening...');
 
