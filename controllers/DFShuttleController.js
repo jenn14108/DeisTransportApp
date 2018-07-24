@@ -14,6 +14,9 @@ exports.respondToDF = (req, res) => {
   const intent = req.body.queryResult.intent.displayName;
   const response = {};
   const session_id = req.body.session;
+  console.log("intent: "+intent)
+  console.log("response: "+response)
+  console.log("session_id: "+session_id)
   var stop = req.body.queryResult.parameters.stop_name;
   var route = req.body.queryResult.parameters.route_name;
   //construct the two needed query parameters for API calls
