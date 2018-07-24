@@ -5,6 +5,30 @@ body {
 a {
 	transition: all .3s;
 }
+
+/** For chat Icon: */
+img {
+	width: 80px ;
+	height: 80px;
+	position: relative;
+	right: 110px;
+}
+#mck-msg-new.mck-btn , .mck-box-top.mck-title , #mck-tab-conversation, #mck-conversation-title{
+	background-color: #1abc9c;
+	border: #1abc9c;
+}
+
+.mck-msg-right .mck-msg-box{
+	background-color: #1abc9c;
+	color:white;
+}
+
+mck-msg-left .mck-msg-box{
+	background-color: white;
+	color:black;
+}
+/** For chat Icon: End */
+
 /*backtotop btn*/
 #myBtn {
 		font-size: 48px;
