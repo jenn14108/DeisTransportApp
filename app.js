@@ -33,8 +33,8 @@ const
  EnterSchedule = require('./EnterSchedule')
  Query = require('./Query')
  transloc_key = process.env.TRANSLOC_KEY;
- async = require('async');
  transLocAPI = require('./models/transLocAPI');
+ reservationSchema = require('./models/reservationSchema');
 
 
 console.log('API server listening...');
