@@ -33,12 +33,10 @@ const
  EnterSchedule = require('./EnterSchedule')
  Query = require('./Query')
  transloc_key = process.env.TRANSLOC_KEY;
-var
-  async = require('async');
-  moment = require('moment');
-  transLocAPI = require('./models/transLocAPI');
-  reservationSchema = require('./models/reservationSchema');
-
+ async = require('async');
+ moment = require('moment');
+ transLocAPI = require('./models/transLocAPI');
+ reservationSchema = require('./models/reservationSchema');
 
 console.log('API server listening...');
 
@@ -56,18 +54,18 @@ console.log("we are connected!")
 
 //Casper's Testing Ground>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-nowExact = new Date(2018, 7, 30, 11)
-date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), nowExact.getUTCHours()))
-console.log("date:      "+date)
-
-var function_list = []
-
-function_list.push(function(callback)
-{
-  EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 19, 12)), new Date(Date.UTC(2019, 6, 19, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
-})
-
-EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 20, 12)), new Date(Date.UTC(2019, 6, 20, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
+// nowExact = new Date(2018, 7, 30, 11)
+// date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), nowExact.getUTCHours()))
+// console.log("date:      "+date)
+//
+// var function_list = []
+//
+// function_list.push(function(callback)
+// {
+//   EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 19, 12)), new Date(Date.UTC(2019, 6, 19, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
+// })
+//
+// EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 20, 12)), new Date(Date.UTC(2019, 6, 20, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
 
 //Casper's Testing Ground<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
