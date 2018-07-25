@@ -4,35 +4,40 @@ block content
   //-section:Reserve
   .section
     .container
-      .row 
-        .col-md-12.text-center
-          h2.section-title Reserve
-          p.section-description Reserve a spot on a van or shuttle ahead of time.
-        .col-md-8.col-md-offset-2
-          form#resform.form(method="post" role="form" action="addReservation")
-            .row
+    .container
+    .row
+      .col-md-12.text-center
+        h2.section-title Reserve
+        p.section-description Reserve a spot on a van or shuttle ahead of time.
+      .col-md-8.col-md-offset-2
+        form#resform.form(method="post" role="form" action="addReservation")
+          .row
+            .col-md-4.form-group
+              p Van Type:
+              select.form-control#vantype(name="vanType" placeholder="Select a Van")
+                option Select a van
               .col-md-4.form-group
-                p From: 
-                select.form-control#from(name="stopFrom" placeholder="Select a stop")
-                  option Select a stop
-              .col-md-4.form-group
-                p To: 
-                select.form-control#to(name="stopTo" placeholder="Select a stop")
-                  option Select a stop
-              .col-md-4.form-group
-                p Pick up time:
-                select.form-control#time(name="time" placeholder="Select a time")
-                  option Select a time
+              p From:
+              select.form-control#from(name="stopFrom" placeholder="Select a stop")
+                option Select a stop
+            .col-md-4.form-group
+              p To:
+              select.form-control#to(name="stopTo" placeholder="Select a stop")
+                option Select a stop
+            .col-md-4.form-group
+              p Pick up time:
+              select.form-control#time(name="time" placeholder="Select a time")
+                option Select a time
             br
             .row
               .col-md-12.form-group.text-center
                 button.btn.btn-primary(type="submit" value="submit") Reserve
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
+
+
+
+
+
+
+
+
     script(type="text/javascript" language="javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
