@@ -1,5 +1,9 @@
 extends layout
 
+block extraHead
+  script(src='/javascripts/locateUser.js')
+  script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUUXUERtJ8ZofBUjmXJ86BkU-EscHP_ts&callback=initMap")
+
 block content
   //-section:schedules
   .section
@@ -18,7 +22,7 @@ block content
                   option(value="2011") Campus BranVan (Weekends)
                   option(value="2020") Daytime Campus Shuttle
                   option(value="3020") Daytime Waltham Shuttle
-                  option(value="3010") Evening Waltham Shuttle
+                  option(value="3010") Evening Waltham BranVan
                   option(value="1010") Boston/Cambridge Shuttle (Thurs)
                   option(value="1020") Boston/Cambridge Shuttle (Fri)
                   option(value="1030") Boston/Cambridge Shuttle (Sat)
@@ -60,15 +64,15 @@ block content
           h2.section-title Find a Stop
           p.section-description Don't know which schedule to look up? Locate the stops closest to you.
             .col-md-12.form-group.text-center
-              button.btn.btn-primary(type="submit" value="locate") Locate Stops
-          iframe(src='https://www.google.com/maps/d/u/1/embed?mid=1yf3lAZQBO5obXz5s0CVPFtpmXsPs-ION', width='1115', height='480')
+              button.btn.btn-primary.locate-button(value="locate") Locate Stops
+          div#map
 
   // back to top btn
   i.fas.fa-chevron-circle-up#myBtn(onclick="topFunction()" title="Back to top")
-  script(type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
   script(type="text/javascript").
     /*auto scroll to table*/
     $( document ).ready(function() {
+      if(!$('#disp')[0]) return;
       $('html, body').animate({
           scrollTop: ($('#disp').offset().top)
       },500);
