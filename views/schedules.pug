@@ -2,11 +2,9 @@ extends layout
 
 block content
   //-section:schedules
-  
   .section
     .container
       .row
-        
         .col-md-12.text-center 
           h2.section-title Schedules
           p.section-description This page allows you view schedules of the various shuttles provided by Brandeis.
@@ -16,7 +14,7 @@ block content
               .col-md-12.form-group
                 select.form-control#van(name="schedule" placeholder="Select a van")
                   option Select a van
-                  option(value="2010" name="Campus BranVan (Weekdays)") Campus BranVan (Weekdays)
+                  option(value="2010") Campus BranVan (Weekdays)
                   option(value="2011") Campus BranVan (Weekends)
                   option(value="2020") Daytime Campus Shuttle
                   option(value="3020") Daytime Waltham Shuttle
@@ -29,66 +27,56 @@ block content
             .row
               .col-md-12.form-group.text-center
                 button.btn.btn-primary(type="submit" value="submit") Get Schedules
-        .row
-          if data
-            table#disp.table.table-dark 
-              thead
-                tr
-                  th(scope="col") #
-                  th(scope="col") Shuttle
-                  th(scope="col") Stop
-                  th(scope="col") ETA (next)
-                  th(scope="col") ETA (subsequent)
-              tbody
-                tr
-                  th(scope="row") #{route}
-                  td #{stop}
-                  td #{arrival_time1}
-                  td #{arrival_time2}
-            
-            ol
-              each stop in data
-                li
-                  - function format_times(times){return times};
-                    e #{stop.stop}
-                    i #{format_times(stop.times)}
-            
-            
-        //- .row
-        //-   table#disp.table.table-dark
-        //-     thead
-        //-       tr
-        //-         th(scope="col") Stops
-        //-         th(scope="col") Times
-        //-     tbody
-        //-       tr
-        //-         th(scope="row") #{stops}
-        //-         td(scope) #{times}
-          
-        //- .row
-        //-   table#disp.table.table-dark
-        //-     thead
-        //-       tr
-        //-         th(scope="col") Stop
-        //-         th(scope="col") PM
-        //-         th(scope="col") PM
-        //-         th(scope="col") AM
-        //-     tbody
-        //-       tr
-        //-         th(scope="row") 1 
-        //-         td 
-        //-         td 
-        //-         td 
-        //-       tr
-        //-         th(scope="row") 2
-        //-         td 
-        //-         td 
-        //-         td 
-        //-       tr
-        //-         th(scope="row") 3
-        //-         td 
-        //-         td 
-        //-         td 
-  script(type="text/javascript" language="javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
+        .col-md-12.text-center        
+          .row
+            if data
+              h2#disp.section-title #{name}
+              table.table.table-dark
+                thead
+                  tr
+                    th(scope="col") Stops
+                    th(scope="col") Times
+                tbody
+                  each stop in data
+                    tr
+                      th(scope="row") #{stop.stop}
+                      td
+                        select.form-control#route(name="times" size="5" placeholder="Select a route")
+                          each time in stop.times
+                            - var raw_time = time
+                            - var hours = raw_time.getUTCHours()
+                            - var mins = raw_time.getUTCMinutes()
+                            - var ampm = "AM"
+                            - var h = hours
+                            - if (h >= 12) {h = hours - 12, ampm = "PM"} 
+                            - if (h == 0) {h = 12}
+                            - if (mins - 9 <= 0) {mins = "0" + mins}
+                            - var nice_time = h + ":" + mins + " " + ampm
+                            option #{nice_time}
+  // back to top btn
+  i.fas.fa-chevron-circle-up#myBtn(onclick="topFunction()" title="Back to top")
+  script(type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
   script(type="text/javascript").
-          
+    /*auto scroll to table*/
+    $( document ).ready(function() {
+      $('html, body').animate({
+          scrollTop: ($('#disp').offset().top)
+      },500);
+    });
+    
+    /*back to top btn*/
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+          document.getElementById("myBtn").style.display = "block";
+      } else {
+          document.getElementById("myBtn").style.display = "none";
+      }
+    }
+    
+    /*When the user clicks on the button, scroll to the top of the document*/
+    function topFunction() {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
