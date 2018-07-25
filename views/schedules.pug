@@ -48,11 +48,21 @@ block content
                             - var mins = raw_time.getUTCMinutes()
                             - var ampm = "AM"
                             - var h = hours
-                            - if (h >= 12) {h = hours - 12, ampm = "PM"} 
+                            - if (h >= 12) {h = hours - 12, ampm = "PM"}
                             - if (h == 0) {h = 12}
                             - if (mins - 9 <= 0) {mins = "0" + mins}
                             - var nice_time = h + ":" + mins + " " + ampm
                             option #{nice_time}
+  //-section:Location
+  .section
+    .container.center
+        .col-md-12.text-center
+          h2.section-title Find a Stop
+          p.section-description Don't know which schedule to look up? Locate the stops closest to you.
+            .col-md-12.form-group.text-center
+              button.btn.btn-primary(type="submit" value="locate") Locate Stops
+          iframe(src='https://www.google.com/maps/d/u/1/embed?mid=1yf3lAZQBO5obXz5s0CVPFtpmXsPs-ION', width='1115', height='480')
+
   // back to top btn
   i.fas.fa-chevron-circle-up#myBtn(onclick="topFunction()" title="Back to top")
   script(type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
