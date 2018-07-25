@@ -19,7 +19,7 @@ exports.getSchedule = (req,res, next) => {
   } else if (route == "3020") {
     name = "Daytime Waltham Shuttle"
   } else if (route == "3010") {
-    name = "Evening Waltham Shuttle"
+    name = "Evening Waltham Branvan"
   } else if (route == "1010") {
     name = "Boston/Cambridge Shuttle (Thurs)"
   } else if (route == "1020") {
