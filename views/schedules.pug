@@ -29,7 +29,7 @@ block content
                 button.btn.btn-primary(type="submit" value="submit") Get Schedules
         .col-md-12.text-center        
           .row
-            if name == "Campus BranVan (Weekdays)" || name == "Daytime Campus Shuttle" || name == "Evening Waltham Shuttle" || name == "Campus BranVan (Weekends)"
+            if data
               h2#disp.section-title #{name}
               table.table.table-dark
                 thead
@@ -40,13 +40,10 @@ block content
                   each stop in data
                     tr
                       th(scope="row") #{stop.stop}
-                      //- each time in stop
-                      //- - function format_times(times){return times};
                       td
                         select.form-control#route(name="times" size="5" placeholder="Select a route")
                           each time in stop.times
                             - var raw_time = time
-                            //- - var nice_time = raw_time.toString().substring(16, 24) 
                             - var hours = raw_time.getUTCHours()
                             - var mins = raw_time.getUTCMinutes()
                             - var ampm = "AM"
@@ -56,15 +53,6 @@ block content
                             - if (mins - 9 <= 0) {mins = "0" + mins}
                             - var nice_time = h + ":" + mins + " " + ampm
                             option #{nice_time}
-                        
-                        //- td(scope="row") #{stop.times
-              //- ol
-              //-   each stop in data
-              //-     li
-              //-       - function format_times(times){return "times"};
-              //- 
-              //-         e #{stop.stop}
-              //-         i #{format_times(stop.times)}
   // back to top btn
   i.fas.fa-chevron-circle-up#myBtn(onclick="topFunction()" title="Back to top")
   script(type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
