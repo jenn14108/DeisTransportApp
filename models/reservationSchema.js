@@ -8,4 +8,4 @@ var reservationSchema = mongoose.Schema({
   date: Date
 });
 
-module.exports = VanDaySchema
+module.exports = mongoose.model('reservationSchema', reservationSchema);
