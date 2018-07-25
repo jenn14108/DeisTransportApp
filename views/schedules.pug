@@ -5,7 +5,7 @@ block content
   .section
     .container
       .row
-        .col-md-12.text-center 
+        .col-md-12.text-center
           h2.section-title Schedules
           p.section-description This page allows you view schedules of the various shuttles provided by Brandeis.
         .col-md-12
@@ -27,7 +27,7 @@ block content
             .row
               .col-md-12.form-group.text-center
                 button.btn.btn-primary(type="submit" value="submit") Get Schedules
-        .col-md-12.text-center        
+        .col-md-12.text-center
           .row
             if data
               h2#disp.section-title #{name}
@@ -63,7 +63,7 @@ block content
           scrollTop: ($('#disp').offset().top)
       },500);
     });
-    
+
     /*back to top btn*/
     window.onscroll = function() {scrollFunction()};
 
@@ -74,7 +74,7 @@ block content
           document.getElementById("myBtn").style.display = "none";
       }
     }
-    
+
     /*When the user clicks on the button, scroll to the top of the document*/
     function topFunction() {
       document.body.scrollTop = 0; // For Safari
