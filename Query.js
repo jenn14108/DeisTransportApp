@@ -48,7 +48,7 @@ exports.getTimesForStop = function getTimesForStop(sched_id, stopName)
 //given schedule ID and stop name, get next time of a van at that stop
 exports.getNextTime = function getNextTime(sched_id, stopName, nowExact)
 {
-  if (!nowExact)
+  if (!nowExact || nowExact == undefined)
   {
     var nowExact = new Date()
   }
@@ -95,8 +95,8 @@ exports.getNextTimeForVan = function getNextTimeForVan(vanName, stopName)
 //note that you can call this without date and it will assume today
 exports.getVanDay = function getVanDay(nowExact)
 {
-  // console.log("nowExact: "+nowExact)
-  if (!nowExact)
+  console.log("nowExact: "+ typeof nowExact)
+  if (!nowExact || nowExact==undefined)
   {
     console.log("making new today ")
     nowExact = new Date()

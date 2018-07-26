@@ -40,6 +40,11 @@ exports.respondToDF = (req, res) => {
   const intent = req.body.queryResult.intent.displayName;
   const response = {};
   const session_id = req.body.session;
+  var date = new Date(req.body.queryResult.parameters.date)
+  var dateString = req.body.queryResult.outputContexts[0].parameters["date.original"]
+  // if (!dateString) {
+  //   dateString = "today"
+  // }
   if(req.body.queryResult.parameters.stop_name)
   {
     var stop = this.DFNameToDBName(req.body.queryResult.parameters.stop_name);
@@ -77,8 +82,8 @@ exports.respondToDF = (req, res) => {
   Session.findOne({session: session_id}, function (err, session_obj) {
     console.log("in findOne")
     if (err) {
-        response.fulfillmentText = "Sorry, I could not process your request.";
-        return res.json(response);
+      response.fulfillmentText = "Sorry, I could not process your request.";
+      return res.json(response);
     } else { //session ID was found
       if (session_obj) {
         session_obj.stop = stop;
@@ -108,239 +113,260 @@ exports.respondToDF = (req, res) => {
 
   switch (intent) {
     case "get_shuttle_schedule": //Partners
-        Session.findOne({session : session_id }, function (err, session_obj) {
-          if (err || !session_obj){
+    Session.findOne({session : session_id }, function (err, session_obj) {
+      if (err || !session_obj){
+        response.fulfillmentText = "Sorry, I could not retrieve any information";
+        return res.json(response);
+      } else {
+        async.waterfall([
+          function(callback){
+            //get all the Partners routes
+            unirest.get("https://transloc-api-1-2.p.mashape.com/routes.json?agencies=707&callback=call")
+            .header("X-Mashape-Key", transloc_key)
+            .header("Accept", "application/json")
+            .end(function (result) {
+              for (var i = 0; i < result.body.data['707'].length; i++){
+                if (result.body.data['707'][i].long_name === route){
+                  //save the route_id for stop querying
+                  route_id = result.body.data['707'][i].route_id;
+                  console.log(route_id);
+                  break;
+                }
+              }
+
+              callback(null, route_id);
+            });
+          },
+          function(route_id, callback){
+            //get all the Partners stops since cannot query by route_id
+            unirest.get("https://transloc-api-1-2.p.mashape.com/stops.json?agencies=707&callback=call")
+            .header("X-Mashape-Key", transloc_key)
+            .header("Accept", "application/json")
+            .end(function (result) {
+              for (var i = 0; i < result.body.data.length; i++){
+                if (result.body.data[i].name === stop){
+                  stop_id = result.body.data[i].stop_id;
+                  console.log(stop_id);
+                  break;
+                }
+              }
+              callback(null, route_id, stop_id);
+            });
+          },
+          function(route_id, stop_id, callback){
+            //finally, get arrival estimate
+            unirest.get("https://transloc-api-1-2.p.mashape.com/arrival-estimates.json?agencies=707&callback=call&routes=" + route_id + "&stops=" + stop_id)
+            .header("X-Mashape-Key", transloc_key)
+            .header("Accept", "application/json")
+            .end(function (result) {
+              if(result.body.data[0] !== undefined){
+                for (var i = 0; i < result.body.data[0].arrivals.length; i++){
+                  arrival_times.push(result.body.data[0].arrivals[i].arrival_at);
+                }
+              }
+              console.log(arrival_times);
+              Session.update({session: session_id}, {$set:{arrival_times: arrival_times}}, function(err){
+                if(err){
+                  callback(err, null);
+                } else {
+                  callback(null, arrival_times);
+                }
+              })
+            })
+          }
+        ],
+        function(err, result){
+          if(err){
+            response.err = err;
             response.fulfillmentText = "Sorry, I could not retrieve any information";
             return res.json(response);
           } else {
-            async.waterfall([
-              function(callback){
-                //get all the Partners routes
-                unirest.get("https://transloc-api-1-2.p.mashape.com/routes.json?agencies=707&callback=call")
-                .header("X-Mashape-Key", transloc_key)
-                .header("Accept", "application/json")
-                .end(function (result) {
-                  for (var i = 0; i < result.body.data['707'].length; i++){
-                    if (result.body.data['707'][i].long_name === route){
-                      //save the route_id for stop querying
-                      route_id = result.body.data['707'][i].route_id;
-                      console.log(route_id);
-                      break;
-                    }
-                  }
-
-                  callback(null, route_id);
-                });
-              },
-              function(route_id, callback){
-                //get all the Partners stops since cannot query by route_id
-                unirest.get("https://transloc-api-1-2.p.mashape.com/stops.json?agencies=707&callback=call")
-                .header("X-Mashape-Key", transloc_key)
-                .header("Accept", "application/json")
-                .end(function (result) {
-                  for (var i = 0; i < result.body.data.length; i++){
-                    if (result.body.data[i].name === stop){
-                      stop_id = result.body.data[i].stop_id;
-                      console.log(stop_id);
-                      break;
-                    }
-                  }
-                  callback(null, route_id, stop_id);
-                });
-              },
-              function(route_id, stop_id, callback){
-                //finally, get arrival estimate
-                unirest.get("https://transloc-api-1-2.p.mashape.com/arrival-estimates.json?agencies=707&callback=call&routes=" + route_id + "&stops=" + stop_id)
-                .header("X-Mashape-Key", transloc_key)
-                .header("Accept", "application/json")
-                .end(function (result) {
-                  if(result.body.data[0] !== undefined){
-                    for (var i = 0; i < result.body.data[0].arrivals.length; i++){
-                      arrival_times.push(result.body.data[0].arrivals[i].arrival_at);
-                    }
-                  }
-                  console.log(arrival_times);
-                  Session.update({session: session_id}, {$set:{arrival_times: arrival_times}}, function(err){
-                    if(err){
-                      callback(err, null);
-                    } else {
-                      callback(null, arrival_times);
-                    }
-                  })
-                })
-              }
-            ],
-            function(err, result){
-              if(err){
-                response.err = err;
-                response.fulfillmentText = "Sorry, I could not retrieve any information";
-                return res.json(response);
-              } else {
-                if (arrival_times[0] == undefined ){
-                  response.fulfillmentText = "Sorry, the " + route + " shuttle does not currently stop at " + stop
-                } else {
-                  response.fulfillmentText = "The next " + route + " shuttle to " + stop + " will arrive at " + result[0].substring(11,16);
-                }
-                return res.json(response);
-              }
-            });
+            if (arrival_times[0] == undefined ){
+              response.fulfillmentText = "Sorry, the " + route + " shuttle does not currently stop at " + stop
+            } else {
+              response.fulfillmentText = "The next " + route + " shuttle to " + stop + " will arrive at " + result[0].substring(11,16);
+            }
+            return res.json(response);
           }
         });
-        break;
+      }
+    });
+    break;
 
     case "get_second_shuttle_time":
-        Session.findOne({session : session_id} , function (err, session_obj) {
-          if (err || !session_obj){
-            response.fulfillmentText = "Sorry, I could not find the arrival time of the next shuttle.";
-          } else {
-            if (!(typeof session_obj.arrival_times[1] === 'undefined')){
-              response.fulfillmentText = "The shuttle after the first to " + session_obj.stop + " will arrive at " + session_obj.arrival_times[1].substring(11,16);
-            }
-          }
-          return res.json(response);
-        });
-        break;
+    Session.findOne({session : session_id} , function (err, session_obj) {
+      if (err || !session_obj){
+        response.fulfillmentText = "Sorry, I could not find the arrival time of the next shuttle.";
+      } else {
+        if (!(typeof session_obj.arrival_times[1] === 'undefined')){
+          response.fulfillmentText = "The shuttle after the first to " + session_obj.stop + " will arrive at " + session_obj.arrival_times[1].substring(11,16);
+        }
+      }
+      return res.json(response);
+    });
+    break;
     case "get_closest_stop":
-        Session.findOne({session : session_id} , function (err, session_obj) {
-          if (err || !session_obj){
-            response.fulfillmentText = "Sorry, I could not locate your location.";
-          } else {
-            response.fulfillmentText = "yessss";
-          }
-          return res.json(response);
-        });
+    Session.findOne({session : session_id} , function (err, session_obj) {
+      if (err || !session_obj){
+        response.fulfillmentText = "Sorry, I could not locate your location.";
+      } else {
+        response.fulfillmentText = "yessss";
+      }
+      return res.json(response);
+    });
 
-        break;
+    break;
 
     //Branvan Methods:
     case "getArrivalEstimate":
-        Session.findOne({session : session_id} , function (err, session_obj) {
-          if (err){
-            return res.json("Sorry, I could not find the arrival time of the next shuttle.")
-          } else if (!session_obj) {
-            return res.json("Sorry, something went wrong with your login.")
-          } else {
-            console.log("route: "+route)
-            console.log("stop: "+stop)
-            Query.getNextTimeForVan(route, stop).then(resp => {
-              console.log(resp)
-              if (resp.getFullYear() > 2100) {
-                return res.json({"fulfillmentText":"That shuttle isn't running today."})
-              }
-              // console.log("zztop"+resp)
-              resp = new Date(resp-resp.getTimezoneOffset()*60000)
-              return res.json({"fulfillmentText":"The next "+route+" leaves "+stop+" at "+resp.getUTCHours()+":"+resp.getMinutes()+"."})
-            })
+    Session.findOne({session : session_id} , function (err, session_obj) {
+      if (err){
+        return res.json("Sorry, I could not find the arrival time of the next shuttle.")
+      } else if (!session_obj) {
+        return res.json("Sorry, something went wrong with your login.")
+      } else {
+        console.log("route: "+route)
+        console.log("stop: "+stop)
+        Query.getNextTimeForVan(route, stop).then(resp => {
+          console.log(resp)
+          if (resp.getFullYear() > 2100) {
+            return res.json({"fulfillmentText":"That shuttle isn't running today."})
           }
-        });
+          // console.log("zztop"+resp)
+          resp = new Date(resp-resp.getTimezoneOffset()*60000)
+          return res.json({"fulfillmentText":"The next "+route+" leaves "+stop+" at "+resp.getUTCHours()+":"+resp.getMinutes()+"."})
+        })
+      }
+    });
 
-        break;
+    break;
 
-      case "isVanRunning":
-          console.log("in isVanRunning")
-          Session.findOne({session : session_id} , function (err, session_obj) {
-            if (err){
-              return res.json("Sorry, I could not find whether the "+route+" is running.")
-            } else if (!session_obj) {
-              return res.json("Sorry, something went wrong with your login.")
-            } else {
-              console.log("route:we;moiwconiuhwcoinhwnohiwonhiuwoinhweonhiw "+route)
-              console.log("stop: "+stop)
-              Query.getVanScheduleID(route).then(id => {
-                console.log(id)
-                if (id <= 0) {
-                  return res.json({"fulfillmentText":"No, the "+route+" is not running today."})
-                }
-                return res.json({"fulfillmentText":"Yes, the "+route+" is running today."})
-              })
+    case "isVanRunning":
+    console.log("in isVanRunning")
+    Session.findOne({session : session_id} , function (err, session_obj) {
+      if (err){
+        return res.json("Sorry, I could not find whether the "+route+" is running.")
+      } else if (!session_obj) {
+        return res.json("Sorry, something went wrong with your login.")
+      } else {
+        if (!date) {
+          date = new Date()
+        }
+        if (route) {
+          Query.getVanScheduleID(route, date).then(id => {
+            if (id > 0) {
+              return res.json({"fulfillmentText":"Yes, the "+route+" is running "+dateString+"."})
             }
-          });
+            return res.json({"fulfillmentText":"No, the "+route+" is not running "+dateString+"."})
+          })
+        } else {
+          Query.getVanDay(date).then(vd => {
+            var runningVans = [];
+            if (vd) {
+              for (var i = 0; i < vd.schedule_by_van.length; i++) {
+                if (vd.schedule_by_van[i].schedule_id > 0) {
+                  runningVans.push(vd.schedule_by_van[i].van)
+                }
+              }
+            }
 
-          break;
+            if (runningVans.length > 1) {
+              return res.json({"fulfillmentText":"The following vans are running "+dateString+": \n"+runningVans})
+            } else if (runningVans.length == 1) {
+              return res.json({"fulfillmentText":"Only the "+runningVans[0] +" is running " +dateString})
+            } else {
+              return res.json({"fulfillmentText":"There are no vans running " +dateString})
+            }
+          })
+        }
+      }
+    });
+
+    break;
 
     //remaining code for finding brandeis shuttle times
     case "get_brandeis_shuttle":
-        Session.findOne({session : session_id }, function (err, session_obj) {
-          if (err || !session_obj){
+    Session.findOne({session : session_id }, function (err, session_obj) {
+      if (err || !session_obj){
+        response.fulfillmentText = "Sorry, I could not retrieve any information";
+        return res.json(response);
+      } else {
+        async.waterfall([
+          function(callback){
+            //get all the Partners routes
+            unirest.get("https://transloc-api-1-2.p.mashape.com/routes.json?agencies=707&callback=call")
+            .header("X-Mashape-Key", transloc_key)
+            .header("Accept", "application/json")
+            .end(function (result) {
+              for (var i = 0; i < result.body.data['707'].length; i++){
+                if (result.body.data['707'][i].long_name === route){
+                  //save the route_id for stop querying
+                  route_id = result.body.data['707'][i].route_id;
+                  console.log(route_id);
+                  break;
+                }
+              }
+
+              callback(null, route_id);
+            });
+          },
+          function(route_id, callback){
+            //get all the Partners stops since cannot query by route_id
+            unirest.get("https://transloc-api-1-2.p.mashape.com/stops.json?agencies=707&callback=call")
+            .header("X-Mashape-Key", transloc_key)
+            .header("Accept", "application/json")
+            .end(function (result) {
+              for (var i = 0; i < result.body.data.length; i++){
+                if (result.body.data[i].name === stop){
+                  stop_id = result.body.data[i].stop_id;
+                  console.log(stop_id);
+                  break;
+                }
+              }
+              callback(null, route_id, stop_id);
+            });
+          },
+          function(route_id, stop_id, callback){
+            //finally, get arrival estimate
+            unirest.get("https://transloc-api-1-2.p.mashape.com/arrival-estimates.json?agencies=707&callback=call&routes=" + route_id + "&stops=" + stop_id)
+            .header("X-Mashape-Key", transloc_key)
+            .header("Accept", "application/json")
+            .end(function (result) {
+              if(result.body.data[0] !== undefined){
+                for (var i = 0; i < result.body.data[0].arrivals.length; i++){
+                  arrival_times.push(result.body.data[0].arrivals[i].arrival_at);
+                }
+              }
+              console.log(arrival_times);
+              Session.update({session: session_id}, {$set:{arrival_times: arrival_times}}, function(err){
+                if(err){
+                  callback(err, null);
+                } else {
+                  callback(null, arrival_times);
+                }
+              })
+            })
+          }
+        ],
+        function(err, result){
+          if(err){
+            response.err = err;
             response.fulfillmentText = "Sorry, I could not retrieve any information";
             return res.json(response);
           } else {
-            async.waterfall([
-              function(callback){
-                //get all the Partners routes
-                unirest.get("https://transloc-api-1-2.p.mashape.com/routes.json?agencies=707&callback=call")
-                .header("X-Mashape-Key", transloc_key)
-                .header("Accept", "application/json")
-                .end(function (result) {
-                  for (var i = 0; i < result.body.data['707'].length; i++){
-                    if (result.body.data['707'][i].long_name === route){
-                      //save the route_id for stop querying
-                      route_id = result.body.data['707'][i].route_id;
-                      console.log(route_id);
-                      break;
-                    }
-                  }
-
-                  callback(null, route_id);
-                });
-              },
-              function(route_id, callback){
-                //get all the Partners stops since cannot query by route_id
-                unirest.get("https://transloc-api-1-2.p.mashape.com/stops.json?agencies=707&callback=call")
-                .header("X-Mashape-Key", transloc_key)
-                .header("Accept", "application/json")
-                .end(function (result) {
-                  for (var i = 0; i < result.body.data.length; i++){
-                    if (result.body.data[i].name === stop){
-                      stop_id = result.body.data[i].stop_id;
-                      console.log(stop_id);
-                      break;
-                    }
-                  }
-                  callback(null, route_id, stop_id);
-                });
-              },
-              function(route_id, stop_id, callback){
-                //finally, get arrival estimate
-                unirest.get("https://transloc-api-1-2.p.mashape.com/arrival-estimates.json?agencies=707&callback=call&routes=" + route_id + "&stops=" + stop_id)
-                .header("X-Mashape-Key", transloc_key)
-                .header("Accept", "application/json")
-                .end(function (result) {
-                  if(result.body.data[0] !== undefined){
-                    for (var i = 0; i < result.body.data[0].arrivals.length; i++){
-                      arrival_times.push(result.body.data[0].arrivals[i].arrival_at);
-                    }
-                  }
-                  console.log(arrival_times);
-                  Session.update({session: session_id}, {$set:{arrival_times: arrival_times}}, function(err){
-                    if(err){
-                      callback(err, null);
-                    } else {
-                      callback(null, arrival_times);
-                    }
-                  })
-                })
-              }
-            ],
-            function(err, result){
-              if(err){
-                response.err = err;
-                response.fulfillmentText = "Sorry, I could not retrieve any information";
-                return res.json(response);
-              } else {
-                if (arrival_times[0] == undefined ){
-                  response.fulfillmentText = "Sorry, the " + route + " shuttle does not currently stop at " + stop
-                } else {
-                  response.fulfillmentText = "The next " + route + " shuttle to " + stop + " will arrive at " + result[0].substring(11,16);
-                }
-                return res.json(response);
-              }
-            });
+            if (arrival_times[0] == undefined ){
+              response.fulfillmentText = "Sorry, the " + route + " shuttle does not currently stop at " + stop
+            } else {
+              response.fulfillmentText = "The next " + route + " shuttle to " + stop + " will arrive at " + result[0].substring(11,16);
+            }
+            return res.json(response);
           }
         });
-        break;
+      }
+    });
+    break;
 
-    }
+  }
 
 
 };
