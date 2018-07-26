@@ -43,6 +43,9 @@ function initMap() {
     center: myLatlng
   }
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+  var infowindow = new google.maps.InfoWindow();
+
   var image = {
     url: '../images/boy.png',
     scaledSize: new google.maps.Size(60,60)
@@ -53,6 +56,17 @@ function initMap() {
   });
   //add markers for all brandeis shuttle/van stops
   map.data.loadGeoJson('./GeoJSON/deis_stops.geojson');
+
+  map.data.addListener('click', function(event) {
+  	var name = event.feature.getProperty("Name");
+    var description = event.feature.getProperty("description");
+  	infowindow.setContent("<div style='width:150px;'>"+name+description+"</div>");
+  	// position the infowindow on the marker
+  	infowindow.setPosition(event.feature.getGeometry().get());
+  	// anchor the infowindow on the marker
+  	infowindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
+  	infowindow.open(map);
+  });
 
   //user pressed button, display user location
   if (firstLoad == false){
