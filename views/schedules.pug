@@ -1,8 +1,8 @@
 extends layout
 
 block extraHead
-  script(src='/javascripts/locateUser.js')
-  script(src="//maps.googleapis.com/maps/api/js?key="+ googlemapskey)
+  script(defer='' src='/javascripts/locateUser.js')
+  script(defer='' src="//maps.googleapis.com/maps/api/js?key="+ googlemapskey + "&callback=initMap")
 
 block content
   //-section:schedules
@@ -65,7 +65,9 @@ block content
           p.section-description Don't know which schedule to look up? Locate the stops closest to you.
             .col-md-12.form-group.text-center
               button.btn.btn-primary(name='locate-button') Locate Stops
-          iframe(src='https://www.google.com/maps/d/u/1/embed?mid=1yf3lAZQBO5obXz5s0CVPFtpmXsPs-ION', width='640', height='480')
+          //iframe(src='https://www.google.com/maps/d/u/1/embed?mid=1yf3lAZQBO5obXz5s0CVPFtpmXsPs-ION', width='640', height='480')
+          //(width='600', height='450', frameborder='0', style='border:0', src='https://www.google.com/maps/embed/v1/place?q=25.057413%20%2C%20121.549554&key=AIzaSyDsCy9_Lf7J5dFilcSecVZB293x2CBx114', allowfullscreen='')
+          div#map
 
   // back to top btn
   i.fas.fa-chevron-circle-up#myBtn(onclick="topFunction()" title="Back to top")

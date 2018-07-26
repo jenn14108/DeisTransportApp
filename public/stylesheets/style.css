@@ -6,6 +6,10 @@ a {
 	transition: all .3s;
 }
 
+#map {
+	height: 400px;
+	width: 100%;
+}
 /** For chat Icon: */
 #Bot {
 	width: 80px ;
@@ -14,7 +18,7 @@ a {
 	bottom: 90px;
 	right: 20px;
 }
-/
+
 #mck-msg-new.mck-btn , .mck-box-top.mck-title , #mck-tab-conversation, #mck-conversation-title{
 	background-color: #1abc9c;
 	border: #1abc9c;
