@@ -34,9 +34,16 @@ function initMap() {
     center: myLatlng
   }
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  var image = {
+    url: '../images/boy.png',
+    scaledSize: new google.maps.Size(60,60)
+  }
   var marker = new google.maps.Marker({
       position: myLatlng,
+      icon: image
   });
+
+  map.data.loadGeoJson('./GeoJSON/deis_stops.geojson');
   if (firstLoad == false){
     marker.setMap(map);
   }
