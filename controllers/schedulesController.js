@@ -19,7 +19,7 @@ exports.getSchedule = (req,res, next) => {
   } else if (route == "3020") {
     name = "Daytime Waltham Shuttle"
   } else if (route == "3010") {
-    name = "Evening Waltham Shuttle"
+    name = "Evening Waltham Branvan"
   } else if (route == "1010") {
     name = "Boston/Cambridge Shuttle (Thurs)"
   } else if (route == "1020") {
@@ -29,7 +29,7 @@ exports.getSchedule = (req,res, next) => {
   } else if (route == "1040") {
     name = "Boston/Cambridge Shuttle (Sun)"
   }
-  console.log("fetching schedule of route: " + route)
+  console.log("fetching schedule of route: " + name)
   var stops = Query.getSchedule(route).then(data =>
     {
       res.render('schedules', {name:name, data:data})

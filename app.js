@@ -88,11 +88,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use(checkLoggedIn);
 app.use('/', mainPageRouter);
 app.get('/reserve', reservationController.renderMain);
+app.post('/getRouteInfo', reservationController.getRouteInfo)
+app.post('/addReservation', reservationController.addReservation)
 app.get('/tracker', trackerController.renderMain);
 app.post('/getEstimate', trackerController.getEstimate);
 //app.get('/schedules', PartnersShuttleController.renderMain);
 app.get('/schedules', schedulesController.renderMain);
 app.post('/getSchedule', schedulesController.getSchedule);
+
 
 // if(req.isAuthenticated()) res.locals.isLoggedIn = true;
 // next();
