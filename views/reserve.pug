@@ -3,37 +3,37 @@ extends layout
 block content
   //-section:Reserve
   .section
-  .container
-    .row
-      .col-md-12.text-center
-        h2.section-title Reserve
-        p.section-description Reserve a spot on a van or shuttle ahead of time.
-      .col-md-12
-        form#resform.form(method="post" role="form" action="addReservation")
-          .row
-            .col-md-3.form-group
-              p Van Type:
-              select.form-control#vantype(name="vanType" placeholder="Select a Van")
-                option Select a van
-                option(value="2010") Campus BranVan (Weekdays)
-                option(value="2011") Campus BranVan (Weekends)
-                option(value="3010") Evening Waltham Branvan
-            .col-md-3.form-group
-              p From:
-              select.form-control#from(name="stopFrom" placeholder="Select a stop")
-                option Select a stop
-            .col-md-3.form-group
-              p To:
-              select.form-control#to(name="stopTo" placeholder="Select a stop")
-                option Select a stop
-            .col-md-3.form-group
-              p Pick up time:
-              select.form-control#time(name="time" placeholder="Select a time")
-                option Select a time
-            br
+    .container
+      .row
+        .col-md-12.text-center
+          h2.section-title Reserve
+          p.section-description Reserve a spot on a van or shuttle ahead of time.
+        .col-md-12
+          form#resform.form(method="post" role="form" action="addReservation")
             .row
-              .col-md-12.form-group.text-center
-                button.btn.btn-primary(type="submit" value="submit") Reserve
+              .col-md-3.form-group
+                p Van Type:
+                select.form-control#vantype(name="vanType" placeholder="Select a Van")
+                  option Select a van
+                  option(value="2010") Campus BranVan (Weekdays)
+                  option(value="2011") Campus BranVan (Weekends)
+                  option(value="3010") Evening Waltham Branvan
+              .col-md-3.form-group
+                p From:
+                select.form-control#from(name="stopFrom" placeholder="Select a stop")
+                  option Select a stop
+              .col-md-3.form-group
+                p To:
+                select.form-control#to(name="stopTo" placeholder="Select a stop")
+                  option Select a stop
+              .col-md-3.form-group
+                p Pick up time:
+                select.form-control#time(name="time" placeholder="Select a time")
+                  option Select a time
+              br
+              .row
+                .col-md-12.form-group.text-center
+                  button.btn.btn-primary(type="submit" value="submit") Reserve
 
 
 
@@ -48,36 +48,46 @@ block content
 
       var $dropdown = $(this);
       var key = $dropdown.val();
-      var whichRoute = "";
-
-      //for brandeis
-      if (key == "2010" || key == "2011") {
-        whichRoute = "/JSON_Schedules/campusVanSchedule.json"
-      } else if (key == "3010") {
-        whichRoute = "/JSON_Schedules/EveningWalthamVanSchedule.json"
-      }
-
-      var vals = [];
-
-      $(document).ready(function(e) {
-        $.getJSON( whichRoute , function( data ){
-          for (var i = 0; i < data.length; i++) {
-            vals[i] = data[i].stop
-            }
-
-            var $from = $("#from");
-            var $to = $("#to");
-            $("#from option").remove();
-            $("#to option").remove();
-            $('<option>Select a stop</option>').appendTo("#from")
-            $('<option>Select a stop</option>').appendTo("#to")
-            for (var j = 0; j < vals.length; j++) {
-              console.log(vals[j])
-              $('<option value="' + vals[j] + '">' + vals[j] + '</option>').appendTo("#from")
-              $('<option value="' + vals[j] + '">' + vals[j] + '</option>').appendTo("#to")
-              }
-        });
-      });
+      
+      $.ajax({
+        url: '/getRouteInfo',
+        type: "POST",
+        data: {
+          vanType: key
+        },
+        dataType: 'json',
+        success: function(data){
+          var $time = $("#time");
+          $("#time option").remove();
+          $('<option>Select a time</option>').appendTo("#time")
+          var $from = $("#from");
+          var $to = $("#to");
+          $("#from option").remove();
+          $("#to option").remove();
+          $('<option>Select a stop</option>').appendTo("#from")
+          $('<option>Select a stop</option>').appendTo("#to")
+          console.log(data)
+          for (var j = 0; j < data.data.length; j++) {
+            var currStop = data.data[j].stop
+            $('<option value="' + currStop + '">' + currStop + '</option>').appendTo("#from")
+            $('<option value="' + currStop + '">' + currStop + '</option>').appendTo("#to")
+          }
+          for (var i = 0; i < data.data[0].times.length; i++) {
+            var raw_time = new Date(Date.parse(data.data[0].times[i]))
+            var hours = raw_time.getUTCHours()
+            var mins = raw_time.getUTCMinutes()
+            var ampm = "AM"
+            var h = hours
+            if (h >= 12) {h = hours - 12, ampm = "PM"} 
+            if (h == 0) {h = 12}
+            if (mins - 9 <= 0) {mins = "0" + mins}
+            var nice_time = h + ":" + mins + " " + ampm
+            $('<option value="' + nice_time + '">' + nice_time + '</option>').appendTo("#time")
+          }
+        },
+        error: function(err){
+        }
+      })
     });
 
   
