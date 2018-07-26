@@ -48,7 +48,7 @@ block content
           vanType: key
         },
         dataType: 'json',
-        success: function(data){
+        success: function(data) {
           var $time = $("#time");
           $("#time option").remove();
           $('<option>Select a time</option>').appendTo("#time")
@@ -77,7 +77,7 @@ block content
             $('<option value="' + nice_time + '">' + nice_time + '</option>').appendTo("#time")
           }
         },
-        error: function(err){
+        error: function(err) {
         }
       })
     });

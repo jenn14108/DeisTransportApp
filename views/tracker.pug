@@ -64,10 +64,11 @@ block content
                   th(scope="col") ETA (subsequent)
               tbody
                 tr
-                  th(scope="row") #{route}
+                  th#marker(scope="row") #{route}
                   td #{stop}
                   td #{arrival_time1}
                   td #{arrival_time2}
+  script(src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous")
   script(type="text/javascript").
     $("#route").change(function() {
 
@@ -87,7 +88,22 @@ block content
       } else if (key == "boston") {
         whichRoute = "/JSON_Schedules/BostonCambridgeShuttleFriSchedule.json"
       } */
-
+      
+      /* $.ajax({
+        url: '/dispRoute',
+        type: "POST",
+        data: {
+          vanType: key
+        },
+        dataType: 'json',
+        success: function(data) {
+           
+        }
+        error: function(err) {
+        }
+      }) */
+      
+      
       //for Partners testing
       whichRoute = "/JSON_Schedules/" + key + ".json"
 
@@ -111,10 +127,12 @@ block content
     });
 
     /*auto scroll to table*/
-    $( document ).ready(function() {
-      $('html, body').animate({
-          scrollTop: ($('#disp').offset())
-      },500);
+    $(document).ready(function() {
+      if ($("#marker").length) {
+        $('html, body').animate({
+            scrollTop: ($('#disp').offset().top)
+        },500);
+      }
     });
     
     /*back to top btn*/
