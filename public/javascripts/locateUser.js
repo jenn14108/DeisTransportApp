@@ -1,10 +1,11 @@
 var lat;
 var long;
+var firstLoad = true;
 $( document ).ready(function() {
   $("button[name='locate-button']").on('click',function() {
        console.log('button clicked');
+       firstLoad = false;
        getLocation();
-       // initMap();
   });
 });
 
@@ -14,21 +15,30 @@ function getLocation() {
     navigator.geolocation.getCurrentPosition(function(position){
       lat = position.coords.latitude;
       long = position.coords.longitude;
-      console.log(lat, long);
+      initMap();
     });
   }
 }
 
 function initMap() {
-  var myLatlng = new google.maps.LatLng(42.3756803, -71.2375709);
+  var myLatlng;
+  if (firstLoad == true) {
+    myLatlng = new google.maps.LatLng(42.365544, -71.255144);
+  } else {
+    console.log(lat);
+    console.log(long);
+    myLatlng = new google.maps.LatLng(lat, long);
+  }
   var mapOptions = {
-    zoom: 4,
+    zoom: 14,
     center: myLatlng
   }
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
   var marker = new google.maps.Marker({
       position: myLatlng,
   });
-  marker.setMap(map);
+  if (firstLoad == false){
+    marker.setMap(map);
+  }
   console.log("done")
 }
