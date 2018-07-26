@@ -68,8 +68,6 @@ block content
                   td #{stop}
                   td #{arrival_time1}
                   td #{arrival_time2}
-
-  script(type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
   script(type="text/javascript").
     $("#route").change(function() {
 
@@ -115,7 +113,7 @@ block content
     /*auto scroll to table*/
     $( document ).ready(function() {
       $('html, body').animate({
-          scrollTop: ($('#disp').offset().top)
+          scrollTop: ($('#disp').offset())
       },500);
     });
     
@@ -135,11 +133,3 @@ block content
       document.body.scrollTop = 0; // For Safari
       document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     }
-
-
-        
-        
-        
-        
-        
-        
