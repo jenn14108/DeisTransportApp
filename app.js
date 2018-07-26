@@ -33,6 +33,7 @@ const
  EnterSchedule = require('./EnterSchedule')
  Query = require('./Query')
  transloc_key = process.env.TRANSLOC_KEY;
+ googlemapskey = process.env.GOOGLEMAPSKEY;
  async = require('async');
  moment = require('moment');
  transLocAPI = require('./models/transLocAPI');
