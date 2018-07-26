@@ -1,28 +1,44 @@
-const axios = require('axios');
-//This script uses the HTML5 Geolocation function to locate users. This will
-//be used to determine the closest Brandeis stop to the user
-function getLocation() {
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(patchPosition);
-  console.log('location')
-    } else {
-   console.log('no location');
- }
-   }
+var lat;
+var long;
+var firstLoad = true;
+$( document ).ready(function() {
+  $("button[name='locate-button']").on('click',function() {
+       console.log('button clicked');
+       firstLoad = false;
+       getLocation();
+  });
+});
 
- function patchPosition(position) {
-      axios.post('/user', {
-           lat: position.coords.latitude,
-           lng: position.coords.longitude
-    }).then((res) => {
-        console.log("geolocation", res.config.data)
-      }).catch( function(error) {
-    if (error.response) {
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
-    }
-  })
+function getLocation() {
+  if (navigator.geolocation) {
+    console.log("geolocation working!");
+    navigator.geolocation.getCurrentPosition(function(position){
+      lat = position.coords.latitude;
+      long = position.coords.longitude;
+      initMap();
+    });
+  }
 }
 
- getLocation();
+function initMap() {
+  var myLatlng;
+  if (firstLoad == true) {
+    myLatlng = new google.maps.LatLng(42.365544, -71.255144);
+  } else {
+    console.log(lat);
+    console.log(long);
+    myLatlng = new google.maps.LatLng(lat, long);
+  }
+  var mapOptions = {
+    zoom: 14,
+    center: myLatlng
+  }
+  var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  var marker = new google.maps.Marker({
+      position: myLatlng,
+  });
+  if (firstLoad == false){
+    marker.setMap(map);
+  }
+  console.log("done")
+}

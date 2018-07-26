@@ -243,7 +243,6 @@
       name: Burger King - (Inbound)
 
 
-      location_type: stop
       location: {
         lat: 42.375705
         lng: -71.24377

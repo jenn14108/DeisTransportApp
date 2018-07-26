@@ -1,11 +1,15 @@
 extends layout
 
+block extraHead
+  script(defer='' src='/javascripts/locateUser.js')
+  script(defer='' src="//maps.googleapis.com/maps/api/js?key="+ googlemapskey + "&callback=initMap")
+
 block content
   //-section:schedules
   .section
     .container
       .row
-        .col-md-12.text-center 
+        .col-md-12.text-center
           h2.section-title Schedules
           p.section-description This page allows you view schedules of the various shuttles provided by Brandeis.
         .col-md-12
@@ -18,7 +22,7 @@ block content
                   option(value="2011") Campus BranVan (Weekends)
                   option(value="2020") Daytime Campus Shuttle
                   option(value="3020") Daytime Waltham Shuttle
-                  option(value="3010") Evening Waltham Shuttle
+                  option(value="3010") Evening Waltham BranVan
                   option(value="1010") Boston/Cambridge Shuttle (Thurs)
                   option(value="1020") Boston/Cambridge Shuttle (Fri)
                   option(value="1030") Boston/Cambridge Shuttle (Sat)
@@ -27,7 +31,7 @@ block content
             .row
               .col-md-12.form-group.text-center
                 button.btn.btn-primary(type="submit" value="submit") Get Schedules
-        .col-md-12.text-center        
+        .col-md-12.text-center
           .row
             if data
               h2#disp.section-title #{name}
@@ -48,22 +52,32 @@ block content
                             - var mins = raw_time.getUTCMinutes()
                             - var ampm = "AM"
                             - var h = hours
-                            - if (h >= 12) {h = hours - 12, ampm = "PM"} 
+                            - if (h >= 12) {h = hours - 12, ampm = "PM"}
                             - if (h == 0) {h = 12}
                             - if (mins - 9 <= 0) {mins = "0" + mins}
                             - var nice_time = h + ":" + mins + " " + ampm
                             option #{nice_time}
+  //-section:Location
+  .section
+    .container.center
+        .col-md-12.text-center
+          h2.section-title Find a Stop
+          p.section-description Don't know which schedule to look up? Locate the stops closest to you.
+            .col-md-12.form-group.text-center
+              button.btn.btn-primary(name='locate-button') Locate Stops
+          div#map
+
   // back to top btn
   i.fas.fa-chevron-circle-up#myBtn(onclick="topFunction()" title="Back to top")
-  script(type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
   script(type="text/javascript").
     /*auto scroll to table*/
     $( document ).ready(function() {
+      if(!$('#disp')[0]) return;
       $('html, body').animate({
           scrollTop: ($('#disp').offset().top)
       },500);
     });
-    
+
     /*back to top btn*/
     window.onscroll = function() {scrollFunction()};
 
@@ -74,7 +88,7 @@ block content
           document.getElementById("myBtn").style.display = "none";
       }
     }
-    
+
     /*When the user clicks on the button, scroll to the top of the document*/
     function topFunction() {
       document.body.scrollTop = 0; // For Safari
