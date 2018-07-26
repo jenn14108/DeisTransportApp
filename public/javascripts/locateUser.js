@@ -1,6 +1,10 @@
+//Create global variables to be used later
 var lat;
 var long;
+//Map has to be initialized when the page loads, but no markers
+//should be set until the user presses the locate button
 var firstLoad = true;
+
 $( document ).ready(function() {
   $("button[name='locate-button']").on('click',function() {
        console.log('button clicked');
@@ -9,6 +13,7 @@ $( document ).ready(function() {
   });
 });
 
+//This function utilizes HTML5 Geolocation to locate the user
 function getLocation() {
   if (navigator.geolocation) {
     console.log("geolocation working!");
@@ -20,8 +25,10 @@ function getLocation() {
   }
 }
 
+//This function initializes the map
 function initMap() {
   var myLatlng;
+  //first load the general Brandeis area
   if (firstLoad == true) {
     myLatlng = new google.maps.LatLng(42.365544, -71.255144);
   } else {
@@ -29,6 +36,8 @@ function initMap() {
     console.log(long);
     myLatlng = new google.maps.LatLng(lat, long);
   }
+
+  //zoom is how close or far the map view is on the page
   var mapOptions = {
     zoom: 14,
     center: myLatlng
@@ -42,8 +51,10 @@ function initMap() {
       position: myLatlng,
       icon: image
   });
-
+  //add markers for all brandeis shuttle/van stops
   map.data.loadGeoJson('./GeoJSON/deis_stops.geojson');
+
+  //user pressed button, display user location
   if (firstLoad == false){
     marker.setMap(map);
   }
