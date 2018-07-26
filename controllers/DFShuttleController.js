@@ -10,15 +10,57 @@ exports.renderMain = (req,res) => {
   res.render('schedules', {title: 'Schedules'});
 };
 
+//if there is a disconnect between the name on DF and on DB, this will translate from DF to DB
+exports.DFNameToAPIName = function(name) {
+  // @TODO
+  //THESE ARE NOT CORRECT AND HAVE NOT BEEN COMPLETED
+  if (name == "cambridgeShuttle") return name;
+  if (name == "campusShuttle") return name;
+  if (name == "campusVan") return name;
+  if (name == "walthamVan") return name;
+  if (name == "walthamShuttle") return name;
+}
+
+//if there is a disconnect between the name on DF and on DB, this will translate from DF to DB
+exports.DFNameToDBName = function(name) {
+  if (name == "Rabb") return name;
+  if (name == "Hassenfeld") return "Hassenfeld Lot";
+  if (name == "Lower Charles River Road") return name;
+  if (name == "cambridgeShuttle") return name;
+  if (name == "campusShuttle") return name;
+  if (name == "campusVan") return name;
+  if (name == "walthamVan") return name;
+  if (name == "walthamShuttle") return name;
+  return name
+}
+
+
 exports.respondToDF = (req, res) => {
+
   const intent = req.body.queryResult.intent.displayName;
   const response = {};
   const session_id = req.body.session;
+  if(req.body.queryResult.parameters.stop_name)
+  {
+    var stop = this.DFNameToDBName(req.body.queryResult.parameters.stop_name);
+  }
+  else
+  {
+    var stop = this.DFNameToDBName(req.body.queryResult.parameters.stopName);
+  }
+  if (req.body.queryResult.parameters.route_name)
+  {
+    var route = this.DFNameToDBName(req.body.queryResult.parameters.route_name);
+  }
+  else
+  {
+    var route = this.DFNameToDBName(req.body.queryResult.parameters.vanType);
+  }
   console.log("intent: "+intent)
   console.log("response: "+response)
   console.log("session_id: "+session_id)
-  var stop = req.body.queryResult.parameters.stop_name;
-  var route = req.body.queryResult.parameters.route_name;
+  console.log("stop: "+stop)
+  console.log("route: "+route)
   //construct the two needed query parameters for API calls
   if (!(typeof stop === 'undefined')){
     stop = stop.replace("–","-");
@@ -33,6 +75,7 @@ exports.respondToDF = (req, res) => {
 
   //make sure that there is a session
   Session.findOne({session: session_id}, function (err, session_obj) {
+    console.log("in findOne")
     if (err) {
         response.fulfillmentText = "Sorry, I could not process your request.";
         return res.json(response);
@@ -68,7 +111,7 @@ exports.respondToDF = (req, res) => {
         Session.findOne({session : session_id }, function (err, session_obj) {
           if (err || !session_obj){
             response.fulfillmentText = "Sorry, I could not retrieve any information";
-            res.json(response);
+            return res.json(response);
           } else {
             async.waterfall([
               function(callback){
@@ -131,14 +174,14 @@ exports.respondToDF = (req, res) => {
               if(err){
                 response.err = err;
                 response.fulfillmentText = "Sorry, I could not retrieve any information";
-                res.json(response);
+                return res.json(response);
               } else {
                 if (arrival_times[0] == undefined ){
                   response.fulfillmentText = "Sorry, the " + route + " shuttle does not currently stop at " + stop
                 } else {
                   response.fulfillmentText = "The next " + route + " shuttle to " + stop + " will arrive at " + result[0].substring(11,16);
                 }
-                res.json(response);
+                return res.json(response);
               }
             });
           }
@@ -154,7 +197,7 @@ exports.respondToDF = (req, res) => {
               response.fulfillmentText = "The shuttle after the first to " + session_obj.stop + " will arrive at " + session_obj.arrival_times[1].substring(11,16);
             }
           }
-          res.json(response);
+          return res.json(response);
         });
         break;
     case "get_closest_stop":
@@ -164,16 +207,63 @@ exports.respondToDF = (req, res) => {
           } else {
             response.fulfillmentText = "yessss";
           }
-          res.json(response);
+          return res.json(response);
         });
 
         break;
+
+    //Branvan Methods:
+    case "getArrivalEstimate":
+        Session.findOne({session : session_id} , function (err, session_obj) {
+          if (err){
+            return res.json("Sorry, I could not find the arrival time of the next shuttle.")
+          } else if (!session_obj) {
+            return res.json("Sorry, something went wrong with your login.")
+          } else {
+            console.log("route: "+route)
+            console.log("stop: "+stop)
+            Query.getNextTimeForVan(route, stop).then(resp => {
+              console.log(resp)
+              if (resp.getFullYear() > 2100) {
+                return res.json({"fulfillmentText":"That shuttle isn't running today."})
+              }
+              // console.log("zztop"+resp)
+              resp = new Date(resp-resp.getTimezoneOffset()*60000)
+              return res.json({"fulfillmentText":"The next "+route+" leaves "+stop+" at "+resp.getUTCHours()+":"+resp.getMinutes()+"."})
+            })
+          }
+        });
+
+        break;
+
+      case "isVanRunning":
+          console.log("in isVanRunning")
+          Session.findOne({session : session_id} , function (err, session_obj) {
+            if (err){
+              return res.json("Sorry, I could not find whether the "+route+" is running.")
+            } else if (!session_obj) {
+              return res.json("Sorry, something went wrong with your login.")
+            } else {
+              console.log("route:we;moiwconiuhwcoinhwnohiwonhiuwoinhweonhiw "+route)
+              console.log("stop: "+stop)
+              Query.getVanScheduleID(route).then(id => {
+                console.log(id)
+                if (id <= 0) {
+                  return res.json({"fulfillmentText":"No, the "+route+" is not running today."})
+                }
+                return res.json({"fulfillmentText":"Yes, the "+route+" is running today."})
+              })
+            }
+          });
+
+          break;
+
     //remaining code for finding brandeis shuttle times
     case "get_brandeis_shuttle":
         Session.findOne({session : session_id }, function (err, session_obj) {
           if (err || !session_obj){
             response.fulfillmentText = "Sorry, I could not retrieve any information";
-            res.json(response);
+            return res.json(response);
           } else {
             async.waterfall([
               function(callback){
@@ -236,20 +326,23 @@ exports.respondToDF = (req, res) => {
               if(err){
                 response.err = err;
                 response.fulfillmentText = "Sorry, I could not retrieve any information";
-                res.json(response);
+                return res.json(response);
               } else {
                 if (arrival_times[0] == undefined ){
                   response.fulfillmentText = "Sorry, the " + route + " shuttle does not currently stop at " + stop
                 } else {
                   response.fulfillmentText = "The next " + route + " shuttle to " + stop + " will arrive at " + result[0].substring(11,16);
                 }
-                res.json(response);
+                return res.json(response);
               }
             });
           }
         });
         break;
+
     }
+
+
 };
 
 

@@ -49,24 +49,12 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 console.log("we are connected!")
-});
-
-//Casper's Testing Ground>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-nowExact = new Date(2018, 7, 30, 11)
-date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), nowExact.getUTCHours()))
-console.log("date:      "+date)
-
-var function_list = []
-
-function_list.push(function(callback)
-{
-  EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 19, 12)), new Date(Date.UTC(2019, 6, 19, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
 })
 
-EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 20, 12)), new Date(Date.UTC(2019, 6, 20, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
 
-//Casper's Testing Ground<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
 
 // viewengine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -114,6 +102,8 @@ app.get('/logout', function(req, res) {
         res.redirect('/');
     });
 
+
+
 //route middleware to make sure a user is logged in to see certain pages
 function isLoggedIn(req,res,next) {
   console.log("checking to see if user is authenticated!");
@@ -153,6 +143,23 @@ app.use((req,res,next) => {
   next();
 })
 
+
+
+//Casper's Testing Ground>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+nowExact = new Date(2018, 7, 30, 11)
+date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), nowExact.getUTCHours()))
+console.log("date:      "+date)
+var start = new Date(Date.UTC(2018, 6, 24,12))
+var end = new Date(Date.UTC(2018, 6, 26,12))
+console.log("start: "+start)
+console.log("end: "+end)
+
+EnterVanDays.enterVanDays(start, end, [true,true,true,true,true,true,true], 2010, "campusVan")
+
+//Casper's Testing Ground<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 //* JEN TESTING
 const apiquery = new transLocAPI(707);
 var stop = 'Prudential';
@@ -187,5 +194,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;
