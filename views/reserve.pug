@@ -7,40 +7,47 @@ block content
       .row
         .col-md-12.text-center
           h2.section-title Reserve
-          p.section-description Reserve a spot on a van or shuttle ahead of time.
-        .col-md-12
-          form#resform.form(method="post" role="form" action="addReservation")
-            .row
-              .col-md-3.form-group
-                p Van Type:
-                select.form-control#vantype(name="vanType" placeholder="Select a Van")
-                  option Select a van
-                  option(value="2010") Campus BranVan (Weekdays)
-                  option(value="2011") Campus BranVan (Weekends)
-                  option(value="3010") Evening Waltham Branvan
-              .col-md-3.form-group
-                p From:
-                select.form-control#from(name="stopFrom" placeholder="Select a stop")
-                  option Select a stop
-              .col-md-3.form-group
-                p To:
-                select.form-control#to(name="stopTo" placeholder="Select a stop")
-                  option Select a stop
-              .col-md-3.form-group
-                p Pick up time:
-                select.form-control#time(name="time" placeholder="Select a time")
-                  option Select a time
-              br
-              .row
-                .col-md-12.form-group.text-center
-                  button.btn.btn-primary(type="submit" value="submit") Reserve
+          if loggedIn
+            p.section-description Reserve a spot on a van or on a shuttle ahead of time.
+            .col-md-12
+              form#resform.form(method="post" role="form" action="addReservation")
+                .row
+                  .col-md-3.form-group
+                    p Van Type:
+                    select.form-control#vantype(name="vanType" placeholder="Select a Van")
+                      option Select a van
+                      option(value="2010") Campus BranVan (Weekdays)
+                      option(value="2011") Campus BranVan (Weekends)
+                      option(value="3010") Evening Waltham Branvan
+                  .col-md-3.form-group
+                    p From:
+                    select.form-control#from(name="stopFrom" placeholder="Select a stop")
+                      option Select a stop
+                  .col-md-3.form-group
+                    p To:
+                    select.form-control#to(name="stopTo" placeholder="Select a stop")
+                      option Select a stop
+                  .col-md-3.form-group
+                    p Pick up time:
+                    select.form-control#time(name="time" placeholder="Select a time")
+                      option Select a time
+                  br
+                  .row
+                    .col-md-12.form-group.text-center
+                      button.btn.btn-primary(type="submit" value="submit") Reserve
+
+          else
+            p.section-description You must log in to make a reservation on a van or on a shuttle ahead of time
+            a.btn.btn-md.btn-primary(type='button' href="/login") Log In
+
+
   script(type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
   script(type="text/javascript").
     $("#vantype").change(function() {
 
       var $dropdown = $(this);
       var key = $dropdown.val();
-      
+
       $.ajax({
         url: '/getRouteInfo',
         type: "POST",
@@ -70,7 +77,7 @@ block content
             var mins = raw_time.getUTCMinutes()
             var ampm = "AM"
             var h = hours
-            if (h >= 12) {h = hours - 12, ampm = "PM"} 
+            if (h >= 12) {h = hours - 12, ampm = "PM"}
             if (h == 0) {h = 12}
             if (mins - 9 <= 0) {mins = "0" + mins}
             var nice_time = h + ":" + mins + " " + ampm

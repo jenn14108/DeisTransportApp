@@ -1,5 +1,6 @@
 doctype html
 html(lang="")
+
   head
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible" content="IE=edge")
@@ -14,6 +15,7 @@ html(lang="")
     link(href="stylesheets/style.css" rel="stylesheet" type="text/css")
 
     block extraHead
+
   body
     //-section:navbar
     nav.navbar.navbar-default(role="navigation")
@@ -28,18 +30,22 @@ html(lang="")
           a.navbar-brand(href="/") Deis Transport App
         //- navbar
         .collapse.navbar-collapse.navbar-ex1-collapse
-        
-          ul.nav.navbar-nav.navbar-right
-            li
-              a(href="/reserve") Reserve
-            li
-              a(href="/tracker") Tracker
-            li
-              a(href="/schedules") Schedules
-            li
-              a(href="#about") About
-            li
-              a(href="/login") Sign In
+            ul.nav.navbar-nav.navbar-right
+              li
+                a(href="/reserve") Reserve
+              li
+                a(href="/tracker") Tracker
+              li
+                a(href="/schedules") Schedules
+              li
+                a(href="#about") About
+              li
+                if loggedIn
+                  a.btn.btn-md.btn-primary(typ='button' href="/logout") Log Out
+                else
+                  a.btn.btn-md.btn-primary(type='button' href="/login") Log In
+
+
 
     block content
 
