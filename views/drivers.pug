@@ -1,0 +1,68 @@
+extends layout
+
+block extraHead
+  script(src='/javascripts/resSuccessMessage.js')
+
+
+block content
+  //-section:Reserve
+  .section
+    .container
+      .row
+        .col-md-12.text-center
+          h2.section-title Driver Page
+            p.section-description This page allows you to find all the reservations made for your van for a specific run.
+              form#resform.form(method="post" role="form" action="findReservations")
+                .row
+                  .col-md-3.form-group
+                    p Van Type:
+                    select.form-control#vantype(name="vanType" placeholder="Select your Van")
+                      option Select a van
+                      option(value="2010") Campus BranVan (Weekdays)
+                      option(value="2011") Campus BranVan (Weekends)
+                      option(value="3010") Evening Waltham Branvan
+                  .col-md-3.form-group
+                    p Run Time:
+                    select.form-control#time(name="time" placeholder="Select the time for the run")
+                      option Select a time
+                  br
+                  .row
+                    .col-md-12.form-group.text-center
+                      button.btn.btn-primary(name='make-res') Retrieve Reservations
+
+
+  script(type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+  script(type="text/javascript").
+    $("#vantype").change(function() {
+
+      var $dropdown = $(this);
+      var key = $dropdown.val();
+
+      $.ajax({
+        url: '/getRouteInfo',
+        type: "POST",
+        data: {
+          vanType: key
+        },
+        dataType: 'json',
+        success: function(data) {
+          var $time = $("#time");
+          $("#time option").remove();
+          $('<option>Select a time</option>').appendTo("#time")
+          for (var i = 0; i < data.data[0].times.length; i++) {
+            var raw_time = new Date(Date.parse(data.data[0].times[i]))
+            var hours = raw_time.getUTCHours()
+            var mins = raw_time.getUTCMinutes()
+            var ampm = "AM"
+            var h = hours
+            if (h >= 12) {h = hours - 12, ampm = "PM"}
+            if (h == 0) {h = 12}
+            if (mins - 9 <= 0) {mins = "0" + mins}
+            var nice_time = h + ":" + mins + " " + ampm
+            $('<option value="' + nice_time + '">' + nice_time + '</option>').appendTo("#time")
+          }
+        },
+        error: function(err) {
+        }
+      })
+    });

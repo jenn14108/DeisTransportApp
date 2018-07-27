@@ -16,6 +16,7 @@ const
  reservationController = require('./controllers/reservationController');
  schedulesController = require('./controllers/schedulesController');
  DFShuttleController = require('./controllers/DFShuttleController');
+ driverController = require('./controllers/driverController');
  //VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  //Set up needed variables in order to do authentication
  GoogleStrategy = require('passport-google-oauth').OAuth25Strategy; //in cofig/passport.j
@@ -98,6 +99,7 @@ app.use((req,res,next) => {
 app.use(express.static(path.join(__dirname, 'public')));
 //app.use(checkLoggedIn);
 app.use('/', mainPageRouter);
+app.get('/drivers', driverController.renderMain);
 app.get('/reserve', reservationController.renderMain);
 app.post('/getRouteInfo', reservationController.getRouteInfo)
 app.post('/addReservation', reservationController.addReservation)
