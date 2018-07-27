@@ -12,10 +12,10 @@ block content
         .col-md-12.text-center
           h2.section-title Schedules
           p.section-description This page allows you view schedules of the various shuttles provided by Brandeis.
-        .col-md-12
+        .col-md-8.col-md-offset-2
           form#schdl.form(method="post" role="form" action="getSchedule")
             .row
-              .col-md-12.form-group
+              .col-md-9.form-group
                 select.form-control#van(name="schedule" placeholder="Select a van")
                   option Select a van
                   option(value="2010") Campus BranVan (Weekdays)
@@ -27,9 +27,7 @@ block content
                   option(value="1020") Boston/Cambridge Shuttle (Fri)
                   option(value="1030") Boston/Cambridge Shuttle (Sat)
                   option(value="1040") Boston/Cambridge Shuttle (Sun)
-            br
-            .row
-              .col-md-12.form-group.text-center
+              .col-md-3.form-group
                 button.btn.btn-primary(type="submit" value="submit") Get Schedules
         .col-md-12.text-center
           .row
@@ -58,7 +56,7 @@ block content
                             - var nice_time = h + ":" + mins + " " + ampm
                             option #{nice_time}
   //-section:Location
-  .section
+  .section-notfirst
     .container.center
         .col-md-12.text-center
           h2.section-title Find a Stop
