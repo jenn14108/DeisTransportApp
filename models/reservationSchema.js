@@ -4,8 +4,9 @@ var reservationSchema = mongoose.Schema({
   van_name : String,
   from: String,
   to: String,
-  pickup_time: Date,
-  date: Date
+  pickup_time: String,
+  date: Date,
+  num_people: Number
 });
 
 module.exports = mongoose.model('reservationSchema', reservationSchema);

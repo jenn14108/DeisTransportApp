@@ -29,34 +29,37 @@ exports.getRouteInfo = (req,res) => {
 
 exports.addReservation = (req,res) => {
   console.log("in addReservation")
-  var van = req.body.vanType
-  var from = req.body.stopFrom
-  var to = req.body.stopTo
-  var time = req.body.time
-  var vanName
-  if (van == "2010") {
-    vanName = "Campus BranVan (Weekdays)"
-  } else if (van == "2011") {
-    vanName = "Campus BranVan (Weekends)"
-  } else if (van == "3010") {
-    vanName = "Evening Waltham Branvan"
+  var routeNum = req.body.vanType
+  var route;
+  //determine which van
+  if (routeNum == "2010") {
+    route = "Campus BranVan (Weekdays)";
+  } else if (routeNum == "2011") {
+    route = "Campus BranVan (Weekends)";
+  } else if (routeNum == "3010") {
+    route = "Evening Waltham Branvan";
   }
-  //JENN U CAN USE EITHER var van(route number) or vanName(route name) to create the res object.
-  //var from & to are both van names.
-  //var time is a string, if u want a date obj in the res constructor then u can use parse(time) as an argument in the new Date constructor
-  console.log("adding reservation at " + time + " from " + from + " to " + to + " on the " + vanName + ".")
-}
-exports.createReservation = (req,res) => {
+  var todayDate = moment().format('LL')
+  //start creating a new reservation
   console.log("creating a new reservation...");
   let newReservation = new reservation({
-    van_name : req.body.vanType,
+    van_name : route,
     from: req.body.stopFrom,
     to: req.body.stopTo,
     pickup_time: req.body.time,
-    date: moment().format('LL')
+    date: todayDate,
+    num_people: req.body.numPeople
   });
   newReservation.save()
     .then( () => {
-      res.redirect()
+      res.render('reserve');
     })
-}
+    .catch( error => {
+      res.send(error);
+    });
+};
+
+
+// console.log("adding reservation at " + pickup_time + " from " + from + " to " + to + " on the " + van_name + ".")
+
+//var time is a string, if u want a date obj in the res constructor then u can use parse(time) as an argument in the new Date constructor
