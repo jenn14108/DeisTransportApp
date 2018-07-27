@@ -1,5 +1,9 @@
 extends layout
 
+block extraHead
+  script(src='/javascripts/resSuccessMessage.js')
+
+
 block content
   //-section:Reserve
   .section
@@ -10,6 +14,12 @@ block content
           if loggedIn
             p.section-description Reserve a spot on a van or on a shuttle ahead of time.
             .col-md-12
+              .alert.alert-success(style="display:none")
+                strong
+                | Reservation successfully made.
+              .alert.alert-warning(style="display:none")
+                strong
+                | Please fill out the form before submitting.
               form#resform.form(method="post" role="form" action="addReservation")
                 .row
                   .col-md-3.form-group
@@ -34,7 +44,7 @@ block content
                   br
                   .row
                     .col-md-12.form-group.text-center
-                      button.btn.btn-primary(type="submit" value="submit") Reserve
+                      button.btn.btn-primary(name='make-res') Reserve
 
           else
             p.section-description You must log in to make a reservation on a van or on a shuttle ahead of time

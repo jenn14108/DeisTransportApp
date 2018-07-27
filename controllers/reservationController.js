@@ -51,7 +51,7 @@ exports.addReservation = (req,res) => {
   });
   newReservation.save()
     .then( () => {
-      res.redirect('/reserve');
+      res.render('reserve');
     })
     .catch( error => {
       res.send(error);
