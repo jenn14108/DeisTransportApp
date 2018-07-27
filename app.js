@@ -101,11 +101,8 @@ app.use((req,res,next) => {
 app.use(express.static(path.join(__dirname, 'public')));
 //app.use(checkLoggedIn);
 app.use('/', mainPageRouter);
-<<<<<<< HEAD
 app.use('/about', aboutController.renderMain)
-=======
 app.get('/drivers', driverController.renderMain);
->>>>>>> Jen
 app.get('/reserve', reservationController.renderMain);
 app.post('/getRouteInfo', reservationController.getRouteInfo)
 app.post('/addReservation', reservationController.addReservation)
