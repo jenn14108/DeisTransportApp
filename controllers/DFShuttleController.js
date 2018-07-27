@@ -35,16 +35,22 @@ exports.DFNameToDBName = function(name) {
 }
 
 
+
 exports.respondToDF = (req, res) => {
 
   const intent = req.body.queryResult.intent.displayName;
+  console.log("INTEENT: "+intent)
   const response = {};
   const session_id = req.body.session;
   var date = new Date(req.body.queryResult.parameters.date)
   var dateString = req.body.queryResult.outputContexts[0].parameters["date.original"]
-  // if (!dateString) {
-  //   dateString = "today"
-  // }
+  if (dateString) {
+    dateString = dateString.replace("?","").replace(".","")
+  }
+
+  var stop2 = this.DFNameToDBName(req.body.queryResult.parameters.stopName1);
+  var numSeats = req.body.queryResult.parameters.number
+  console.log(dateString)
   if(req.body.queryResult.parameters.stop_name)
   {
     var stop = this.DFNameToDBName(req.body.queryResult.parameters.stop_name);
@@ -112,6 +118,7 @@ exports.respondToDF = (req, res) => {
   });
 
   switch (intent) {
+
     case "get_shuttle_schedule": //Partners
     Session.findOne({session : session_id }, function (err, session_obj) {
       if (err || !session_obj){
@@ -232,9 +239,14 @@ exports.respondToDF = (req, res) => {
           if (resp.getFullYear() > 2100) {
             return res.json({"fulfillmentText":"That shuttle isn't running today."})
           }
-          // console.log("zztop"+resp)
+
           resp = new Date(resp-resp.getTimezoneOffset()*60000)
-          return res.json({"fulfillmentText":"The next "+route+" leaves "+stop+" at "+resp.getUTCHours()+":"+resp.getMinutes()+"."})
+          var minutes = resp.getMinutes()
+          var m2 = ""
+          if (minutes == 0) {
+            m2 = "0"
+          }
+          return res.json({"fulfillmentText":"The next "+route+" leaves "+stop+" at "+resp.getUTCHours()%12+":"+minutes+m2+"."})
         })
       }
     });
@@ -270,8 +282,15 @@ exports.respondToDF = (req, res) => {
               }
             }
 
+            var runningVansString = ""
+            for (var i = 0; i < runningVans.length -1; i++) {
+              runningVansString += runningVans[i]+", "
+            }
+            runningVansString += "and "+runningVans[i]
+
             if (runningVans.length > 1) {
-              return res.json({"fulfillmentText":"The following vans are running "+dateString+": \n"+runningVans})
+
+              return res.json({"fulfillmentText":"The "+runningVansString+" are running "+dateString+"."})
             } else if (runningVans.length == 1) {
               return res.json({"fulfillmentText":"Only the "+runningVans[0] +" is running " +dateString})
             } else {
@@ -283,6 +302,60 @@ exports.respondToDF = (req, res) => {
     });
 
     break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    case "makeReservation":
+    console.log("in makeReservation")
+    Session.findOne({session : session_id} , function (err, session_obj) {
+      if (err){
+        return res.json("Sorry, I could not find whether the "+route+" is running.")
+      } else if (!session_obj) {
+        return res.json("Sorry, something went wrong with your login.")
+      } else {
+        console.log("from: "+stop)
+        console.log("to: "+stop2)
+        console.log("van: "+route)
+        console.log("number of seats: "+numSeats)
+        var string = "from: "+stop+" to: "+stop2+" van: "+route+" number of seats: "+numSeats
+        return res.json({"fulfillmentText":string})
+      }
+    });
+
+    break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //remaining code for finding brandeis shuttle times
     case "get_brandeis_shuttle":
