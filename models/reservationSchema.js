@@ -5,7 +5,8 @@ var reservationSchema = mongoose.Schema({
   from: String,
   to: String,
   pickup_time: String,
-  date: Date
+  date: Date,
+  num_people: Number
 });
 
 module.exports = mongoose.model('reservationSchema', reservationSchema);

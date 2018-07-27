@@ -47,7 +47,8 @@ exports.addReservation = (req,res) => {
     from: req.body.stopFrom,
     to: req.body.stopTo,
     pickup_time: req.body.time,
-    date: todayDate
+    date: todayDate,
+    num_people: req.body.numPeople
   });
   newReservation.save()
     .then( () => {
