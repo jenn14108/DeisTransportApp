@@ -6,7 +6,8 @@ $( document ).ready(function() {
        if (($("select[name='vanType']").val() === 'Select a van')
             || ($("select[name='stopFrom']").val() === 'Select a stop')
             || ($("select[name='stopTo']").val() === 'Select a stop')
-            || ($("select[name='time']").val() === 'Select a time')){
+            || ($("select[name='time']").val() === 'Select a time')
+            || ($("select[name='numPeople']").val() === 'Select the number of people')){
           $(".alert-warning").css("display", "block");
           setTimeout(function(){
             $(".alert-warning").css("display", "none");
