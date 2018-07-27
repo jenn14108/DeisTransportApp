@@ -11,7 +11,6 @@ const
  //used to read JSON file into node.js to ultimately save into mongoose
  fs = require("fs");
  assert = require('assert');
- loginRouter = require('./routes/loginRouter');
  mainPageRouter = require('./routes/mainPageRouter');
  trackerController = require('./controllers/trackerController');
  reservationController = require('./controllers/reservationController');
@@ -24,7 +23,6 @@ const
  passport = require('passport');
  configPassport = require('./config/passport');
  configPassport(passport);
- app = express();
  VanDaySchema = require('./models/VanDaySchema')
  VanDay = mongoose.model("vanday", VanDaySchema)
  ScheduleSchema = require('./models/ScheduleSchema')
@@ -38,12 +36,11 @@ const
  moment = require('moment');
  transLocAPI = require('./models/transLocAPI');
  reservationSchema = require('./models/reservationSchema');
+ app = express();
 
 console.log('API server listening...');
 
 
-//mongoose.connect( mongoDB, function(err, db) {
-//{ useNewUrlParser: true }
 // here is where we connect to the database!
 const mongoDB = process.env.MONGO_URI || 'mongodb://localhost/DeisTransportApp'
 mongoose.connect( mongoDB ,{useNewUrlParser: true})
@@ -52,23 +49,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 console.log("we are connected!")
 });
-
-//Casper's Testing Ground>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-// nowExact = new Date(2018, 7, 30, 11)
-// date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), nowExact.getUTCHours()))
-// console.log("date:      "+date)
-//
-// var function_list = []
-//
-// function_list.push(function(callback)
-// {
-//   EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 19, 12)), new Date(Date.UTC(2019, 6, 19, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
-// })
-//
-// EnterVanDays.enterVanDays(new Date(Date.UTC(2019, 6, 20, 12)), new Date(Date.UTC(2019, 6, 20, 12)), [true,true,true,true,true,true,true], 0, "campusVan")
-
-//Casper's Testing Ground<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // viewengine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -82,59 +62,14 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-// this handles all static routes ...
-// so don't name your routes so they conflict with the public folders
-app.use(express.static(path.join(__dirname, 'public')));
-//app.use(checkLoggedIn);
-app.use('/', mainPageRouter);
-app.get('/reserve', reservationController.renderMain);
-app.post('/getRouteInfo', reservationController.getRouteInfo)
-app.post('/addReservation', reservationController.addReservation)
-app.get('/tracker', trackerController.renderMain);
-app.post('/getEstimate', trackerController.getEstimate);
-//app.get('/schedules', PartnersShuttleController.renderMain);
-app.get('/schedules', schedulesController.renderMain);
-app.post('/getSchedule', schedulesController.getSchedule);
-
-
-// if(req.isAuthenticated()) res.locals.isLoggedIn = true;
-// next();
-// Authentication must have these three middleware in this order!
-app.use(session({ secret: 'zzbbyanana' }));
+//for authentication
+app.use(session({
+  secret: 'zzbbyanana',
+  resave: false,
+  saveUninitialized: true,
+}));
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use('/login', loginRouter);
-
-//Authentication routes
-app.get('/loginerror', function(req,res){
-  res.render('loginerror',{})
-})
-app.get('/login', function(req,res){
-  res.render('login',{})
-})
-// route for logging out
-app.get('/logout', function(req, res) {
-        req.logout();
-        res.redirect('/');
-    });
-
-//route middleware to make sure a user is logged in to see certain pages
-function isLoggedIn(req,res,next) {
-  console.log("checking to see if user is authenticated!");
-  //if user is authenticated in the session, continue
-  res.locals.loggedIn = false;
-  if (req.isAuthenticated()){
-    console.log("user has been Authenticated");
-    res.locals.user = req.user
-    res.locals.loggedIn = true
-    return next();
-  } else {
-    console.log("user has not been authenticated...");
-    res.redirect('/login');
-  }
-}
-
 
 // here is where we check on a user's log-in status (middleware)
 app.use((req,res,next) => {
@@ -156,21 +91,72 @@ app.use((req,res,next) => {
     }
   }
   next();
-})
+});
+
+// this handles all static routes ...
+// so don't name your routes so they conflict with the public folders
+app.use(express.static(path.join(__dirname, 'public')));
+//app.use(checkLoggedIn);
+app.use('/', mainPageRouter);
+app.get('/reserve', reservationController.renderMain);
+app.post('/getRouteInfo', reservationController.getRouteInfo)
+app.post('/addReservation', reservationController.addReservation)
+app.get('/tracker', trackerController.renderMain);
+app.post('/getEstimate', trackerController.getEstimate);
+//app.get('/schedules', PartnersShuttleController.renderMain);
+app.get('/schedules', schedulesController.renderMain);
+app.post('/getSchedule', schedulesController.getSchedule);
 
 
-//This rout is visited to start google authentication. Passport will send you to
+//route middleware to make sure a user is logged in to see certain pages
+function isLoggedIn(req,res,next) {
+  console.log("checking to see if user is authenticated!");
+  //if user is authenticated in the session, continue
+  res.locals.loggedIn = false;
+  if (req.isAuthenticated()){
+    console.log("user has been Authenticated");
+    res.locals.user = req.user
+    res.locals.loggedIn = true
+    return next();
+  } else {
+    console.log("user has not been authenticated...");
+    res.redirect('/login');
+  }
+}
+
+//This route is visited to start google authentication. Passport will send you to
 //Google to get authenticated. Then, it will send the browser back to /login/authorized page
-app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+app.get('/auth/google',
+    passport.authenticate('google',
+                         { scope : ['profile', 'email'] }));
 
 app.get('/login/authorized',
+        (req,res,next) => {
+          console.log('we are in login/authorized')
+          next()
+        },
         passport.authenticate('google', {
                 successRedirect : '/',
                 failureRedirect : '/loginerror'
         }));
 
+//Authentication routes
+app.get('/loginerror', function(req,res){
+  res.render('loginerror',{})
+})
+app.get('/login', function(req,res){
+  res.render('login',{})
+})
+// route for logging out
+app.get('/logout', function(req, res) {
+        req.logout();
+        res.redirect('/');
+    });
+
+
 //webhook to use dialogflow and alexa
 app.post('/webhook', DFShuttleController.respondToDF);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
