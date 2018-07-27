@@ -34,6 +34,9 @@ exports.addReservation = (req,res) => {
        || (req.body.time === 'Select a time')
        || (req.body.numPeople === 'Select the number of people')){
          console.log("Incomplete Reservation. Not saved.");
+         setTimeout(function(){
+           res.render('reserve');
+         }, 2000)
   } else {
     console.log("in addReservation")
     var routeNum = req.body.vanType
@@ -59,7 +62,9 @@ exports.addReservation = (req,res) => {
     });
     newReservation.save()
       .then( () => {
-        res.render('reserve');
+        setTimeout(function(){
+          res.render('reserve');
+        }, 2000)
       })
       .catch( error => {
         res.send(error);

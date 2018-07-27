@@ -8,13 +8,13 @@ $( document ).ready(function() {
             || ($("select[name='stopTo']").val() === 'Select a stop')
             || ($("select[name='time']").val() === 'Select a time')
             || ($("select[name='numPeople']").val() === 'Select the number of people')){
-          $(".alert-warning").css("display", "block");
+            $(".alert-warning").css("display", "block");
           setTimeout(function(){
             $(".alert-warning").css("display", "none");
-          }, 3000)
+          }, 2000)
           return;
         } else {
-          $(".alert-success").css("display", "block");
+            $(".alert-success").css("display", "block");
           setTimeout(function(){
             $(".alert-success").css("display", "none");
           }, 3000)
