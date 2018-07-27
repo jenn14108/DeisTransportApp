@@ -285,6 +285,13 @@ mck-msg-left .mck-msg-box{
 	position: relative;
 	overflow: hidden;
 }
+.section-foot {
+	padding-top: 0px;
+	padding-bottom: 15px;
+	bottom: auto;
+	position: sticky;
+	overflow: hidden;
+}
 .section .background-image {
 	position: absolute;
 	width: 100%;
