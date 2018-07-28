@@ -75,28 +75,37 @@ exports.addReservation = (req,res) => {
 //This method finds all the reservation for a particular driver based on
 //the van type, the time of the run, and the present date
 exports.findReservations = (req, res) => {
-  var van;
-  var todayDate = moment().format('LL')
-  if (req.body.vanType == "2010") {
-    van = "Campus BranVan (Weekdays)";
-  } else if (req.body.vanType == "2011") {
-    van = "Campus BranVan (Weekends)";
-  } else if (req.body.vanType == "3010") {
-    van = "Evening Waltham Branvan";
+  if ((req.body.vanType === 'Select a van')
+       || (req.body.time === 'Select a time')){
+         console.log("Incomplete Search.");
+           res.render('drivers');
+  } else {
+    var van;
+    var todayDate = moment().format('LL')
+    if (req.body.vanType == "2010") {
+      van = "Campus BranVan (Weekdays)";
+    } else if (req.body.vanType == "2011") {
+      van = "Campus BranVan (Weekends)";
+    } else if (req.body.vanType == "3010") {
+      van = "Evening Waltham Branvan";
+    }
+    reservation.find({
+      van_name : van,
+      pickup_time: req.body.time,
+      date: todayDate})
+      .exec()
+      .then((reservations) => {
+        // if(reservations.length == 0){
+        //   res.render('drivers');
+        // } else {
+          res.render('drivers', {
+            reservations: reservations
+          });
+        // }
+      })
+      .catch((error) => {res.send(error)});
   }
-  reservation.find({
-    van_name : van,
-    pickup_time: req.body.time,
-    date: todayDate})
-    .exec()
-    .then((reservations) => {
-      res.render('drivers', {
-        reservations: reservations
-      });
-    })
-    .catch((error) => {res.send(error)});
 };
-  //res.render('drivers', {title: "Find Reservations"});
 
 
 // console.log("adding reservation at " + pickup_time + " from " + from + " to " + to + " on the " + van_name + ".")
