@@ -3,7 +3,6 @@ const reservation = require('../models/reservationSchema');
 const moment = require('moment');
 console.log("loading the reservation controller...");
 
-
 exports.renderMain = (req,res) => {
   res.render('reserve', {title: "Reserve A Spot"});
 }
@@ -53,6 +52,7 @@ exports.addReservation = (req,res) => {
     //start creating a new reservation
     console.log("creating a new reservation...");
     let newReservation = new reservation({
+      name: brandeisUsername,
       van_name : route,
       from: req.body.stopFrom,
       to: req.body.stopTo,
@@ -71,6 +71,32 @@ exports.addReservation = (req,res) => {
       });
   }
 };
+
+//This method finds all the reservation for a particular driver based on
+//the van type, the time of the run, and the present date
+exports.findReservations = (req, res) => {
+  var van;
+  var todayDate = moment().format('LL')
+  if (req.body.vanType == "2010") {
+    van = "Campus BranVan (Weekdays)";
+  } else if (req.body.vanType == "2011") {
+    van = "Campus BranVan (Weekends)";
+  } else if (req.body.vanType == "3010") {
+    van = "Evening Waltham Branvan";
+  }
+  reservation.find({
+    van_name : van,
+    pickup_time: req.body.time,
+    date: todayDate})
+    .exec()
+    .then((reservations) => {
+      res.render('drivers', {
+        reservations: reservations
+      });
+    })
+    .catch((error) => {res.send(error)});
+};
+  //res.render('drivers', {title: "Find Reservations"});
 
 
 // console.log("adding reservation at " + pickup_time + " from " + from + " to " + to + " on the " + van_name + ".")

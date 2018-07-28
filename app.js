@@ -41,6 +41,7 @@ const
  reservationSchema = require('./models/reservationSchema');
  app = express();
 
+brandeisUsername = 'temp';
 console.log('API server listening...');
 
 
@@ -81,6 +82,7 @@ app.use((req,res,next) => {
     console.log("user has been Authenticated")
     res.locals.user = req.user
     res.locals.loggedIn = true
+    brandeisUsername = req.user.googlename;
     if (req.user){
       if (req.user.googleemail=='jelee14108@brandeis.edu'
           || req.user.googleemail == 'chungek@brandeis.edu'
@@ -104,8 +106,9 @@ app.use('/', mainPageRouter);
 app.use('/about', aboutController.renderMain)
 app.get('/drivers', driverController.renderMain);
 app.get('/reserve', reservationController.renderMain);
-app.post('/getRouteInfo', reservationController.getRouteInfo)
-app.post('/addReservation', reservationController.addReservation)
+app.post('/getRouteInfo', reservationController.getRouteInfo);
+app.post('/addReservation', reservationController.addReservation);
+app.post('/findReservations', reservationController.findReservations);
 app.get('/tracker', trackerController.renderMain);
 app.post('/getEstimate', trackerController.getEstimate);
 //app.get('/schedules', PartnersShuttleController.renderMain);
