@@ -12,7 +12,9 @@ a {
 
 #username {
 	position: relative;
-	top: 30px;
+	float: right;
+	top: 31px;
+	left: 50px;
 }
 /** For chat Icon: */
 #Bot {
