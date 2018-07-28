@@ -201,6 +201,11 @@ mck-msg-left .mck-msg-box{
 	margin: 0 20px 10px 0px;
 }
 
+.btn-login {
+	margin: 0px;
+	background-color: #1abc9c
+}
+
 .btn-success {
 	background-color: #2ecc71;
 }
@@ -291,6 +296,13 @@ mck-msg-left .mck-msg-box{
 	position: relative;
 	overflow: hidden;
 }
+.section-only {
+	padding-top: 80px;
+	padding-bottom: 80px;
+	position: relative;
+	min-height: 78vh;
+	overflow: hidden;
+}
 .section-notfirst {
 	padding-top: 0px;
 	padding-bottom: 80px;
@@ -338,7 +350,7 @@ h2.section-title + p {
 	letter-spacing: 10px;
 	font-weight: bold;
 	display: inline-block;
-	padding: 30px 60px;
+	padding: 30px 20px;
 	border: 1px solid;
 }
 .hero p.lead {
