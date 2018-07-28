@@ -28,6 +28,8 @@ html(lang="")
             span.icon-bar
           a.navbar-brand(href="/") Deis Transport App
         //- navbar
+        if loggedIn
+          p#username Hi, #{brandeisUsername}
         .collapse.navbar-collapse.navbar-ex1-collapse
             ul.nav.navbar-nav.navbar-right
               li
@@ -43,8 +45,6 @@ html(lang="")
               li
                 if loggedIn
                   a.btn.btn-md.btn-primary(typ='button' href="/logout") Log Out
-                  li
-                    p#username Hi, #{brandeisUsername}
                 else
                   a.btn.btn-md.btn-primary(type='button' href="/login") Log In
 
