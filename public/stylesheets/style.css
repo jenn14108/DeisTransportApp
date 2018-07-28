@@ -9,6 +9,11 @@ a {
 	height: 400px;
 	width: 100%;
 }
+
+#username {
+	position: relative;
+	top: 30px;
+}
 /** For chat Icon: */
 #Bot {
 	width: 80px ;
