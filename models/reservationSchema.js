@@ -1,7 +1,8 @@
 const mongoose = require( 'mongoose' );
 
 var reservationSchema = mongoose.Schema({
-  van_name : String,
+  name: String,
+  van_name: String,
   from: String,
   to: String,
   pickup_time: String,
@@ -9,4 +10,4 @@ var reservationSchema = mongoose.Schema({
   num_people: Number
 });
 
-module.exports = mongoose.model('reservationSchema', reservationSchema);
+module.exports = mongoose.model('reservation', reservationSchema);

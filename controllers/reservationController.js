@@ -3,7 +3,6 @@ const reservation = require('../models/reservationSchema');
 const moment = require('moment');
 console.log("loading the reservation controller...");
 
-
 exports.renderMain = (req,res) => {
   res.render('reserve', {title: "Reserve A Spot"});
 }
@@ -28,36 +27,76 @@ exports.getRouteInfo = (req,res) => {
 }
 
 exports.addReservation = (req,res) => {
-  console.log("in addReservation")
-  var routeNum = req.body.vanType
-  var route;
-  //determine which van
-  if (routeNum == "2010") {
-    route = "Campus BranVan (Weekdays)";
-  } else if (routeNum == "2011") {
-    route = "Campus BranVan (Weekends)";
-  } else if (routeNum == "3010") {
-    route = "Evening Waltham Branvan";
-  }
-  var todayDate = moment().format('LL')
-  //start creating a new reservation
-  console.log("creating a new reservation...");
-  let newReservation = new reservation({
-    van_name : route,
-    from: req.body.stopFrom,
-    to: req.body.stopTo,
-    pickup_time: req.body.time,
-    date: todayDate,
-    num_people: req.body.numPeople
-  });
-  newReservation.save()
-    .then( () => {
-      res.render('reserve');
-    })
-    .catch( error => {
-      res.send(error);
+  if ((req.body.vanType === 'Select a van')
+       || (req.body.stopFrom === 'Select a stop')
+       || (req.body.stopTo === 'Select a stop')
+       || (req.body.time === 'Select a time')
+       || (req.body.numPeople === 'Select the number of people')){
+         console.log("Incomplete Reservation. Not saved.");
+         setTimeout(function(){
+           res.render('reserve');
+         }, 2000)
+  } else {
+    console.log("in addReservation")
+    var routeNum = req.body.vanType
+    var route;
+    //determine which van
+    if (routeNum == "2010") {
+      route = "Campus BranVan (Weekdays)";
+    } else if (routeNum == "2011") {
+      route = "Campus BranVan (Weekends)";
+    } else if (routeNum == "3010") {
+      route = "Evening Waltham Branvan";
+    }
+    var todayDate = moment().format('LL')
+    //start creating a new reservation
+    console.log("creating a new reservation...");
+    let newReservation = new reservation({
+      name: brandeisUsername,
+      van_name : route,
+      from: req.body.stopFrom,
+      to: req.body.stopTo,
+      pickup_time: req.body.time,
+      date: todayDate,
+      num_people: req.body.numPeople
     });
+    newReservation.save()
+      .then( () => {
+        setTimeout(function(){
+          res.render('reserve');
+        }, 2000)
+      })
+      .catch( error => {
+        res.send(error);
+      });
+  }
 };
+
+//This method finds all the reservation for a particular driver based on
+//the van type, the time of the run, and the present date
+exports.findReservations = (req, res) => {
+  var van;
+  var todayDate = moment().format('LL')
+  if (req.body.vanType == "2010") {
+    van = "Campus BranVan (Weekdays)";
+  } else if (req.body.vanType == "2011") {
+    van = "Campus BranVan (Weekends)";
+  } else if (req.body.vanType == "3010") {
+    van = "Evening Waltham Branvan";
+  }
+  reservation.find({
+    van_name : van,
+    pickup_time: req.body.time,
+    date: todayDate})
+    .exec()
+    .then((reservations) => {
+      res.render('drivers', {
+        reservations: reservations
+      });
+    })
+    .catch((error) => {res.send(error)});
+};
+  //res.render('drivers', {title: "Find Reservations"});
 
 
 // console.log("adding reservation at " + pickup_time + " from " + from + " to " + to + " on the " + van_name + ".")
