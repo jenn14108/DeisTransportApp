@@ -48,11 +48,11 @@ block content
                         th(scope="row") #{res.from}
                         th(scope="row") #{res.to}
                         th(scope="row") #{res.num_people}
-              else
-              table.table.table-dark
-                thead
-                  tr
-                    th(scope="col") There are no current reservations
+              else if reservations.length == 0
+                table.table.table-dark
+                  thead
+                    tr
+                      th(scope="col") There are no current reservations
 
 
 
