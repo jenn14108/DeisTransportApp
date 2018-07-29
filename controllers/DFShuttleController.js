@@ -10,12 +10,62 @@ exports.renderMain = (req,res) => {
   res.render('schedules', {title: 'Schedules'});
 };
 
+
+//if there is a disconnect between the name on DF and on DB, this will translate from DF to DB
+exports.DFNameToAPIName = function(name) {
+  // @TODO
+  //THESE ARE NOT CORRECT AND HAVE NOT BEEN COMPLETED
+  if (name == "cambridgeShuttle") return name;
+  if (name == "campusShuttle") return name;
+  if (name == "campusVan") return name;
+  if (name == "walthamVan") return name;
+  if (name == "walthamShuttle") return name;
+}
+
+//if there is a disconnect between the name on DF and on DB, this will translate from DF to DB
+exports.DFNameToDBName = function(name) {
+  if (name == "Rabb") return name;
+  if (name == "Hassenfeld") return "Hassenfeld Lot";
+  if (name == "Lower Charles River Road") return name;
+  if (name == "cambridgeShuttle") return name;
+  if (name == "campusShuttle") return name;
+  if (name == "campusVan") return name;
+  if (name == "walthamVan") return name;
+  if (name == "walthamShuttle") return name;
+  return name
+}
+
+
 exports.respondToDF = (req, res) => {
   const intent = req.body.queryResult.intent.displayName;
   const response = {};
   const session_id = req.body.session;
-  var stop = req.body.queryResult.parameters.stop_name;
-  var route = req.body.queryResult.parameters.route_name;
+  var date = new Date(req.body.queryResult.parameters.date)
+  var dateString = req.body.queryResult.outputContexts[0].parameters["date.original"]
+  if (dateString) {
+    dateString = dateString.replace("?","").replace(".","")
+  }
+
+  var stop2 = this.DFNameToDBName(req.body.queryResult.parameters.stopName1);
+  var numSeats = req.body.queryResult.parameters.number
+  console.log(dateString)
+  if(req.body.queryResult.parameters.stop_name)
+  {
+    var stop = this.DFNameToDBName(req.body.queryResult.parameters.stop_name);
+  }
+  else
+  {
+    var stop = this.DFNameToDBName(req.body.queryResult.parameters.stopName);
+  }
+  if (req.body.queryResult.parameters.route_name)
+  {
+    var route = this.DFNameToDBName(req.body.queryResult.parameters.route_name);
+  }
+  else
+  {
+    var route = this.DFNameToDBName(req.body.queryResult.parameters.vanType);
+  }
+
   //construct the two needed query parameters for API calls
   if (!(typeof stop === 'undefined')){
     stop = stop.replace("–","-");
