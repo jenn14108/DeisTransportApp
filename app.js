@@ -52,16 +52,14 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 console.log("we are connected!")
-<<<<<<< HEAD
+
 });
-=======
-})
 
 
 
 
 
->>>>>>> Casper
+
 
 // viewengine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -357,7 +357,6 @@ exports.respondToDF = (req, res) => {
 
     //remaining code for finding brandeis shuttle times
     case "get_brandeis_shuttle":
-<<<<<<< HEAD
         Session.findOne({session : session_id }, function (err, session_obj) {
           if (err || !session_obj){
             response.fulfillmentText = "Sorry, I could not retrieve any information";
@@ -391,7 +390,6 @@ exports.respondToDF = (req, res) => {
                   response.fulfillmentText = "Sorry, the " + route + " shuttle does not currently stop at " + stop
                 } else {
                   response.fulfillmentText = "The next " + route + " shuttle to " + stop + " will arrive at " + result[0].substring(11,16);
-=======
     Session.findOne({session : session_id }, function (err, session_obj) {
       if (err || !session_obj){
         response.fulfillmentText = "Sorry, I could not retrieve any information";
@@ -427,7 +425,6 @@ exports.respondToDF = (req, res) => {
                   stop_id = result.body.data[i].stop_id;
                   console.log(stop_id);
                   break;
->>>>>>> Casper
                 }
               }
               callback(null, route_id, stop_id);
