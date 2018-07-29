@@ -157,7 +157,7 @@ exports.respondToDF = (req, res) => {
               }
               callback(null, route_id, stop_id);
             });
-          },
+          }
           function(route_id, stop_id, callback){
             //finally, get arrival estimate
             unirest.get("https://transloc-api-1-2.p.mashape.com/arrival-estimates.json?agencies=707&callback=call&routes=" + route_id + "&stops=" + stop_id)
