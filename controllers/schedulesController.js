@@ -9,10 +9,29 @@ exports.renderMain = (req,res) => {
 exports.getSchedule = (req,res, next) => {
   console.log("in getSchedules")
   var route = req.body.schedule
-  console.log(req.body.schedule.name)
-  console.log("fetching schedule of route: " + route)
+  var name;
+  if (route == "2010") {
+    name = "Campus BranVan (Weekdays)"
+  } else if (route == "2011") {
+    name = "Campus BranVan (Weekends)"
+  } else if (route == "2020") {
+    name = "Daytime Campus Shuttle"
+  } else if (route == "3020") {
+    name = "Daytime Waltham Shuttle"
+  } else if (route == "3010") {
+    name = "Evening Waltham Branvan"
+  } else if (route == "1010") {
+    name = "Boston/Cambridge Shuttle (Thurs)"
+  } else if (route == "1020") {
+    name = "Boston/Cambridge Shuttle (Fri)"
+  } else if ( route == "1030") {
+    name = "Boston/Cambridge Shuttle (Sat)"
+  } else if (route == "1040") {
+    name = "Boston/Cambridge Shuttle (Sun)"
+  }
+  console.log("fetching schedule of route: " + name)
   var stops = Query.getSchedule(route).then(data =>
     {
-      res.render('schedules', {data:data})
+      res.render('schedules', {name:name, data:data})
     })
 }

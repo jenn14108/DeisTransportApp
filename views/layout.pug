@@ -14,9 +14,10 @@ html(lang="")
     link(href="stylesheets/style.css" rel="stylesheet" type="text/css")
 
     block extraHead
+
   body
     //-section:navbar
-    nav.navbar.navbar-default(role="navigation")
+    nav.navbar.navbar-default#layoutNav(role="navigation")
       .container
         //-toggle
         .navbar-header
@@ -27,23 +28,31 @@ html(lang="")
             span.icon-bar
           a.navbar-brand(href="/") Deis Transport App
         //- navbar
+        if loggedIn
+          p#username Hi, #{brandeisUsername}
         .collapse.navbar-collapse.navbar-ex1-collapse
-          ul.nav.navbar-nav.navbar-right
-            li
-              a(href="/reserve") Reserve
-            li
-              a(href="/tracker") Tracker
-            li
-              a(href="/schedules") Schedules
-            li
-              a(href="#about") About
-            li
-              a(href="/login") Sign In
+            ul.nav.navbar-nav.navbar-right
+              li
+                a(href="/drivers") Drivers
+              li
+                a(href="/reserve") Reserve
+              li
+                a(href="/tracker") Tracker
+              li
+                a(href="/schedules") Schedules
+              li
+                a(href="/about") About
+              li
+                if loggedIn
+                  a.btn.btn-md.btn-login(typ='button' href="/logout") Log Out
+                else
+                  a.btn.btn-md.btn-login(type='button' href="/login") Log In
+
 
     block content
 
     //-section:Footer
-    .section.background-dark.dark-bg
+    .section-foot.background-dark.dark-bg
       .container
         .row
           .col-md-12.text-center
@@ -54,7 +63,7 @@ html(lang="")
                   strong  Ek Kheng Chung.git
                 | x
                 a(href="https://github.com/jenn14108" title="Jenn" target="_blank")
-                  strong  Jenn Bear Lee.git
+                  strong Jenn Bear Lee.git
                 | x
                 a(href="https://github.com/casperlk" title="Caspino" target="_blank")
                   strong Casper L'Esperance-Kerckhoff.git }
