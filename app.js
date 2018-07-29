@@ -185,7 +185,7 @@ EnterVanDays.enterVanDays(start, end, [true,true,true,true,true,true,true], 2010
 const apiquery = new transLocAPI(707);
 var stop = 'Prudential';
 var route = 'MGH – BWH';
-var route_id = apiquery.findRouteId(route);
+// var route_id = apiquery.findRouteId(route);
 
 //This rout is visited to start google authentication. Passport will send you to
 //Google to get authenticated. Then, it will send the browser back to /login/authorized page
