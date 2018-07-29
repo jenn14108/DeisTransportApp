@@ -52,7 +52,16 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 console.log("we are connected!")
+<<<<<<< HEAD
 });
+=======
+})
+
+
+
+
+
+>>>>>>> Casper
 
 // viewengine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -116,6 +125,8 @@ app.get('/schedules', schedulesController.renderMain);
 app.post('/getSchedule', schedulesController.getSchedule);
 
 
+
+
 //route middleware to make sure a user is logged in to see certain pages
 function isLoggedIn(req,res,next) {
   console.log("checking to see if user is authenticated!");
@@ -132,7 +143,53 @@ function isLoggedIn(req,res,next) {
   }
 }
 
-//This route is visited to start google authentication. Passport will send you to
+
+// here is where we check on a user's log-in status (middleware)
+app.use((req,res,next) => {
+  res.locals.loggedIn = false
+  if (req.isAuthenticated()){
+    console.log("user has been Authenticated")
+    res.locals.user = req.user
+    res.locals.loggedIn = true
+    if (req.user){
+      if (req.user.googleemail=='jelee14108@brandeis.edu'
+          || req.user.googleemail == 'chungek@brandeis.edu'
+          || req.user.googleemail == 'casperlk@brandeis.edu'){
+        console.log("Owner has logged in")
+        res.locals.status = 'owner'
+      } else {
+        console.log('some user has logged in')
+        res.locals.status = 'user'
+      }
+    }
+  }
+  next();
+})
+
+
+
+//Casper's Testing Ground>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+nowExact = new Date(2018, 7, 30, 11)
+date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), nowExact.getUTCHours()))
+console.log("date:      "+date)
+var start = new Date(Date.UTC(2018, 6, 24,12))
+var end = new Date(Date.UTC(2018, 6, 26,12))
+console.log("start: "+start)
+console.log("end: "+end)
+
+EnterVanDays.enterVanDays(start, end, [true,true,true,true,true,true,true], 2010, "campusVan")
+
+//Casper's Testing Ground<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+//* JEN TESTING
+const apiquery = new transLocAPI(707);
+var stop = 'Prudential';
+var route = 'MGH – BWH';
+var route_id = apiquery.findRouteId(route);
+
+//This rout is visited to start google authentication. Passport will send you to
 //Google to get authenticated. Then, it will send the browser back to /login/authorized page
 app.get('/auth/google',
     passport.authenticate('google',
@@ -181,5 +238,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;
