@@ -4,14 +4,13 @@
 'use strict';
 var Session = require('../models/session');
 var transLocAPI = require('../models/transLocAPI');
+var reservationController = require('./reservationController');
+const reservation = require('../models/reservationSchema');
 console.log("loading the PartnersShuttleController..");
 
 exports.renderMain = (req,res) => {
   res.render('schedules', {title: 'Schedules'});
 };
-
-<<<<<<< HEAD
-=======
 
 //if there is a disconnect between the name on DF and on DB, this will translate from DF to DB
 exports.DFNameToAPIName = function(name) {
@@ -38,16 +37,14 @@ exports.DFNameToDBName = function(name) {
 }
 
 
->>>>>>> 78940f4195c4040166e66b7a1d300d94d86bd425
 exports.respondToDF = (req, res) => {
   const intent = req.body.queryResult.intent.displayName;
   const response = {};
   const session_id = req.body.session;
-<<<<<<< HEAD
   var stop = req.body.queryResult.parameters.stop_name;
   var route = req.body.queryResult.parameters.route_name;
-=======
   var date = new Date(req.body.queryResult.parameters.date)
+  var time = new Date(req.body.queryResult.parameters.time)
   var dateString = req.body.queryResult.outputContexts[0].parameters["date.original"]
   if (dateString) {
     dateString = dateString.replace("?","").replace(".","")
@@ -73,7 +70,6 @@ exports.respondToDF = (req, res) => {
     var route = this.DFNameToDBName(req.body.queryResult.parameters.vanType);
   }
 
->>>>>>> 78940f4195c4040166e66b7a1d300d94d86bd425
   //construct the two needed query parameters for API calls
   if (!(typeof stop === 'undefined')){
     stop = stop.replace("–","-");
@@ -263,10 +259,7 @@ exports.respondToDF = (req, res) => {
                       return res.json({"fulfillmentText":"There are no vans running " +dateString})
                     }
                   })
-<<<<<<< HEAD
-=======
                   .catch(err => console.log("err: "+err))
->>>>>>> 78940f4195c4040166e66b7a1d300d94d86bd425
                 }
               }
             });
@@ -295,16 +288,33 @@ exports.respondToDF = (req, res) => {
               } else if (!session_obj) {
                 return res.json("Sorry, something went wrong with your login.")
               } else {
-                console.log("from: "+stop)
-                console.log("to: "+stop2)
-                console.log("van: "+route)
-                console.log("number of seats: "+numSeats)
-                var string = "from: "+stop+" to: "+stop2+" van: "+route+" number of seats: "+numSeats
-                return res.json({"fulfillmentText":string})
+
+                let newReservation = new reservation({
+                  name: brandeisUsername,
+                  van_name : route,
+                  from: stop,
+                  to: stop2,
+                  pickup_time: time,
+                  date: new Date(),
+                  num_people: numSeats
+                });
+
+                newReservation.save()
+                  .then(error => {
+                    setTimeout(function(){
+                      var string = "I made you a reservation from "+stop+" to "+stop2+" on the "+route+" for "+numSeats+ " people at "+time
+                      return res.json({"fulfillmentText":string})
+                    }, 2000)
+                  })
+                  .catch( error => {
+                    return res.json({"fulfillmentText":"I wasn't able to reserve for that time."})
+                  });
+
               }
             });
 
             break;
+
 
 
 
