@@ -10,6 +10,11 @@ a {
 	width: 100%;
 }
 
+iframe#chatbot {
+	position: relative;
+	left: calc(50% - 175px)
+}
+
 #username {
 	position: relative;
 	float: right;
