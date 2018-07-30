@@ -3,10 +3,11 @@ extends layout
 block content
   .section-only
     .container
-      .row.text-center
-        h2.section-title Log In
+      .row
+        .col-md-12.text-center
+          h2.section-title Log In
           p.section-description You must have a Brandeis account to log in
-        .col-md-12
-
+        br
+        .col-md-12.text-center
           a.btn.btn-danger(href="/auth/google")
-            span.fa.fa-google-plus  Sign In
+              span.fa.fa-google-plus  Sign In
