@@ -288,27 +288,50 @@ exports.respondToDF = (req, res) => {
               } else if (!session_obj) {
                 return res.json({"fulfillmentText":"Sorry, something went wrong with your login."})
               } else {
+                if (brandeisUsername == "temp") {
+                  return res.json({"fulfillmentText":"Looks like you aren't logged in. Please log in with your Brandeis Email."})
+                } else {
 
-                let newReservation = new reservation({
-                  name: brandeisUsername,
-                  van_name : route,
-                  from: stop,
-                  to: stop2,
-                  pickup_time: time,
-                  date: new Date(),
-                  num_people: numSeats
-                });
+                  // var todayExact = new Date()
+                  // time.setDate(todayExact.getDate())
+                  // time.setMonth(todayExact.getMonth())
 
-                newReservation.save()
-                  .then(error => {
-                    setTimeout(function(){
-                      var string = "I made you a reservation from "+stop+" to "+stop2+" on the "+route+" for "+numSeats+ " people at "+time
-                      return res.json({"fulfillmentText":string})
-                    }, 2000)
-                  })
-                  .catch( error => {
-                    return res.json({"fulfillmentText":"I wasn't able to reserve for that time."})
+                  if (route == "walthamVan") {route = "Evening Waltham Branvan"}
+                  if (route == "campusVan") {route = "Campus BranVan (Weekdays)"}
+                  if (route == "campusVan" && (time.getDay()==0 || time.getDay()==6)) {route = "Campus BranVan (Weekends)"}
+
+                  var momentTime = moment(time)
+
+
+                  var todate = moment().format('LL')
+                  console.log("momentTime: "+momentTime.format('LT'))
+                  let newReservation = new reservation({
+                    name: brandeisUsername,
+                    van_name : route,
+                    from: stop,
+                    to: stop2,
+                    pickup_time: momentTime.format('LT'),
+                    date: todate,
+                    num_people: numSeats
                   });
+
+                  var minutes = time.getMinutes()
+                  if (minutes == 0) {minutes = "00"}
+                  var people = "people"
+                  if (numSeats == 1) people = "person"
+
+                  newReservation.save()
+                    .then(error => {
+                      setTimeout(function(){
+                        var string = "I made you a reservation from "+stop+" to "+stop2+" on the "+route+" for "+numSeats+" "+people+ " on the "+time.getHours()+":"+minutes+" run, "+todate
+                        return res.json({"fulfillmentText":string})
+                      }, 2000)
+                    })
+                    .catch( error => {
+                      return res.json({"fulfillmentText":"I wasn't able to reserve for that time."})
+                    });
+
+                }
 
               }
             });
