@@ -9,31 +9,31 @@ block content
   .section-only
     .container
       .row
-        .col-md-12.text-center
-          h2.section-title Reserve
-          if loggedIn
-            p.section-description Reserve a spot on a van or on a shuttle ahead of time.
-            .col-md-12
-              .alert.alert-success(style="display:none")
-                strong
-                | Reservation successfully made.
-              .alert.alert-warning(style="display:none")
-                strong
-                | Please fill out the form before submitting.
-            .col-md-8.col-md-offset-2
+        if loggedIn
+          .col-md-12.text-center
+            h2.section-title.text-center Reserve
+            p.section-description.text-center Reserve a spot on a van or on a shuttle ahead of time.
+          .col-md-12
+            .alert.alert-success(style="display:none")
+              strong
+              | Reservation successfully made.
+            .alert.alert-warning(style="display:none")
+              strong
+              | Please fill out the form before submitting.
+          .col-md-8.col-md-offset-2
+            .row
               form#resform.form(method="post" role="form" action="addReservation")
-                .row
-                  .col-md-6.form-group
-                    p Van Type:
-                    select.form-control#vantype(name="vanType" placeholder="Select a Van")
-                      option Select a van
-                      option(value="2010") Campus BranVan (Weekdays)
-                      option(value="2011") Campus BranVan (Weekends)
-                      option(value="3010") Evening Waltham Branvan
-                  .col-md-6.form-group
-                    p Pick Up Time:
-                    select.form-control#time(name="time" placeholder="Select a time")
-                      option Select a time
+                .col-md-6.form-group
+                  p Van Type:
+                  select.form-control#vantype(name="vanType" placeholder="Select a Van")
+                    option Select a van
+                    option(value="2010") Campus BranVan (Weekdays)
+                    option(value="2011") Campus BranVan (Weekends)
+                    option(value="3010") Evening Waltham Branvan
+                .col-md-6.form-group
+                  p Pick Up Time:
+                  select.form-control#time(name="time" placeholder="Select a time")
+                    option Select a time
                 .row
                   .col-md-5.form-group
                     p From:
@@ -50,13 +50,15 @@ block content
                       option 2
                       option 3
                       option 4
-                  br
-                  .row
-                    .col-md-12.form-group.text-center
-                      button.btn.btn-primary(name='make-res') Reserve
+                br
+                .row
+                  .col-md-12.form-group.text-center
+                    button.btn.btn-primary(name='make-res') Reserve
 
-          else
-            p.section-description You must log in to make a reservation on a van or on a shuttle ahead of time
+        else
+          h2.section-title.text-center Reserve
+          p.section-description.text-center You must log in to make a reservation on a van or on a shuttle ahead of time
+          .row.text-center
             a.btn.btn-md.btn-primary(type='button' href="/login") Log In
 
 

@@ -5,6 +5,9 @@ body {
 a {
 	transition: all .3s;
 }
+.bottom-space {
+	margin-bottom: 35px;
+}
 #map {
 	height: 400px;
 	width: 100%;
@@ -342,14 +345,14 @@ p.section-description {
 }
 h2.section-title + p {
 	margin-top: -70px;
-	margin-bottom: 80px;
+	margin-bottom: 40px;
 }
 /*QUOTE SECTION*/
-.hero {
+.quote {
 	padding-top: 200px;
 	padding-bottom: 200px;
 }
-.hero h2 {
+.quote h2 {
 	font-size: 36px;
 	text-transform: uppercase;
 	letter-spacing: 10px;
@@ -358,17 +361,17 @@ h2.section-title + p {
 	padding: 30px 20px;
 	border: 1px solid;
 }
-.hero p.lead {
+.quote p.lead {
 	margin: 30px 0;
 	margin-bottom: 40px;
 	max-width: 70%;
 }
-.hero.text-center p.lead {
+.quote.text-center p.lead {
 	margin-left: auto;
 	margin-right: auto;
 	font-size: 24px;
 }
-.hero.text-right p.lead {
+.quote.text-right p.lead {
 	margin-right: 0;
 	margin-left: auto;
 }
