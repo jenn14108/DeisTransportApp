@@ -6,7 +6,7 @@ block extraHead
 
 block content
   //-section:Reserve
-  .section-only
+  .section
     .container
       .row
         .col-md-12.text-center
@@ -30,6 +30,30 @@ block content
               .row
                 .col-md-12.form-group.text-center
                   button.btn.btn-primary(name='make-res') Retrieve Reservations
+        .col-md-12.text-center
+          .row
+            if reservations
+              if reservations.length >= 1
+                table.table.table-dark
+                  thead
+                    tr
+                      th(scope="col") Name
+                      th(scope="col") From
+                      th(scope="col") To
+                      th(scope="col") # Passengers
+                  tbody
+                    each res in reservations
+                      tr
+                        th(scope="row") #{res.name}
+                        th(scope="row") #{res.from}
+                        th(scope="row") #{res.to}
+                        th(scope="row") #{res.num_people}
+              else if reservations.length == 0
+                table.table.table-dark
+                  thead
+                    tr
+                      th(scope="col") There are no current reservations
+
 
 
   script(type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
