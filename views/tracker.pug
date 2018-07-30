@@ -39,13 +39,17 @@ block content
           form#eta.form(method="post" role="form" action="getEstimate")
             .row
               .col-md-6.form-group
-                select.form-control#route(name="route" placeholder="Select a route")
-                  option Select a route
-                  option(value="MGH – BWH") MGH – BWH
-                  option(value="MGH – Chelsea Imaging") MGH – Chelsea Imaging
-                  option(value="MGH – Parking Lots") MGH – Parking Lots
-                  option(value="MGH – Revere Health Ctr") MGH – Revere Health Ctr
-                  option(value="MGH – Charlestown Navy Yard (Weekday)") MGH – Charlestown Navy Yard (Weekday)
+                select.form-control#vanType(name="vanType" placeholder="Select a route")
+                  option Select a van
+                  option(value="2010") Campus BranVan (Weekdays)
+                  option(value="2011") Campus BranVan (Weekends)
+                  option(value="2020") Daytime Campus Shuttle
+                  option(value="3020") Daytime Waltham Shuttle
+                  option(value="3010") Evening Waltham BranVan
+                  option(value="1010") Boston/Cambridge Shuttle (Thurs)
+                  option(value="1020") Boston/Cambridge Shuttle (Fri)
+                  option(value="1030") Boston/Cambridge Shuttle (Sat)
+                  option(value="1040") Boston/Cambridge Shuttle (Sun)
               .col-md-6.form-group
                 select.form-control#stop(name="stop" placeholder="Select a stop")
                   option Select a stop
@@ -55,7 +59,7 @@ block content
                 button#getETA.btn.btn-primary(type="submit" value="submit") Get ETA
         .row
           if route
-            table#disp.table.table-dark
+            table#disp.table.table-dark 
               thead
                 tr
                   th(scope="col") Shuttle
@@ -69,27 +73,14 @@ block content
                   td #{arrival_time1}
                   td #{arrival_time2}
   script(src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous")
+  script(type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
   script(type="text/javascript").
-    $("#route").change(function() {
-
-      var $dropdown = $(this);
-      var key = $dropdown.val();
-      var whichRoute = "";
-
-      //for brandeis
-      /* if (key == "campus") {
-        whichRoute = "/JSON_Schedules/campusVanSchedule.json"
-      } else if (key == "daycampusshuttle") {
-        whichRoute = "/JSON_Schedules/DayTimeCampusShuttleSchedule.json"
-      } else if (key == "daywaltham") {
-        whichRoute = "/JSON_Schedules/DaytimeWalthamShuttleSchedule.json"
-      } else if (key == "eveningwaltham") {
-        whichRoute = "/JSON_Schedules/EveningWalthamVanSchedule.json"
-      } else if (key == "boston") {
-        whichRoute = "/JSON_Schedules/BostonCambridgeShuttleFriSchedule.json"
-      } */
+    $("#vanType").change(function() {
       
-      /* $.ajax({
+      var $dropdown = $(this);
+      var key = $dropdown.val(); 
+      
+      $.ajax({
         url: '/dispRoute',
         type: "POST",
         data: {
@@ -97,33 +88,18 @@ block content
         },
         dataType: 'json',
         success: function(data) {
-           
-        }
+          var $stop = $("#stop");
+          $("#stop option").remove();
+          $('<option>Select a stop</option>').appendTo("#stop")
+          console.log(data)
+          for (var j = 0; j < data.data.length; j++) {
+            var currStop = data.data[j].stop
+            $('<option value="' + currStop + '">' + currStop + '</option>').appendTo("#stop")
+          }
+        },
         error: function(err) {
         }
-      }) */
-      
-      
-      //for Partners testing
-      whichRoute = "/JSON_Schedules/" + key + ".json"
-
-      var vals = [];
-
-      $(document).ready(function(e) {
-        $.getJSON( whichRoute , function( data ){
-          for (var i = 0; i < data.length; i++) {
-            vals[i] = data[i].stop
-            }
-
-            var $stop = $("#stop");
-            $("#stop option").remove();
-            $('<option>Select a stop</option>').appendTo("#stop")
-            for (var j = 0; j < vals.length; j++) {
-              console.log(vals[j])
-              $('<option value="' + vals[j] + '">' + vals[j] + '</option>').appendTo("#stop")
-              }
-        });
-      });
+      })
     });
 
     /*auto scroll to table*/
