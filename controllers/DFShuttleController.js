@@ -190,9 +190,9 @@ exports.respondToDF = (req, res) => {
             case "getArrivalEstimate":
             Session.findOne({session : session_id} , function (err, session_obj) {
               if (err){
-                return res.json("Sorry, I could not find the arrival time of the next shuttle.")
+                return res.json({"fulfillmentText":"Sorry, I could not find the arrival time of the next shuttle."})
               } else if (!session_obj) {
-                return res.json("Sorry, something went wrong with your login.")
+                return res.json({"fulfillmentText":"Sorry, something went wrong with your login."})
               } else {
                 console.log("route: "+route)
                 console.log("stop: "+stop)
@@ -221,7 +221,7 @@ exports.respondToDF = (req, res) => {
               if (err){
                 return res.json("Sorry, I could not find whether the "+route+" is running.")
               } else if (!session_obj) {
-                return res.json("Sorry, something went wrong with your login.")
+                return res.json({"fulfillmentText":"Sorry, something went wrong with your login."})
               } else {
                 if (!date) {
                   date = new Date()
@@ -284,9 +284,9 @@ exports.respondToDF = (req, res) => {
             console.log("in makeReservation")
             Session.findOne({session : session_id} , function (err, session_obj) {
               if (err){
-                return res.json("Sorry, I could not find whether the "+route+" is running.")
+                return res.json({"fulfillmentText":"Sorry, I could not make a reservation."})
               } else if (!session_obj) {
-                return res.json("Sorry, something went wrong with your login.")
+                return res.json({"fulfillmentText":"Sorry, something went wrong with your login."})
               } else {
 
                 let newReservation = new reservation({
