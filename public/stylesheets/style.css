@@ -10,6 +10,11 @@ a {
 	width: 100%;
 }
 
+iframe#chatbot {
+	position: relative;
+	left: calc(50% - 175px)
+}
+
 #username {
 	position: relative;
 	float: right;
@@ -18,11 +23,11 @@ a {
 }
 /** For chat Icon: */
 #Bot {
-	width: 80px ;
-	height: 80px;
+	width: 60px ;
+	height: 60px;
 	position: relative;
-	bottom: 90px;
-	right: 20px;
+	bottom: 50px;
+	right: 10px;
 }
 
 #mck-msg-new.mck-btn , .mck-box-top.mck-title , #mck-tab-conversation, #mck-conversation-title{

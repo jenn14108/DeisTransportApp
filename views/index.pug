@@ -1,15 +1,6 @@
 extends layout
 
 block content
-  script(type='text/javascript').
-    (function(d, m){
-    var o = {"appId":"3579b0d4ffc634768095a289c5c4b6eec","isAnonymousChat":true, "chatLauncherHtml": "<img id='Bot' src='../images/bot.png'/>",
-    "agentId":"jenekcasper@gmail.com","agentName":"Deis Transport App Support","conversationTitle":"Deis Transport App Support","email":""};
-    var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
-    s.src = "https://api.kommunicate.io/kommunicate.app";
-    var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
-    window.kommunicate = m; m._globals = o;
-    })(document, window.kommunicate || {});
   link(rel='stylesheet', href='/stylesheets/addtohomescreen.css')
   script(src='/javascripts/addtohomescreen.js')
   //section:Mainpage
@@ -23,7 +14,7 @@ block content
             | Your one-stop destination for all things Brandeis transportation related
           ul.list-inline
            li
-             a.btn.btn-md.btn-primary(href="#" title="VUI") Voice User Interface
+             a.btn.btn-md.btn-primary(href="/voiceAgent" title="VUI") Voice User Interface
            li
              a#bookmark-this.btn.btn-md.btn-primary(href="#" title="Web app") Bookmark Our Web App
   //section:Services

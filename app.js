@@ -18,6 +18,7 @@ const
  DFShuttleController = require('./controllers/DFShuttleController');
  aboutController = require('./controllers/aboutController');
  driverController = require('./controllers/driverController');
+ voiceAgentController = require('./controllers/voiceAgentController');
 
  //VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  //Set up needed variables in order to do authentication
@@ -112,6 +113,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', mainPageRouter);
 app.use('/about', aboutController.renderMain)
 app.get('/drivers', driverController.renderMain);
+app.use('/voiceAgent', voiceAgentController.renderMain);
 app.get('/reserve', reservationController.renderMain);
 app.post('/getRouteInfo', reservationController.getRouteInfo);
 app.post('/addReservation', reservationController.addReservation);
