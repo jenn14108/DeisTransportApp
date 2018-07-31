@@ -188,12 +188,12 @@ exports.respondToDF = (req, res) => {
 
             //Branvan Methods:
             case "getArrivalEstimate":
-            Session.findOne({session : session_id} , function (err, session_obj) {
-              if (err){
-                return res.json({"fulfillmentText":"Sorry, I could not find the arrival time of the next shuttle."})
-              } else if (!session_obj) {
-                return res.json({"fulfillmentText":"Sorry, something went wrong with your login."})
-              } else {
+            // Session.findOne({session : session_id} , function (err, session_obj) {
+            //   if (err){
+            //     return res.json({"fulfillmentText":"Sorry, I could not find the arrival time of the next shuttle."})
+            //   } else if (!session_obj) {
+            //     return res.json({"fulfillmentText":"Sorry, something went wrong with your login."})
+            //   } else {
                 console.log("route: "+route)
                 console.log("stop: "+stop)
                 Query.getNextTimeForVan(route, stop).then(resp => {
@@ -210,19 +210,19 @@ exports.respondToDF = (req, res) => {
                   }
                   return res.json({"fulfillmentText":"The next "+route+" leaves "+stop+" at "+resp.getUTCHours()%12+":"+minutes+m2+"."})
                 })
-              }
-            });
+              // }
+            // });
 
             break;
 
             case "isVanRunning":
             console.log("in isVanRunning")
-            Session.findOne({session : session_id} , function (err, session_obj) {
-              if (err){
-                return res.json("Sorry, I could not find whether the "+route+" is running.")
-              } else if (!session_obj) {
-                return res.json({"fulfillmentText":"Sorry, something went wrong with your login."})
-              } else {
+            // Session.findOne({session : session_id} , function (err, session_obj) {
+              // if (err){
+              //   return res.json("Sorry, I could not find whether the "+route+" is running.")
+              // } else if (!session_obj) {
+              //   return res.json({"fulfillmentText":"Sorry, something went wrong with your login."})
+              // } else {
                 if (!date) {
                   date = new Date()
                 }
@@ -261,8 +261,8 @@ exports.respondToDF = (req, res) => {
                   })
                   .catch(err => console.log("err: "+err))
                 }
-              }
-            });
+              // }
+            // });
 
             break;
 
@@ -282,15 +282,15 @@ exports.respondToDF = (req, res) => {
 
             case "makeReservation":
             console.log("in makeReservation")
-            Session.findOne({session : session_id} , function (err, session_obj) {
-              if (err){
-                return res.json({"fulfillmentText":"Sorry, I could not make a reservation."})
-              } else if (!session_obj) {
-                return res.json({"fulfillmentText":"Sorry, something went wrong with your login."})
-              } else {
-                if (brandeisUsername == "temp") {
-                  return res.json({"fulfillmentText":"Looks like you aren't logged in. Please log in with your Brandeis Email."})
-                } else {
+            // Session.findOne({session : session_id} , function (err, session_obj) {
+              // if (err){
+              //   return res.json({"fulfillmentText":"Sorry, I could not make a reservation."})
+              // } else if (!session_obj) {
+              //   return res.json({"fulfillmentText":"Sorry, something went wrong with your login."})
+              // } else {
+              //   if (brandeisUsername == "temp") {
+              //     return res.json({"fulfillmentText":"Looks like you aren't logged in. Please log in with your Brandeis Email."})
+              //   } else {
 
                   // var todayExact = new Date()
                   // time.setDate(todayExact.getDate())
@@ -331,10 +331,10 @@ exports.respondToDF = (req, res) => {
                       return res.json({"fulfillmentText":"I wasn't able to reserve for that time."})
                     });
 
-                }
-
-              }
-            });
+                // }
+//
+              // }
+            // });
 
             break;
 
