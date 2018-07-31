@@ -57,11 +57,6 @@ console.log("we are connected!")
 });
 
 
-
-
-
-
-
 // viewengine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -119,6 +114,7 @@ app.post('/getRouteInfo', reservationController.getRouteInfo);
 app.post('/addReservation', reservationController.addReservation);
 app.post('/findReservations', reservationController.findReservations);
 app.get('/tracker', trackerController.renderMain);
+app.post('/dispRoute', trackerController.dispRoute);
 app.post('/getEstimate', trackerController.getEstimate);
 //app.get('/schedules', PartnersShuttleController.renderMain);
 app.get('/schedules', schedulesController.renderMain);
