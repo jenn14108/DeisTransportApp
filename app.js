@@ -41,8 +41,7 @@ const
  transLocAPI = require('./models/transLocAPI');
  reservationSchema = require('./models/reservationSchema');
  app = express();
-
-brandeisUsername = 'temp';
+ wkdayVanResSchema = require('./models/wkdayVanResSchema');
 console.log('API server listening...');
 
 
@@ -53,9 +52,23 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 console.log("we are connected!")
-
+  setInterval(function(){
+      const current_date = new Date();
+      const current_hour = current_date.getHours();
+      if(current_hour > 3 && current_hour < 7){
+        wkdayVanResSchema.updateMany(
+          {},
+          {$set: {"stops.$[elem].num_res":0}},
+          { arrayFilters: [{"elem.num_res": {$gte:0}}]}, function(err){
+            if(err){
+              console.log(err);
+            } else {
+              console.log("successfully cleared");
+            }}
+        )
+      }
+  }, 18000000);
 });
-
 
 // viewengine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -63,12 +76,12 @@ app.set('view engine', 'pug');
 
 //middleware to process the req object and make it more useful!
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({extended:false}));
+//app.use(express.json());
+//app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 //for authentication
 app.use(session({
   secret: 'zzbbyanana',
@@ -85,7 +98,7 @@ app.use((req,res,next) => {
     console.log("user has been Authenticated")
     res.locals.user = req.user
     res.locals.loggedIn = true
-    brandeisUsername = req.user.googlename;
+    res.locals.brandeisUsername = req.user.googlename;
     if (req.user){
       if (req.user.googleemail=='jelee14108@brandeis.edu'
           || req.user.googleemail == 'chungek@brandeis.edu'
@@ -100,10 +113,9 @@ app.use((req,res,next) => {
   }
   next();
 });
-
 // this handles all static routes ...
 // so don't name your routes so they conflict with the public folders
-app.use(express.static(path.join(__dirname, 'public')));
+
 //app.use(checkLoggedIn);
 app.use('/', mainPageRouter);
 app.use('/about', aboutController.renderMain)
@@ -140,49 +152,25 @@ function isLoggedIn(req,res,next) {
 }
 
 
-// here is where we check on a user's log-in status (middleware)
-app.use((req,res,next) => {
-  res.locals.loggedIn = false
-  if (req.isAuthenticated()){
-    console.log("user has been Authenticated")
-    res.locals.user = req.user
-    res.locals.loggedIn = true
-    if (req.user){
-      if (req.user.googleemail=='jelee14108@brandeis.edu'
-          || req.user.googleemail == 'chungek@brandeis.edu'
-          || req.user.googleemail == 'casperlk@brandeis.edu'){
-        console.log("Owner has logged in")
-        res.locals.status = 'owner'
-      } else {
-        console.log('some user has logged in')
-        res.locals.status = 'user'
-      }
-    }
-  }
-  next();
-})
-
-
-
 //Casper's Testing Ground>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-nowExact = new Date(2018, 7, 30, 11)
-date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), nowExact.getUTCHours()))
-console.log("date:      "+date)
-var start = new Date(Date.UTC(2018, 6, 24,12))
-var end = new Date(Date.UTC(2018, 6, 26,12))
-console.log("start: "+start)
-console.log("end: "+end)
-
-EnterVanDays.enterVanDays(start, end, [true,true,true,true,true,true,true], 2010, "campusVan")
+// nowExact = new Date(2018, 7, 30, 11)
+// date = new Date(Date.UTC(nowExact.getFullYear(), nowExact.getMonth(), nowExact.getDate(), nowExact.getUTCHours()))
+// console.log("date:      "+date)
+// var start = new Date(Date.UTC(2018, 6, 24,12))
+// var end = new Date(Date.UTC(2018, 6, 26,12))
+// console.log("start: "+start)
+// console.log("end: "+end)
+//
+// EnterVanDays.enterVanDays(start, end, [true,true,true,true,true,true,true], 2010, "campusVan")
 
 //Casper's Testing Ground<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 //* JEN TESTING
-const apiquery = new transLocAPI(707);
-var stop = 'Prudential';
-var route = 'MGH – BWH';
+// const apiquery = new transLocAPI(707);
+// var stop = 'Prudential';
+// var route = 'MGH – BWH';
 // var route_id = apiquery.findRouteId(route);
 
 //This rout is visited to start google authentication. Passport will send you to

@@ -9,31 +9,34 @@ block content
   .section-only
     .container
       .row
-        if loggedIn
-          .col-md-12.text-center
-            h2.section-title.text-center Reserve
-            p.section-description.text-center Reserve a spot on a van or on a shuttle ahead of time.
-          .col-md-12
-            .alert.alert-success(style="display:none")
-              strong
-              | Reservation successfully made.
-            .alert.alert-warning(style="display:none")
-              strong
-              | Please fill out the form before submitting.
-          .col-md-8.col-md-offset-2
-            .row
-              form#resform.form(method="post" role="form" action="addReservation")
-                .col-md-6.form-group
-                  p Van Type:
-                  select.form-control#vantype(name="vanType" placeholder="Select a Van")
-                    option Select a van
-                    option(value="2010") Campus BranVan (Weekdays)
-                    option(value="2011") Campus BranVan (Weekends)
-                    option(value="3010") Evening Waltham Branvan
-                .col-md-6.form-group
-                  p Pick Up Time:
-                  select.form-control#time(name="time" placeholder="Select a time")
-                    option Select a time
+        .col-md-12.text-center
+          h2.section-title Reserve
+          if loggedIn
+            p.section-description Reserve a spot on a van or on a shuttle ahead of time.
+            .col-md-12
+              .alert.alert-success(style="display:none")
+                strong
+                | Reservation successfully made.
+              .alert.alert-warning(style="display:none")
+                strong
+                | Please fill out the form before submitting.
+              .alert.alert-danger(style="display:none")
+                strong
+                | I'm sorry. All spots are full for the run you have selected.
+            .col-md-8.col-md-offset-2
+              form#resform.form(method="post" role="form")
+                .row
+                  .col-md-6.form-group
+                    p Van Type:
+                    select.form-control#vantype(name="vanType" placeholder="Select a Van")
+                      option Select a van
+                      option(value="2010") Campus BranVan (Weekdays)
+                      option(value="2011") Campus BranVan (Weekends)
+                      option(value="3010") Evening Waltham Branvan
+                  .col-md-6.form-group
+                    p Pick Up Time:
+                    select.form-control#time(name="time" placeholder="Select a time")
+                      option Select a time
                 .row
                   .col-md-5.form-group
                     p From:

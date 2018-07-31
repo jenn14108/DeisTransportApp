@@ -288,7 +288,7 @@ exports.respondToDF = (req, res) => {
               } else if (!session_obj) {
                 return res.json({"fulfillmentText":"Sorry, something went wrong with your login."})
               } else {
-                if (brandeisUsername == "temp") {
+                if (!res.locals.brandeisUsername) {
                   return res.json({"fulfillmentText":"Looks like you aren't logged in. Please log in with your Brandeis Email."})
                 } else {
 
@@ -305,8 +305,9 @@ exports.respondToDF = (req, res) => {
 
                   var todate = moment().format('LL')
                   console.log("momentTime: "+momentTime.format('LT'))
+                  console.log(req.user)
                   let newReservation = new reservation({
-                    name: brandeisUsername,
+                    name: req.user.googlename || "temp",
                     van_name : route,
                     from: stop,
                     to: stop2,
