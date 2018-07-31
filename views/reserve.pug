@@ -20,8 +20,11 @@ block content
               .alert.alert-warning(style="display:none")
                 strong
                 | Please fill out the form before submitting.
+              .alert.alert-danger(style="display:none")
+                strong
+                | I'm sorry. All spots are full for the run you have selected.
             .col-md-8.col-md-offset-2
-              form#resform.form(method="post" role="form" action="addReservation")
+              form#resform.form(method="post" role="form")
                 .row
                   .col-md-6.form-group
                     p Van Type:

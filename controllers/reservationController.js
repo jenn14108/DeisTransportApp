@@ -29,6 +29,7 @@ exports.getRouteInfo = (req,res) => {
 }
 
 exports.addReservation = (req,res) => {
+  var canReserve = true;
   if ((req.body.vanType === 'Select a van')
        || (req.body.stopFrom === 'Select a stop')
        || (req.body.stopTo === 'Select a stop')
@@ -50,27 +51,97 @@ exports.addReservation = (req,res) => {
     } else if (routeNum == "3010") {
       route = "Evening Waltham Branvan";
     }
-    var todayDate = moment().format('LL')
-    //start creating a new reservation
-    console.log("creating a new reservation...");
-    let newReservation = new reservation({
-      name: brandeisUsername,
-      van_name : route,
-      from: req.body.stopFrom,
-      to: req.body.stopTo,
-      pickup_time: req.body.time,
-      date: todayDate,
-      num_people: req.body.numPeople
-    });
-    newReservation.save()
-      .then( () => {
-        setTimeout(function(){
-          res.render('reserve');
-        }, 2000)
+
+    //use reservation checks to make sure reservations can be made
+    if (route === 'Campus BranVan (Weekdays)'){
+      var run_to_check = wkdayResCheck.find({
+        run_time: req.body.time,
       })
-      .catch( error => {
-        res.send(error);
+      .exec()
+      .then((run_to_check) => {
+        console.log("CHECKING FOR SPACES ON THE VAN")
+        var count = 0;
+        var count1 = 0;
+        //traverse all stops until we get to the one the user is getting on
+        while (run_to_check[0].stops[count].stop !== req.body.stopFrom){
+          count = count + 1;
+        }
+        count1 = count;
+        //Now check if a reservation is available by making sure there is a spot
+        //on all stops on the route for the individual making the reservation
+        while (run_to_check[0].stops[count1].stop !== req.body.stopTo
+              && count1 < run_to_check[0].stops.length){
+          if (run_to_check[0].stops[count1].num_res == 12){
+            canReserve = false;
+            break;
+          }
+          count1 = count1 + 1;
+        }
+
+        console.log("COMPLETED CHECK");
+        console.log("canreserve = " + canReserve);
+        //Now update all the num_res fields for each stop along the way and
+        //make the reservation
+        if (canReserve){
+          const function_list1=[];
+          console.log(run_to_check[0].stops);
+          for (let i = count ; i < run_to_check[0].stops.length; i++){
+            console.log(req.body.stopTo)
+            if (run_to_check[0].stops[i].stop === req.body.stopTo){
+                break;
+            } else {
+                console.log("adding " + i);
+                function_list1.push(function(callback){
+                  wkdayResCheck.updateOne(
+                    {run_time: req.body.time,
+                    "stops.stop": run_to_check[0].stops[i].stop},
+                    { $inc: { "stops.$.num_res": 1 }}
+                  )
+                  .exec()
+                  .then(data => {
+                    callback(null, null);
+                  })
+                  .catch( error => {
+                    callback(error, null);
+                  });
+                })
+            }
+          }
+          async.parallel(function_list1, function(err){
+            if(err){
+              console.log(err);
+            } else {
+              var todayDate = moment().format('LL')
+              //start creating a new reservation
+              console.log(req.user);
+              console.log("creating a new reservation...");
+              let newReservation = new reservation({
+                name: res.locals.brandeisUsername,
+                van_name : route,
+                from: req.body.stopFrom,
+                to: req.body.stopTo,
+                pickup_time: req.body.time,
+                date: todayDate,
+                num_people: req.body.numPeople
+              });
+              newReservation.save()
+                .then( () => {
+                  res.json({});
+                })
+                .catch( error => {
+                  res.status(error.status || 500);
+                  res.json(error);
+                });
+            }
+          });
+        } else {
+          //no reservation made
+          console.log("NO RESERVATION WAS MADE. VAN FULL")
+          res.status(400);
+          res.json({})
+        }
       });
+    }
   }
 };
 
@@ -97,17 +168,14 @@ exports.findReservations = (req, res) => {
       date: todayDate})
       .exec()
       .then((reservations) => {
-        // if(reservations.length == 0){
-        //   res.render('drivers');
-        // } else {
           res.render('drivers', {
             reservations: reservations
           });
-        // }
       })
       .catch((error) => {res.send(error)});
   }
 };
+
 
 //used to load all documents used to check for slots on vans
 //into the collection (not used by users of app, used for dev purposes)
