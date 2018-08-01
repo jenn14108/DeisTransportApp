@@ -53,6 +53,10 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 console.log("we are connected!")
+  setInterval(function() {
+    console.log("set Interval is working"),
+    10000
+  });
   setInterval(function(){
       const current_date = new Date();
       const current_hour = current_date.getHours();
