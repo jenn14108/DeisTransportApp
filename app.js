@@ -42,6 +42,8 @@ const
  reservationSchema = require('./models/reservationSchema');
  app = express();
  eveningResCheck = require('./models/eveningVanResSchema');
+ wkdayVanResCheck = require('./models/wkdayVanResSchema');
+ wkendVanResCheck = require('./models/wkendVanResSchema');
 
 console.log('API server listening...');
 
@@ -57,7 +59,27 @@ console.log("we are connected!")
       const current_date = new Date();
       const current_hour = current_date.getHours();
       if(current_hour > 3 && current_hour < 7){
-        wkdayVanResSchema.updateMany(
+        wkdayVanResCheck.updateMany(
+          {},
+          {$set: {"stops.$[elem].num_res":0}},
+          { arrayFilters: [{"elem.num_res": {$gte:0}}]}, function(err){
+            if(err){
+              console.log(err);
+            } else {
+              console.log("successfully cleared");
+            }}
+        )
+        wkendVanResCheck.updateMany(
+          {},
+          {$set: {"stops.$[elem].num_res":0}},
+          { arrayFilters: [{"elem.num_res": {$gte:0}}]}, function(err){
+            if(err){
+              console.log(err);
+            } else {
+              console.log("successfully cleared");
+            }}
+        )
+        eveningResCheck.updateMany(
           {},
           {$set: {"stops.$[elem].num_res":0}},
           { arrayFilters: [{"elem.num_res": {$gte:0}}]}, function(err){
@@ -70,7 +92,6 @@ console.log("we are connected!")
       }
   }, 18000000);
 });
-
 
 
 
