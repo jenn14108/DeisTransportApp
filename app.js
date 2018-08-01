@@ -41,7 +41,8 @@ const
  transLocAPI = require('./models/transLocAPI');
  reservationSchema = require('./models/reservationSchema');
  app = express();
- wkdayVanResSchema = require('./models/wkdayVanResSchema');
+ eveningResCheck = require('./models/eveningVanResSchema');
+
 console.log('API server listening...');
 
 
@@ -69,6 +70,10 @@ console.log("we are connected!")
       }
   }, 18000000);
 });
+
+
+
+
 
 // viewengine setup
 app.set('views', path.join(__dirname, 'views'));

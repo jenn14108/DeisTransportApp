@@ -22,6 +22,25 @@ module.exports = class transLocAPI {
     });
   }
 
+  //This method queries the transLoc API to find the route ID given the route name
+  findRouteIdShortName(route, callback){
+    var agencyId = this.agency_id;
+    var res;
+    unirest.get("https://transloc-api-1-2.p.mashape.com/routes.json?agencies="+ this.agency_id + "&callback=call")
+    .header("X-Mashape-Key", transloc_key)
+    .header("Accept", "application/json")
+    .end(function (result) {
+      for (var i = 0; i < result.body.data[agencyId].length; i++){
+        if (result.body.data[agencyId][i].short_name === route){
+           console.log("THIS IS THE ROUTE ID: " + result.body.data[agencyId][i].route_id )
+           res = result.body.data[agencyId][i].route_id;
+           break;
+        }
+      }
+      callback(null, res);
+    });
+  }
+
   //This method queries the transLoc API to find the stop ID given the stop name
   findStopId(stop, callback){
     var agencyId = this.agency_id;
@@ -32,6 +51,7 @@ module.exports = class transLocAPI {
     .end(function (result) {
       for (var i = 0; i < result.body.data.length; i++){
         if (result.body.data[i].name === stop){
+          console.log("THIS IS THE STOP ID: " + result.body.data[i].stop_id);
           res = result.body.data[i].stop_id;
           break;
         }
@@ -49,7 +69,8 @@ module.exports = class transLocAPI {
     .header("X-Mashape-Key", transloc_key)
     .header("Accept", "application/json")
     .end(function (result) {
-      if(result.body.data[0] !== undefined){
+      if (result.body.data !== undefined &&
+          result.body.data[0] !== undefined){
         for (var i = 0; i < result.body.data[0].arrivals.length; i++){
           res.push(result.body.data[0].arrivals[i].arrival_at);
         }
