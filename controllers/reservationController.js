@@ -169,6 +169,7 @@ exports.findReservations = (req, res) => {
       .exec()
       .then((reservations) => {
           res.render('drivers', {
+            van: van,
             reservations: reservations
           });
       })
