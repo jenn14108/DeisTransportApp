@@ -33,6 +33,9 @@ html(lang="")
         .collapse.navbar-collapse.navbar-ex1-collapse
             ul.nav.navbar-nav.navbar-right
               li
+                if loggedIn
+                  a(href="/myReservations") My Reservations
+              li
                 a(href="/drivers") Drivers
               li
                 a(href="/reserve") Reserve

@@ -1,0 +1,43 @@
+extends layout
+
+block extraHead
+  script(src='/javascripts/resSuccessMessage.js')
+
+
+block content
+  //-section:Reserve
+  .section-only
+    .container
+      .row
+        .col-md-12.text-center
+          h2.section-title My Reservations
+          p.section-description This page displays all of your reservations past and present.
+        .col-md-8.col-md-offset-2
+          .row
+        .col-md-12.text-center
+          .row
+            if reservations
+              if reservations.length >= 1
+                table.table.table-dark
+                  thead
+                    tr
+                      th(scope="col") Date
+                      th(scope="col") Name
+                      th(scope="col") From
+                      th(scope="col") To
+                      th(scope="col") # Passengers
+                  tbody
+                    each res in reservations
+                      tr
+                        th(scope="row") #{res.date}
+                        th(scope="row") #{res.name}
+                        th(scope="row") #{res.from}
+                        th(scope="row") #{res.to}
+                        th(scope="row") #{res.num_people}
+
+
+              else if reservations.length == 0
+                table.table.table-dark
+                  thead
+                    tr
+                      th(scope="col") You have not made any reservations
