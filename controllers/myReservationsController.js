@@ -21,14 +21,15 @@ exports.getUserReservations = (req,res, next) => {
       for (var i = 0 ; i < reservations.length; i++){
         var temp = (reservations[i].date).toString();
         var indexToDelete = temp.indexOf('G');
-        var justDate = temp.substr(0,indexToDelete);
+        var justDate = temp.substr(0,indexToDelete-10);
         res.locals.reservations.push({
           name: reservations[i].name,
           date: justDate,
           from: reservations[i].from,
           to: reservations[i].to,
           num_people: reservations[i].num_people,
-          vanType: reservations[i].van_name
+          vanType: reservations[i].van_name,
+          run_time: reservations[i].pickup_time
         });
       }
       next();
