@@ -225,6 +225,8 @@ exports.respondToDF = (req, res) => {
               // } else {
                 if (!date) {
                   date = new Date()
+                  var dateString = "today"
+                  console.log("date333: "+date)
                 }
                 if (route) {
                   Query.getVanScheduleID(route, date).then(id => {
@@ -257,6 +259,7 @@ exports.respondToDF = (req, res) => {
                       return res.json({"fulfillmentText":"Only the "+runningVans[0] +" is running " +dateString})
                     } else {
                       return res.json({"fulfillmentText":"There are no vans running " +dateString})
+                      console.log("datesstring"+dateString)
                     }
                   })
                   .catch(err => console.log("err: "+err))
