@@ -333,7 +333,7 @@ exports.respondToDF = (req, res) => {
                   setTimeout(function(){
                     var string = "I made you a reservation from "+stop+" to "+stop2+" on the "+route+" for "+numSeats+" "+people+ " on the "+time.getHours()+":"+minutes+" run, "+todate
                     return res.json({"fulfillmentText":string})
-                  }, 50000)
+                  }, 2000)
                 })
                 .catch( error => {
                   return res.json({"fulfillmentText":"I wasn't able to reserve for that time."})
