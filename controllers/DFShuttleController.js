@@ -305,7 +305,7 @@ exports.respondToDF = (req, res) => {
               console.log("momentTime: "+momentTime.format('LT'))
               console.log(req.user)
               if (req.user == undefined) {
-                var Name = "temp"
+                var Name = "Casper"
               } else {
                 var Name = req.user.googlename
               }
