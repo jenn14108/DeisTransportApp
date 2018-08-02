@@ -19,6 +19,7 @@ const
  aboutController = require('./controllers/aboutController');
  driverController = require('./controllers/driverController');
  voiceAgentController = require('./controllers/voiceAgentController');
+ myReservationsController = require('./controllers/myReservationsController');
 
  //VanShuttleSchedulesController = require('./controllers/VanShuttleSchedulesController');
  //Set up needed variables in order to do authentication
@@ -144,8 +145,10 @@ app.use((req,res,next) => {
 
 //app.use(checkLoggedIn);
 app.use('/', mainPageRouter);
-app.use('/about', aboutController.renderMain)
+app.use('/about', aboutController.renderMain);
 app.get('/drivers', driverController.renderMain);
+app.get('/myReservations', myReservationsController.getUserReservations,
+                           myReservationsController.renderMain);
 app.use('/voiceAgent', voiceAgentController.renderMain);
 app.get('/reserve', reservationController.renderMain);
 app.post('/getRouteInfo', reservationController.getRouteInfo);
