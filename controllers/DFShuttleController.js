@@ -280,64 +280,66 @@ exports.respondToDF = (req, res) => {
 
 
 
+
+
             case "makeReservation":
-            console.log("in makeReservation")
-            // Session.findOne({session : session_id} , function (err, session_obj) {
-              // if (err){
-              //   return res.json({"fulfillmentText":"Sorry, I could not make a reservation."})
-              // } else if (!session_obj) {
-              //   return res.json({"fulfillmentText":"Sorry, something went wrong with your login."})
-              // } else {
-              //   if (brandeisUsername == "temp") {
-              //     return res.json({"fulfillmentText":"Looks like you aren't logged in. Please log in with your Brandeis Email."})
-              //   } else {
+              console.log("in makeReservation")
 
-                  // var todayExact = new Date()
-                  // time.setDate(todayExact.getDate())
-                  // time.setMonth(todayExact.getMonth())
+              if (route == "walthamVan") {
+                route = "Evening Waltham Branvan"
+              }
+              if (route == "campusVan") {
+                route = "Campus BranVan (Weekdays)"
+              }
+              if (route == "campusVan" && (time.getDay()==0 || time.getDay()==6)) {
+                route = "Campus BranVan (Weekends)"
+              }
 
-                  if (route == "walthamVan") {route = "Evening Waltham Branvan"}
-                  if (route == "campusVan") {route = "Campus BranVan (Weekdays)"}
-                  if (route == "campusVan" && (time.getDay()==0 || time.getDay()==6)) {route = "Campus BranVan (Weekends)"}
-
-                  var momentTime = moment(time)
+              var momentTime = moment(time)
 
 
-                  var todate = moment().format('LL')
-                  console.log("momentTime: "+momentTime.format('LT'))
-                  console.log(req.user)
-                  let newReservation = new reservation({
-                    name: req.user.googlename || "temp",
-                    van_name : route,
-                    from: stop,
-                    to: stop2,
-                    pickup_time: momentTime.format('LT'),
-                    date: todate,
-                    num_people: numSeats
-                  });
+              var todate = moment().format('LL')
+              console.log("momentTime: "+momentTime.format('LT'))
+              console.log(req.user)
+              let newReservation = new reservation({
+                name: req.user.googlename || "temp",
+                van_name : route,
+                from: stop,
+                to: stop2,
+                pickup_time: momentTime.format('LT'),
+                date: todate,
+                num_people: numSeats
+              })
 
-                  var minutes = time.getMinutes()
-                  if (minutes == 0) {minutes = "00"}
-                  var people = "people"
-                  if (numSeats == 1) people = "person"
+              console.log(newReservation)
 
-                  newReservation.save()
-                    .then(error => {
-                      setTimeout(function(){
-                        var string = "I made you a reservation from "+stop+" to "+stop2+" on the "+route+" for "+numSeats+" "+people+ " on the "+time.getHours()+":"+minutes+" run, "+todate
-                        return res.json({"fulfillmentText":string})
-                      }, 5000)
-                    })
-                    .catch( error => {
-                      return res.json({"fulfillmentText":"I wasn't able to reserve for that time."})
-                    });
 
-                // }
-//
-              // }
-            // });
+              var minutes = time.getMinutes()
+              if (minutes == 0) {
+                minutes = "00"
+              }
+              var people = "people"
+              if (numSeats == 1) {
+                people = "person"
+              }
 
+              newReservation.save()
+                .then(error => {
+                  setTimeout(function(){
+                    var string = "I made you a reservation from "+stop+" to "+stop2+" on the "+route+" for "+numSeats+" "+people+ " on the "+time.getHours()+":"+minutes+" run, "+todate
+                    return res.json({"fulfillmentText":string})
+                  }, 5000)
+                })
+                .catch( error => {
+                  return res.json({"fulfillmentText":"I wasn't able to reserve for that time."})
+                });
             break;
+
+
+
+
+
+
 
 
 
