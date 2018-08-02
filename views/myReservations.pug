@@ -22,6 +22,7 @@ block content
                   thead
                     tr
                       th(scope="col") Date
+                      th(scope="col") Time of Reservation
                       th(scope="col") Name
                       th(scope="col") From
                       th(scope="col") To
@@ -30,6 +31,7 @@ block content
                     each res in reservations
                       tr
                         th(scope="row") #{res.date}
+                        th(scope="row") #{res.run_time}
                         th(scope="row") #{res.name}
                         th(scope="row") #{res.from}
                         th(scope="row") #{res.to}
