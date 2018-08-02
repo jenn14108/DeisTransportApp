@@ -161,6 +161,7 @@ exports.findReservations = (req, res) => {
            res.render('drivers');
   } else {
     var van;
+    var time = req.body.time;
     var todayDate = moment().format('LL')
     if (req.body.vanType == "2010") {
       van = "Campus BranVan (Weekdays)";
@@ -176,6 +177,8 @@ exports.findReservations = (req, res) => {
       .exec()
       .then((reservations) => {
           res.render('drivers', {
+            time: time,
+            van: van,
             reservations: reservations
           });
       })
