@@ -6,8 +6,7 @@ var Session = require('../models/session');
 var transLocAPI = require('../models/transLocAPI');
 var reservationController = require('./reservationController');
 var mongoose = require( 'mongoose' );
-var reservationSchema = require('../models/reservationSchema');
-var reservation = mongoose.model("reservation", reservationSchema)
+var reservation = require('../models/reservationSchema');
 console.log("loading the PartnersShuttleController..");
 
 exports.renderMain = (req,res) => {
