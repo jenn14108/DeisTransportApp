@@ -5,6 +5,7 @@ html(lang="")
     meta(http-equiv="X-UA-Compatible" content="IE=edge")
     meta(name="viewport" content="width=device-width, initial-scale=1")
     title Deis Transport
+    link(rel='icon', href='images/van.png', type='image/jpeg')
     script(src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous")
     script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous")
     //- css and fonts
@@ -14,7 +15,6 @@ html(lang="")
     link(href="stylesheets/style.css" rel="stylesheet" type="text/css")
 
     block extraHead
-
   body
     //-section:navbar
     nav.navbar.navbar-default#layoutNav(role="navigation")
@@ -26,6 +26,8 @@ html(lang="")
             span.icon-bar
             span.icon-bar
             span.icon-bar
+          a(href="/")    
+            img(src="images/van.png" style="width:50px;height:50px;border:0;float:left;margin-right:10px;margin-top:15px;")    
           a.navbar-brand(href="/") Deis Transport
         //- navbar
         if loggedIn
