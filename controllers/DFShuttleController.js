@@ -5,10 +5,7 @@
 var Session = require('../models/session');
 var transLocAPI = require('../models/transLocAPI');
 var reservationController = require('./reservationController');
-var reservationSchema = require('../models/reservationSchema');
-var reservation = mongoose.model("reservation", reservationSchema)
-
-
+var reservation = require('../models/reservationSchema');
 console.log("loading the PartnersShuttleController..");
 
 exports.renderMain = (req,res) => {
@@ -283,6 +280,8 @@ exports.respondToDF = (req, res) => {
 
 
 
+
+
             case "makeReservation":
               console.log("in makeReservation")
 
@@ -302,8 +301,13 @@ exports.respondToDF = (req, res) => {
               var todate = moment().format('LL')
               console.log("momentTime: "+momentTime.format('LT'))
               console.log(req.user)
+              if (!req.user.googlename) {
+                var Name = "temp"
+              } else {
+                var Name = req.user.googlename
+              }
               let newReservation = new reservation({
-                name: req.user.googlename || "temp",
+                name: Name,
                 van_name : route,
                 from: stop,
                 to: stop2,
@@ -335,6 +339,12 @@ exports.respondToDF = (req, res) => {
                   return res.json({"fulfillmentText":"I wasn't able to reserve for that time."})
                 });
             break;
+
+
+
+
+
+
 
 
 
