@@ -1,20 +1,15 @@
-Welcome to the BranVan App! This is a voice-controlled app that interfaces with
-Brandeis shuttles and vans. Our ultimate goal with this app is to make the user experience
-with transportation provided by the school more positive and less frustrating.
+# Deis Transport 
 
-Here are a few things we wish to accomplish:
-1. Require user authentication in order to use the app.
-2. Create a database for each user in order to analyze the most frequent commands
-   used by the user, as well as to keep track of their most frequent stops.
-3. Create a database to store branvan reservation requests so that our app knows
-   to queue those requests and send them to the server right when a reservation is
-   allowed to be made (one hour before the desired branvan arrives)
-4. Connect our app to the Brandeis Transportation page
-   (http://www.brandeis.edu/publicsafety/van-shuttle/index.html) in order for our program
-   to return back to the user the expected/scheduled time of arrival for certain shuttles
-   and vans.
-5. Connect our app to the Brandeis Shuttle tracker operated by TransLoc in order for our
-   program to return back to the user the estimated time of arrival for certain shuttles
-   and vans.
+Welcome to Deis Transport! This app is created by a group of Brandeis students who believes that the shuttle and van system provided by Brandeis University can be significantly improved. Our goal is to create one fast and easy to use system that allows students to take advantage of Brandeis' transportation services. 
 
-   ** Rough draft 
+Check out our website: https://brandeistransportapp.herokuapp.com/
+
+Check out our final presentation: https://prezi.com/p/hgv7aos3aq8c/
+
+## Features 
+
+Our app contains both a GUI component as well as a VUI component. With our app, users are able to look up schedules for certain vans or shuttles, track the vehicles in real-time, and make reservations. For drivers of the school branvans we have created a special page that allows them to look up the list of individuals who have made a reservation. 
+
+## How to use the app
+
+To be completed
