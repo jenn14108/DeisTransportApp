@@ -90,10 +90,10 @@ console.log("we are connected!")
               console.log("successfully cleared");
             }}
         )
+        reservationSchema.deleteMany({}).exec();
       }
   }, 18000000);
 });
-
 
 
 
