@@ -93,7 +93,7 @@ exports.getEstimate = ( req, res) => {
 
   async.waterfall([
     function(callback){
-      brandeisQuery.findRouteIdShortName(route, callback);
+      brandeisQuery.findRouteIdShortName(shortname, callback);
     },
     function(route_id, callback){
       brandeisQuery.findStopId(stop, function(err, result){
