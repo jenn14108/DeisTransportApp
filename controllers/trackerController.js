@@ -71,17 +71,20 @@ exports.getEstimate = ( req, res) => {
     name = "Daytime Waltham Shuttle";
   //boston shuttles
   } else if (route == 1010 || route == 1020 || route == 1030 || route == 1040) {
-    shortname = "White"
-    shortname2 = "Purple"
-    shortname3 = "Pink"
+    shortname = "Purple"
+    shortname2 = "Pink"
     if (route == 1010) {
       name = "Boston/Cambridge Shuttle (Thurs)";
+      name2 = "Boston/Cambridge Shuttle (Thurs)";
     } else if (route == 1020) {
       name = "Boston/Cambridge Shuttle (Fri)";
+      name2 = "Boston/Cambridge Shuttle (Fri)";
     } else if (route == 1030) {
       name = "Boston/Cambridge Shuttle (Sat)";
+      name2 = "Boston/Cambridge Shuttle (Sat)";
     } else {
       name = "Boston/Cambridge Shuttle (Sun)";
+      name2 = "Boston/Cambridge Shuttle (Sun)";
     }
   }
   //console.log("fetching ETA of next van at " + stop + " on the " + route + " route.")
@@ -89,7 +92,7 @@ exports.getEstimate = ( req, res) => {
   var route_id = "";
   var stop_id = "";
   var arrival_times = [];
-  if (shortname === 'Blue'){
+  if (shortname === 'Blue' || shortname === 'Purple'){
     async.series([
       function(callback){
         async.waterfall([
