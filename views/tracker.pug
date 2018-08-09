@@ -29,7 +29,7 @@ block content
   i.fas.fa-chevron-circle-up#myBtn(onclick="topFunction()" title="Back to top")
   // /.section
   // START SECTION
-  .section-notfirst 
+  .section-notfirst
     .container
       .row
         .col-md-12.text-center
@@ -59,7 +59,7 @@ block content
                 button#getETA.btn.btn-primary(type="submit" value="submit") Get ETA
         .row
           if route
-            table#disp.table.table-dark 
+            table#disp.table.table-dark
               thead
                 tr
                   th(scope="col") Shuttle
@@ -72,14 +72,19 @@ block content
                   td #{stop}
                   td #{arrival_time1}
                   td #{arrival_time2}
+                tr
+                  th#marker(scope="row") #{route2}
+                  td #{stop2}
+                  td #{arrival_time21}
+                  td #{arrival_time22}
   script(src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous")
   script(type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
   script(type="text/javascript").
     $("#vanType").change(function() {
-      
+
       var $dropdown = $(this);
-      var key = $dropdown.val(); 
-      
+      var key = $dropdown.val();
+
       $.ajax({
         url: '/dispRoute',
         type: "POST",
@@ -110,7 +115,7 @@ block content
         },500);
       }
     });
-    
+
     /*back to top btn*/
     window.onscroll = function() {scrollFunction()};
 

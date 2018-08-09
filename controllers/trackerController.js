@@ -45,10 +45,8 @@ exports.getEstimate = ( req, res) => {
   //construct the two needed query parameters for API calls
   const route = req.body.vanType;
   const stop = req.body.stop;
-  var shortname;
-  var shortname2;
-  var shortname3;
-  var name;
+  var shortname; var shortname2; var shortname3;
+  var name; var name2; var name3;
   //campus bvan
   if (route == 2011 || route == 2010) {
     shortname = "Yellow"
@@ -62,6 +60,7 @@ exports.getEstimate = ( req, res) => {
     shortname = "Blue"
     name = "Evening Waltham Branvan";
     shortname2 = "Green"
+    name2 = "Extra Waltham Branvan";
   //campus josephs
   } else if (route == 2020) {
     shortname = "Red"
@@ -90,43 +89,127 @@ exports.getEstimate = ( req, res) => {
   var route_id = "";
   var stop_id = "";
   var arrival_times = [];
-
-  async.waterfall([
-    function(callback){
-      brandeisQuery.findRouteIdShortName(shortname, callback);
-    },
-    function(route_id, callback){
-      brandeisQuery.findStopId(stop, function(err, result){
-        if(err){
-          callback(err, null);
-        } else {
-          callback(null, route_id, result);
+  if (shortname === 'Blue'){
+    async.series([
+      function(callback){
+        async.waterfall([
+          function(callback){
+            brandeisQuery.findRouteIdShortName(shortname, callback);
+          },
+          function(route_id, callback){
+            brandeisQuery.findStopId(stop, function(err, result){
+              if(err){
+                callback(err, null);
+              } else {
+                callback(null, route_id, result);
+              }
+            })
+          },
+          function(route_id, stop_id, callback) {
+            brandeisQuery.findArrivalEstimate(route_id, stop_id, callback);
+          }
+        ],
+        function(err, result){
+          callback(err, result);
+        })
+      },
+      function(callback){
+        async.waterfall([
+          function(callback){
+            brandeisQuery.findRouteIdShortName(shortname2, callback);
+          },
+          function(route_id, callback){
+            brandeisQuery.findStopId(stop, function(err, result){
+              if(err){
+                callback(err, null);
+              } else {
+                callback(null, route_id, result);
+              }
+            });
+          },
+          function(route_id, stop_id, callback) {
+            brandeisQuery.findArrivalEstimate(route_id, stop_id, callback);
+          }
+        ],
+        function(err, result){
+          callback(err, result);
+        })
+      }
+    ], function(err, result){
+          if (err){
+            console.log(err);
+          } else {
+              var result1 = result[0];
+              var result2 = result[1];
+              console.log(result1);
+              console.log(result2);
+              console.log(typeof result1[0] === 'undefined' && typeof result2[0] === 'undefined')
+              if (typeof result1[0] === 'undefined' && typeof result2[0] === 'undefined' ){
+                res.render('tracker', {route:name, stop:stop, arrival_time1: "No arrivals"});
+              } else if (typeof result1[1] === 'undefined' && typeof result2[1] !== 'undefined' ){
+                  res.render('tracker', {route:name, stop:stop,
+                                    arrival_time1:result1[0].substring(11,16),
+                                    route2:name2, stop2:stop, arrival_time21:result2[1].substring(11,16),
+                                  arrival_time22: result2[2].substring(11,16)});
+              } else if (typeof result2[1] === 'undefined' && typeof result1[1] !== 'undefined' ){
+                res.render('tracker', {route:name, stop:stop,
+                                  arrival_time1:result1[0].substring(11,16),
+                                  arrival_time2: result1[1].substring(11,16),
+                                  route2:name2, stop2:stopp, arrival_time21:result2[0].substring(11,16)});
+              } else {
+                res.render('tracker', {route:name, stop:stop,
+                                  arrival_time1:result1[0].substring(11,16),
+                                  arrival_time2: result1[1].substring(11,16),
+                                  route2:name2, stop2:stop,
+                                  arrival_time21:result2[0].substring(11,16),
+                                  arrival_time22: result2[1].substring(11,16)});
+              }
+          }
         }
-      });
-    },
-    function(route_id, stop_id, callback) {
-      brandeisQuery.findArrivalEstimate(route_id, stop_id, callback);
-    }
-  ],
-  function(err, result){
-    if(err){
-      console.log("Sorry, I could not retrieve any information");
-    } else {
-      if (typeof result[0] === 'undefined' ){
-        res.render('tracker', {route:name, stop:stop, arrival_time1: "No arrivals"});
+    )
+  } else if (shortname === 'White'){
+
+  } else {
+    async.waterfall([
+      function(callback){
+        brandeisQuery.findRouteIdShortName(shortname, callback);
+      },
+      function(route_id, callback){
+        brandeisQuery.findStopId(stop, function(err, result){
+          if(err){
+            callback(err, null);
+          } else {
+            callback(null, route_id, result);
+          }
+        });
+      },
+      function(route_id, stop_id, callback) {
+        brandeisQuery.findArrivalEstimate(route_id, stop_id, callback);
+      }
+    ],
+    function(err, result){
+      if(err){
+        console.log("Sorry, I could not retrieve any information");
       } else {
-        if (typeof result[1] === 'undefined'){
-          res.render('tracker', {route:name, stop:stop,
-                                arrival_time1:result[0].substring(11,16)});
+        if (typeof result[0] === 'undefined' ){
+          res.render('tracker', {route:name, stop:stop, arrival_time1: "No arrivals"});
         } else {
-          res.render('tracker', {route:name, stop:stop,
-                                arrival_time1:result[0].substring(11,16),
-                                arrival_time2:result[1].substring(11,16)});
+          if (typeof result[1] === 'undefined'){
+            res.render('tracker', {route:name, stop:stop,
+                                  arrival_time1:result[0].substring(11,16)});
+          } else {
+            res.render('tracker', {route:name, stop:stop,
+                                  arrival_time1:result[0].substring(11,16),
+                                  arrival_time2:result[1].substring(11,16)});
+          }
         }
       }
-    }
-  });
-};
+    });
+  }
+}
+
+
+
 
 
 // exports.getEstimate = ( req, res) => {
