@@ -41,6 +41,7 @@ module.exports = class transLocAPI {
     });
   }
 
+
   //This method queries the transLoc API to find the stop ID given the stop name
   findStopId(stop, callback){
     var agencyId = this.agency_id;

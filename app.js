@@ -162,8 +162,6 @@ app.get('/schedules', schedulesController.renderMain);
 app.post('/getSchedule', schedulesController.getSchedule);
 
 
-
-
 //route middleware to make sure a user is logged in to see certain pages
 function isLoggedIn(req,res,next) {
   console.log("checking to see if user is authenticated!");
