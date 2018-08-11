@@ -1,6 +1,6 @@
 # Deis Transport 
 
-[![Heroku deployed](https://img.shields.io/badge/Heroku-Deployed-8363A8.svg)]
+![Heroku deployed](https://img.shields.io/badge/Heroku-Deployed-8363A8.svg)
 
 Welcome to Deis Transport! This app is created by a group of Brandeis students who believes that the shuttle and van system provided by Brandeis University can be significantly improved. Our goal is to create one fast and easy to use system that allows students to take advantage of Brandeis' transportation services. 
 
