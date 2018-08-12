@@ -36,6 +36,13 @@ module.exports = function(passport) {
         // make the code asynchronous
         // User.findOne won't fire until we have all our data back from Google
         process.nextTick(function() {
+          //check email domain
+          const email = profile.emails[0].value;
+          const domain = email.substring(email.indexOf("@") + 1);
+          if(domain!="brandeis.edu"){
+            return done(null, false, { message: 'Please log in with a Brandeis account.' });
+          }
+          
            console.log("looking for userid")
             // try to find the user based on their google id
             User.findOne({ 'googleid' : profile.id }, function(err, user) {
