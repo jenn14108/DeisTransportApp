@@ -59,7 +59,7 @@ console.log("we are connected!")
   setInterval(function(){
       const current_date = new Date();
       const current_hour = current_date.getHours();
-      if(current_hour > 3 && current_hour < 7){
+      if(current_hour == 4){
         wkdayVanResCheck.updateMany(
           {},
           {$set: {"stops.$[elem].num_res":0}},
