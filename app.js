@@ -92,7 +92,8 @@ console.log("we are connected!")
         )
         reservationSchema.deleteMany({}).exec();
       }
-  }, 18000000);
+  }, 3600000);
+
 });
 
 
