@@ -189,171 +189,171 @@ exports.findReservations = (req, res) => {
 
 //used to load all documents used to check for slots on vans
 //into the collection (not used by users of app, used for dev purposes)
-exports.addAllResChecks = (req , res) => {
-  const times = ['12:00 AM' , '12:15 AM', '12:30 AM', '12:45 AM', '1:00 AM',
-  '1:15 AM' , '1:30 AM', '1:45 AM', '2:00 AM', '2:15 AM',
-  '7:00 AM' , '7:15 AM', '7:30 AM', '7:45 AM',
-  '8:00 AM' , '8:15 AM', '8:30 AM', '8:45 AM',
-  '9:00 AM' , '9:15 AM', '9:30 AM', '9:45 AM',
-  '10:00 AM' , '10:15 AM', '10:30 AM', '10:45 AM',
-  '11:00 AM' , '11:15 AM', '11:30 AM', '11:45 AM',
-  '12:00 PM' , '12:15 PM', '12:30 PM', '12:45 PM',
-  '1:00 PM' , '1:15 PM', '1:30 PM', '1:45 PM',
-  '2:00 PM' , '2:15 PM', '2:30 PM', '2:45 PM',
-  '3:00 PM' , '3:15 PM', '3:30 PM', '3:45 PM',
-  '4:00 PM' , '4:15 PM', '4:30 PM', '4:45 PM',
-  '5:00 PM' , '5:15 PM', '5:30 PM', '5:45 PM',
-  '6:00 PM' , '6:15 PM', '6:30 PM', '6:45 PM',
-  '7:00 PM' , '7:15 PM', '7:30 PM', '7:45 PM',
-  '8:00 PM' , '8:15 PM', '8:30 PM', '8:45 PM',
-  '9:00 PM' , '9:15 PM', '9:30 PM', '9:45 PM',
-  '10:00 PM' , '10:15 PM', '10:30 PM', '10:45 PM',
-  '11:00 PM' , '11:15 PM', '11:30 PM', '11:45 PM',
-  ]
-  for (i = 0; i < times.length ; i++){
-    let newRunTime = new wkendResCheck ({
-         run_time: times[i],
-         stops: [
-           {stop:"Rabb",
-            num_res: 0} ,
-           {stop:"Hassenfeld Lot",
-            num_res: 0} ,
-           {stop:"Main Entrance",
-            num_res: 0} ,
-           {stop:"Lower Charles River Road",
-            num_res: 0} ,
-           {stop:"Charles River Lot",
-            num_res: 0} ,
-           {stop:"Lemberg Children's Center",
-            num_res: 0} ,
-           {stop:"Foster Apartments (Mods/Gosman)",
-            num_res: 0} ,
-        ]
-    });
-    newRunTime.save();
-    console.log("SAVED");
-
-    let newRunTime1 = new wkdayResCheck ({
-         run_time: times[i],
-         stops: [
-           {stop:"Rabb",
-            num_res: 0} ,
-           {stop:"Hassenfeld Lot",
-            num_res: 0} ,
-           {stop:"Main Entrance",
-            num_res: 0} ,
-           {stop:"Lower Charles River Road",
-            num_res: 0} ,
-           {stop:"Charles River Lot",
-            num_res: 0} ,
-           {stop:"Lemberg Children's Center",
-            num_res: 0} ,
-           {stop:"Foster Apartments (Mods/Gosman)",
-            num_res: 0} ,
-        ]
-    });
-    newRunTime1.save();
-    console.log("SAVED");
-  }
-
-  const timesEvening = ['4:00 PM' , '4:30 PM',
-  '5:00 PM' ,'6:00 PM' , '6:30 PM', '7:00 PM' ,
-  '7:30 PM', '8:00 PM' ,  '8:30 PM', '9:00 PM' ,
-  '9:30 PM', '10:00 PM' , '10:30 PM', '11:00 PM' ,
-  '11:30 PM', '12:00 AM' , '12:30 AM' , '1:00 AM',
-  '1:30 AM', '2:00 AM']
-
-  for (i = 0; i < timesEvening.length ; i++){
-    let newRunTimeEvening = new eveningResCheck ({
-         run_time: times[i],
-         stops: [
-           {stop:"Rabb (Usdan)",
-            num_res: 0} ,
-           {stop:"Heller School",
-            num_res: 0} ,
-           {stop:"Hassenfeld Lot (Massell)",
-            num_res: 0} ,
-           {stop:"Spingold Theatre",
-            num_res: 0} ,
-           {stop:"Main Entrance",
-            num_res: 0} ,
-           {stop:"Commuter Rail (Brandeis/Roberts)",
-            num_res: 0} ,
-           {stop:"Lower Charles River Road (Grad)",
-            num_res: 0} ,
-           {stop:"Charles River Lot (J-Lot)",
-            num_res: 0} ,
-           {stop:"567 Apartments",
-            num_res: 0} ,
-           {stop:"Gosman Sports Complex - (Inbound)",
-            num_res: 0} ,
-           {stop:"Foster Apartments (Mods) - (Inbound)",
-            num_res: 0} ,
-           {stop:"Shakespeare/South St. - (Inbound)",
-            num_res: 0} ,
-           {stop:"Highland/South St. - (Inbound)",
-            num_res: 0} ,
-           {stop:"Dartmouth/South St. - (Inbound)",
-            num_res: 0} ,
-           {stop:"Bedford/South St. - (Inbound)",
-            num_res: 0} ,
-            {stop:"99 Restaurant - (Inbound)",
-             num_res: 0} ,
-            {stop:"Walgreens",
-             num_res: 0} ,
-            {stop:"Russell/Prospect St. - (Inbound)",
-             num_res: 0} ,
-            {stop:"Hannafords - (Inbound)",
-             num_res: 0} ,
-            {stop:"CVS - (Inbound)",
-             num_res: 0} ,
-            {stop:"Post Office - (Inbound)",
-             num_res: 0} ,
-            {stop:"Library - (Inbound)",
-             num_res: 0} ,
-            {stop:"Main/Moody St. - (Inbound)",
-             num_res: 0} ,
-            {stop:"In a Pickle - (Inbound)",
-             num_res: 0} ,
-            {stop:"Lizzy's - (Inbound)",
-             num_res: 0} ,
-            {stop:"Maple/High/Moody St. - (Inbound)",
-             num_res: 0} ,
-            {stop:"Cherry/Moody St. - (Inbound)",
-             num_res: 0} ,
-            {stop:"Ash/Moody St. - (Inbound)",
-             num_res: 0} ,
-            {stop:"Brown/Moody St. - (Inbound)",
-             num_res: 0} ,
-            {stop:"Robbins/Moody St. - (Inbound)",
-             num_res: 0} ,
-             {stop:"Orange/Moody St. - (Inbound)",
-              num_res: 0} ,
-             {stop:"Burger King - (Inbound)",
-              num_res: 0} ,
-             {stop:"Watch Factory - (Inbound)",
-              num_res: 0} ,
-             {stop:"Art Studio",
-              num_res: 0} ,
-             {stop:"Highland/South St. - (Outbound)",
-              num_res: 0} ,
-             {stop:"Foster Apartments (Mods) - (Outbound)",
-              num_res: 0} ,
-             {stop:"Commuter Rail (Brandeis/Roberts) - (Outbound)",
-              num_res: 0} ,
-              {stop:"Lower Charles River Road (Grad) - (Outbound)",
-               num_res: 0} ,
-              {stop:"Charles River Lot (J-Lot) - (Outbound)",
-               num_res: 0} ,
-               {stop:"567 Apartments - (Outbound)",
-                num_res: 0} ,
-
-        ]
-    });
-    newRunTimeEvening.save();
-    console.log('SAVED');
-  }
-}
+// exports.addAllResChecks = (req , res) => {
+//   const times = ['12:00 AM' , '12:15 AM', '12:30 AM', '12:45 AM', '1:00 AM',
+//   '1:15 AM' , '1:30 AM', '1:45 AM', '2:00 AM', '2:15 AM',
+//   '7:00 AM' , '7:15 AM', '7:30 AM', '7:45 AM',
+//   '8:00 AM' , '8:15 AM', '8:30 AM', '8:45 AM',
+//   '9:00 AM' , '9:15 AM', '9:30 AM', '9:45 AM',
+//   '10:00 AM' , '10:15 AM', '10:30 AM', '10:45 AM',
+//   '11:00 AM' , '11:15 AM', '11:30 AM', '11:45 AM',
+//   '12:00 PM' , '12:15 PM', '12:30 PM', '12:45 PM',
+//   '1:00 PM' , '1:15 PM', '1:30 PM', '1:45 PM',
+//   '2:00 PM' , '2:15 PM', '2:30 PM', '2:45 PM',
+//   '3:00 PM' , '3:15 PM', '3:30 PM', '3:45 PM',
+//   '4:00 PM' , '4:15 PM', '4:30 PM', '4:45 PM',
+//   '5:00 PM' , '5:15 PM', '5:30 PM', '5:45 PM',
+//   '6:00 PM' , '6:15 PM', '6:30 PM', '6:45 PM',
+//   '7:00 PM' , '7:15 PM', '7:30 PM', '7:45 PM',
+//   '8:00 PM' , '8:15 PM', '8:30 PM', '8:45 PM',
+//   '9:00 PM' , '9:15 PM', '9:30 PM', '9:45 PM',
+//   '10:00 PM' , '10:15 PM', '10:30 PM', '10:45 PM',
+//   '11:00 PM' , '11:15 PM', '11:30 PM', '11:45 PM',
+//   ]
+//   for (i = 0; i < times.length ; i++){
+//     let newRunTime = new wkendResCheck ({
+//          run_time: times[i],
+//          stops: [
+//            {stop:"Rabb",
+//             num_res: 0} ,
+//            {stop:"Hassenfeld Lot",
+//             num_res: 0} ,
+//            {stop:"Main Entrance",
+//             num_res: 0} ,
+//            {stop:"Lower Charles River Road",
+//             num_res: 0} ,
+//            {stop:"Charles River Lot",
+//             num_res: 0} ,
+//            {stop:"Lemberg Children's Center",
+//             num_res: 0} ,
+//            {stop:"Foster Apartments (Mods/Gosman)",
+//             num_res: 0} ,
+//         ]
+//     });
+//     newRunTime.save();
+//     console.log("SAVED");
+//
+//     let newRunTime1 = new wkdayResCheck ({
+//          run_time: times[i],
+//          stops: [
+//            {stop:"Rabb",
+//             num_res: 0} ,
+//            {stop:"Hassenfeld Lot",
+//             num_res: 0} ,
+//            {stop:"Main Entrance",
+//             num_res: 0} ,
+//            {stop:"Lower Charles River Road",
+//             num_res: 0} ,
+//            {stop:"Charles River Lot",
+//             num_res: 0} ,
+//            {stop:"Lemberg Children's Center",
+//             num_res: 0} ,
+//            {stop:"Foster Apartments (Mods/Gosman)",
+//             num_res: 0} ,
+//         ]
+//     });
+//     newRunTime1.save();
+//     console.log("SAVED");
+//   }
+//
+//   const timesEvening = ['4:00 PM' , '4:30 PM',
+//   '5:00 PM' ,'6:00 PM' , '6:30 PM', '7:00 PM' ,
+//   '7:30 PM', '8:00 PM' ,  '8:30 PM', '9:00 PM' ,
+//   '9:30 PM', '10:00 PM' , '10:30 PM', '11:00 PM' ,
+//   '11:30 PM', '12:00 AM' , '12:30 AM' , '1:00 AM',
+//   '1:30 AM', '2:00 AM']
+//
+//   for (i = 0; i < timesEvening.length ; i++){
+//     let newRunTimeEvening = new eveningResCheck ({
+//          run_time: times[i],
+//          stops: [
+//            {stop:"Rabb (Usdan)",
+//             num_res: 0} ,
+//            {stop:"Heller School",
+//             num_res: 0} ,
+//            {stop:"Hassenfeld Lot (Massell)",
+//             num_res: 0} ,
+//            {stop:"Spingold Theatre",
+//             num_res: 0} ,
+//            {stop:"Main Entrance",
+//             num_res: 0} ,
+//            {stop:"Commuter Rail (Brandeis/Roberts)",
+//             num_res: 0} ,
+//            {stop:"Lower Charles River Road (Grad)",
+//             num_res: 0} ,
+//            {stop:"Charles River Lot (J-Lot)",
+//             num_res: 0} ,
+//            {stop:"567 Apartments",
+//             num_res: 0} ,
+//            {stop:"Gosman Sports Complex - (Inbound)",
+//             num_res: 0} ,
+//            {stop:"Foster Apartments (Mods) - (Inbound)",
+//             num_res: 0} ,
+//            {stop:"Shakespeare/South St. - (Inbound)",
+//             num_res: 0} ,
+//            {stop:"Highland/South St. - (Inbound)",
+//             num_res: 0} ,
+//            {stop:"Dartmouth/South St. - (Inbound)",
+//             num_res: 0} ,
+//            {stop:"Bedford/South St. - (Inbound)",
+//             num_res: 0} ,
+//             {stop:"99 Restaurant - (Inbound)",
+//              num_res: 0} ,
+//             {stop:"Walgreens",
+//              num_res: 0} ,
+//             {stop:"Russell/Prospect St. - (Inbound)",
+//              num_res: 0} ,
+//             {stop:"Hannafords - (Inbound)",
+//              num_res: 0} ,
+//             {stop:"CVS - (Inbound)",
+//              num_res: 0} ,
+//             {stop:"Post Office - (Inbound)",
+//              num_res: 0} ,
+//             {stop:"Library - (Inbound)",
+//              num_res: 0} ,
+//             {stop:"Main/Moody St. - (Inbound)",
+//              num_res: 0} ,
+//             {stop:"In a Pickle - (Inbound)",
+//              num_res: 0} ,
+//             {stop:"Lizzy's - (Inbound)",
+//              num_res: 0} ,
+//             {stop:"Maple/High/Moody St. - (Inbound)",
+//              num_res: 0} ,
+//             {stop:"Cherry/Moody St. - (Inbound)",
+//              num_res: 0} ,
+//             {stop:"Ash/Moody St. - (Inbound)",
+//              num_res: 0} ,
+//             {stop:"Brown/Moody St. - (Inbound)",
+//              num_res: 0} ,
+//             {stop:"Robbins/Moody St. - (Inbound)",
+//              num_res: 0} ,
+//              {stop:"Orange/Moody St. - (Inbound)",
+//               num_res: 0} ,
+//              {stop:"Burger King - (Inbound)",
+//               num_res: 0} ,
+//              {stop:"Watch Factory - (Inbound)",
+//               num_res: 0} ,
+//              {stop:"Art Studio",
+//               num_res: 0} ,
+//              {stop:"Highland/South St. - (Outbound)",
+//               num_res: 0} ,
+//              {stop:"Foster Apartments (Mods) - (Outbound)",
+//               num_res: 0} ,
+//              {stop:"Commuter Rail (Brandeis/Roberts) - (Outbound)",
+//               num_res: 0} ,
+//               {stop:"Lower Charles River Road (Grad) - (Outbound)",
+//                num_res: 0} ,
+//               {stop:"Charles River Lot (J-Lot) - (Outbound)",
+//                num_res: 0} ,
+//                {stop:"567 Apartments - (Outbound)",
+//                 num_res: 0} ,
+//
+//         ]
+//     });
+//     newRunTimeEvening.save();
+//     console.log('SAVED');
+//   }
+// }
 // console.log("adding reservation at " + pickup_time + " from " + from + " to " + to + " on the " + van_name + ".")
 
 //var time is a string, if u want a date obj in the res constructor then u can use parse(time) as an argument in the new Date constructor

@@ -46,11 +46,13 @@ module.exports = class transLocAPI {
   findStopId(stop, callback){
     var agencyId = this.agency_id;
     var res;
-    unirest.get("https://transloc-api-1-2.p.mashape.com/stops.json?agencies=707&callback=call")
+    unirest.get("https://transloc-api-1-2.p.mashape.com/stops.json?agencies="+ this.agency_id + "&callback=call")
     .header("X-Mashape-Key", transloc_key)
     .header("Accept", "application/json")
     .end(function (result) {
       for (var i = 0; i < result.body.data.length; i++){
+        console.log(result.body.data[i].name);
+        console.log(stop);
         if (result.body.data[i].name === stop){
           console.log("THIS IS THE STOP ID: " + result.body.data[i].stop_id);
           res = result.body.data[i].stop_id;
@@ -66,13 +68,17 @@ module.exports = class transLocAPI {
   findArrivalEstimate(route_id, stop_id, callback){
     var agencyId = this.agency_id;
     var res = [];
-    unirest.get("https://transloc-api-1-2.p.mashape.com/arrival-estimates.json?agencies=707&callback=call&routes=" + route_id + "&stops=" + stop_id)
+    console.log("this is the route_id for estimate: " + route_id);
+    console.log("this is the stop_id for estimate: " + stop_id);
+    unirest.get("https://transloc-api-1-2.p.mashape.com/arrival-estimates.json?agencies="+ this.agency_id + "&callback=call&routes=" + route_id + "&stops=" + stop_id)
     .header("X-Mashape-Key", transloc_key)
     .header("Accept", "application/json")
     .end(function (result) {
+      console.log(result);
       if (result.body.data !== undefined &&
           result.body.data[0] !== undefined){
         for (var i = 0; i < result.body.data[0].arrivals.length; i++){
+          console.log("not undefined");
           res.push(result.body.data[0].arrivals[i].arrival_at);
         }
       }

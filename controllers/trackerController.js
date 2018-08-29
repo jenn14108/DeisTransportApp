@@ -87,6 +87,7 @@ exports.getEstimate = ( req, res) => {
       name2 = "Boston/Cambridge Shuttle (Sun)";
     }
   }
+
   //console.log("fetching ETA of next van at " + stop + " on the " + route + " route.")
   //construct two variables needed later
   var route_id = "";
@@ -170,8 +171,6 @@ exports.getEstimate = ( req, res) => {
           }
         }
     )
-  } else if (shortname === 'White'){
-
   } else {
     async.waterfall([
       function(callback){
