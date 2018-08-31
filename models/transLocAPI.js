@@ -51,8 +51,6 @@ module.exports = class transLocAPI {
     .header("Accept", "application/json")
     .end(function (result) {
       for (var i = 0; i < result.body.data.length; i++){
-        console.log(result.body.data[i].name);
-        console.log(stop);
         if (result.body.data[i].name === stop){
           console.log("THIS IS THE STOP ID: " + result.body.data[i].stop_id);
           res = result.body.data[i].stop_id;
@@ -74,11 +72,9 @@ module.exports = class transLocAPI {
     .header("X-Mashape-Key", transloc_key)
     .header("Accept", "application/json")
     .end(function (result) {
-      console.log(result);
       if (result.body.data !== undefined &&
           result.body.data[0] !== undefined){
         for (var i = 0; i < result.body.data[0].arrivals.length; i++){
-          console.log("not undefined");
           res.push(result.body.data[0].arrivals[i].arrival_at);
         }
       }

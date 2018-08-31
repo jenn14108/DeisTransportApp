@@ -419,7 +419,6 @@ Routes
           4144918,
           4144846,
           4144886
-      vehicle ids: 4012957
 
     4.
     	short_name: Orange
