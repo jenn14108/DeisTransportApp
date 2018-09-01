@@ -97,6 +97,11 @@ exports.getEstimate = ( req, res) => {
   }
   console.log("NEW STOP NAME: " + stop);
   console.log("color: " + shortname);
+  if (stop === 'transLocSucks'){
+    res.render('tracker', {route:name, stop:stop, arrival_time1: "TransLoc does not have data on this stop"});
+    return;
+  }
+
   //console.log("fetching ETA of next van at " + stop + " on the " + route + " route.")
   //construct two variables needed later
   var route_id = "";
