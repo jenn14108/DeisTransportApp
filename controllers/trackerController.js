@@ -160,25 +160,48 @@ exports.getEstimate = ( req, res) => {
               if (typeof result1[0] === 'undefined' && typeof result2[0] === 'undefined' ){
                 res.render('tracker', {route:name, stop:displayStop, arrival_time1: "No arrivals"});
               } else if (typeof result1[0] === 'undefined' && typeof result2[0] !== 'undefined'){
+                  if (typeof result2[1] !== 'undefined'){
+                    res.render('tracker', {route:name, stop:displayStop,
+                                          arrival_time1:result2[0].substring(11,16),
+                                          arrival_time2: result2[1].substring(11,16)});
+                  } else {
+                    res.render('tracker', {route:name, stop:displayStop,
+                                          arrival_time1:result2[0].substring(11,16)});
+                  }
+              } else if (typeof result1[0] !== 'undefined' && typeof result2[0] === 'undefined'){
+                if (typeof result1[1] !== 'undefined'){
                   res.render('tracker', {route:name, stop:displayStop,
-                                        arrival_time1:result2[0].substring(11,16)});
-              } else if (typeof result1[1] === 'undefined' && typeof result2[1] !== 'undefined' ){
+                                        arrival_time1:result1[0].substring(11,16),
+                                        arrival_time2: result1[1].substring(11,16)});
+                } else {
+                  res.render('tracker', {route:name, stop:displayStop,
+                                        arrival_time1:result1[0].substring(11,16)});
+                }
+              } else if (typeof result1[0] !== 'undefined' && typeof result2[0] !== 'undefined'){
+                if (typeof result1[1] !== 'undefined' && typeof result2[1] !== 'undefined'){
                   res.render('tracker', {route:name, stop:displayStop,
                                     arrival_time1:result1[0].substring(11,16),
-                                    route2:name2, stop2:displayStop, arrival_time21:result2[1].substring(11,16),
-                                  arrival_time22: result2[2].substring(11,16)});
-              } else if (typeof result2[1] === 'undefined' && typeof result1[1] !== 'undefined' ){
-                res.render('tracker', {route:name, stop:displayStop,
-                                  arrival_time1:result1[0].substring(11,16),
-                                  arrival_time2: result1[1].substring(11,16),
-                                  route2:name2, stop2:displayStop, arrival_time21:result2[0].substring(11,16)});
-              } else {
-                res.render('tracker', {route:name, stop:displayStop,
-                                  arrival_time1:result1[0].substring(11,16),
-                                  arrival_time2: result1[1].substring(11,16),
-                                  route2:name2, stop2:displayStop,
-                                  arrival_time21:result2[0].substring(11,16),
-                                  arrival_time22: result2[1].substring(11,16)});
+                                    arrival_time2: result1[1].substring(11,16),
+                                    route2:name2, stop2:displayStop,
+                                    arrival_time21:result2[0].substring(11,16),
+                                    arrival_time22: result2[1].substring(11,16)});
+                } else if (typeof result1[1] === 'undefined' && typeof result2[1] !== 'undefined'){
+                  res.render('tracker', {route:name, stop:displayStop,
+                                    arrival_time1:result1[0].substring(11,16),
+                                    route2:name2, stop2:displayStop,
+                                    arrival_time21:result2[0].substring(11,16),
+                                    arrival_time22: result2[1].substring(11,16)});
+                } else if (typeof result[1] !== 'undefined' && typeof result2[1] === 'undefined'){
+                  res.render('tracker', {route:name, stop:displayStop,
+                                    arrival_time1:result1[0].substring(11,16),
+                                    arrival_time2:result1[1].substring(11,16),
+                                    route2:name2, stop2:displayStop,
+                                    arrival_time21:result2[0].substring(11,16)});
+                } else {
+                  res.render('tracker', {route:name, stop:displayStop,
+                                    arrival_time1:result1[0].substring(11,16),
+                                    route2:name2, stop2:displayStop, arrival_time21:result2[0].substring(11,16)});
+                }
               }
           }
         }
